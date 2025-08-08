@@ -4,8 +4,6 @@ import model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Objects;
-
 /**
  * Represents a weather data entry for a specific day, containing the maximum and minimum temperatures.
  * <p>
