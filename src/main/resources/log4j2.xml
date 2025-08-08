@@ -1,0 +1,17 @@
+<Configuration packages="">
+
+    <Appenders>
+        <File name="fout" fileName="app.log" append="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="fout"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
