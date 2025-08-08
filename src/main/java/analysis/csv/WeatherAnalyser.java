@@ -47,7 +47,7 @@ public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
             return result;
         }
 
-        logger.error("No weather entries found in document matching the filter criteria: {}", document.toString());
+        logger.warn("No weather entries found in document matching the filter criteria: {}", document.toString());
         throw new NoSuchElementException("Unable to extract temperature spread from provided list.");
     }
 

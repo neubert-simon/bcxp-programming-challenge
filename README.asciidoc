@@ -1,6 +1,67 @@
 // custom properties
 :url-repo: https://github.com/bettercodepaul/programming-challenge
 
+== External Libraries
+
+=== Apache Commons CSV
+https://mvnrepository.com/artifact/org.apache.commons/commons-csv[org.apache.commons:commons-csv]
+
+==== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-csv</artifactId>
+    <version>1.14.1</version>
+</dependency>
+----
+
+==== Reasoning
+I chose to employ Apache Commons CSV for the following reasons:
+
+* *Custom delimiter support*
+While the example CSV documents only use the two most common delimiters (`,` and `;`), this library supports a wide range of delimiters.
+This ensures future compatibility with documents using uncommon separators, without requiring major rewrites.
+
+* *Automatic header recognition*
+Commons CSV enables accessing fields by column name instead of relying on hardcoded indices, resulting in cleaner and more readable code.
+
+* *Ease of use and maintenance*
+I have prior experience using this library, and found it simple to implement and maintain in Java projects.
+It is also easy to understand how to use it when coming across it in a codebase.
+
+* *Well-established and maintained*
+As part of the Apache Commons suite, this library is widely used and actively maintained.
+
+
+=== Log4j2
+https://mvnrepository.com/artifact/org.apache.logging.log4j
+
+==== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.6.1</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.6.1</version>
+</dependency>
+----
+
+==== Reasoning
+Log4j is a robust framework i have used in the past, proving easy to set up and to utilize in the project.
+It allows me to log to a file with different log levels without much hassle.
+
+
+
+
 = BettercallPaul programming challenge
 
 This repository provides the project scaffold for a simple

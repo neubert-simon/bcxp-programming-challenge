@@ -44,12 +44,12 @@ public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
                 .max(Comparator.comparingDouble(CountryEntry::getPopulationDensity));
 
         if (highestPopulationDensity.isPresent()) {
-            CountryEntry result =  highestPopulationDensity.get();
+            CountryEntry result = highestPopulationDensity.get();
             logger.info("Country with highest population density: {} ({})", result.getCountry(), result.getPopulationDensity());
             return result;
         }
 
-        logger.error("No country entries found in document matching the filter criteria: {}", document.toString());
+        logger.warn("No country entries found in document matching the filter criteria: {}", document.toString());
         throw new NoSuchElementException("Unable to extract population density from provided list.");
     }
 
