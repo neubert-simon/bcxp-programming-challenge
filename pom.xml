@@ -29,6 +29,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
                 <configuration>
+                    <doctitle>BxCP Coding Challenge Solution - by @neubert-simon</doctitle>
+                    <windowtitle>BxCP Challenge Docs</windowtitle>
                     <source>17</source>
                 </configuration>
             </plugin>
