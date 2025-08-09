@@ -11,6 +11,9 @@ import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 /**
  * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your
  * software design. Read: create your own classes and packages as appropriate.
@@ -47,7 +50,10 @@ public final class App {
     /**
      * Loads a document from the given file path using the provided parser, analyzes its entries to find the best match
      * using the provided analyser, and prints the extracted result using the given result extractor function.
-     *
+     * <p>
+     * Since the provided main()-Method in App.java calls for only one value, an arbitrary value is pulled from the set of results.
+     * For example, if there are multiple days with equal temperature spreads, only one will be returned.
+     * </p>
      * <p>This method is generic and works with any type of {@link DocumentEntry}, as long as appropriate parser and analyser
      * implementations are provided.</p>
      *
@@ -59,8 +65,11 @@ public final class App {
     private static <T extends DocumentEntry> String getBestMatchFromDocument(final String path, final IDocumentParser<T> parser, final IDocumentAnalyser<T> analyser) {
         try {
             Document<T> document = new Document<>(path, parser);
-            T bestMatch = analyser.getBestMatch(document);
-            return bestMatch.getId();
+            Set<T> bestMatches = analyser.getBestMatches(document);
+            return bestMatches.stream()
+                    .findAny()
+                    .orElseThrow(() -> new NoSuchElementException("Unable to find best match"))
+                    .getId();
         } catch (Exception e) {
             logger.fatal("Reading and analysis of document {} failed: {}", path, e.getMessage());
             System.err.println("Document analysis failed for: " + path);

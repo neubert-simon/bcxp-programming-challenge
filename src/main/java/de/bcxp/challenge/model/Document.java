@@ -7,7 +7,10 @@ import de.bcxp.challenge.exceptions.DocumentCreationException;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
 /**
@@ -19,6 +22,12 @@ import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 public class Document<T extends DocumentEntry> {
     private static final Logger logger = LogManager.getLogger(Document.class);
 
+    /**
+     * A list of {@link DocumentEntry} objects present in the represented document.
+     * Consideration was given to represent entries as a {@link Set} to avoid saving duplicate entries,
+     * but a {@link List} was chosen to represent the entries since there might be documents with identical
+     * entries that could be valid.
+     */
     private final List<T> entries;
 
     /**
@@ -43,7 +52,7 @@ public class Document<T extends DocumentEntry> {
         validateString(filepath, logger, "Invalid filepath passed in when trying to create document.", "Filepath mustn't be empty");
 
         try {
-            this.entries = parser.parseDocument(filepath);
+            this.entries = new ArrayList<>(parser.parseDocument(filepath));
             logger.debug("Created Document from {} with {}", filepath, entries);
         } catch (IOException | ParseException e) {
             logger.error("Document creation failed for {};\n{}", filepath, e.getMessage());

@@ -1,0 +1,95 @@
+package de.bcxp.challenge.analysis;
+
+import de.bcxp.challenge.analysis.csv.NumericComparisonType;
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.DocumentEntry;
+import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.*;
+import java.util.stream.Collectors;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
+
+/**
+ * Utility class providing common analytical operations for {@link Document} objects.
+ * <p>
+ * This class contains static helper methods that perform reusable data analysis tasks,
+ * such as identifying the best-matching document entries based on numeric column comparisons.
+ * </p>
+ * <p>
+ * The utility class is declared {@code final} and has a private constructor to prevent instantiation.
+ * All functionality is provided via static methods.
+ * </p>
+ *
+ */
+public final class AnalysisUtility {
+    private static final Logger logger = LogManager.getLogger(AnalysisUtility.class);
+
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private AnalysisUtility() {
+        throw new AssertionError("Cannot instantiate utility class.");
+    }
+
+    /**
+     * Finds all entries in the given {@link Document} that share the "best" numeric score,
+     * according to the specified {@link NumericComparisonType}.
+     * <p>
+     * The method performs the following steps:
+     * </p>
+     * <ol>
+     *   <li>Validates that the document and its entries are not {@code null} and meet
+     *       the required type constraints.</li>
+     *   <li>Validates that all entries implement {@link IEntryWithComparableNumericTuple}.</li>
+     *   <li>Calculates a numeric score for each entry via
+     *       {@link IEntryWithComparableNumericTuple#getBestMatchScore()}.</li>
+     *   <li>Determines the best score according to {@code type.comparator}.</li>
+     *   <li>Collects and returns all entries that have this best score.</li>
+     * </ol>
+     *
+     * <p>
+     * This method will throw a {@link NoSuchElementException} if the document contains
+     * no entries or if no score could be determined.
+     * </p>
+     *
+     * @param <T>      the specific type of {@link DocumentEntry} contained in the document
+     * @param document the {@link Document} containing entries to analyze; must not be {@code null}
+     * @param type     the {@link NumericComparisonType} determining whether the "best" score is
+     *                 the minimum, maximum, or another numeric ordering
+     * @return a {@link Set} of entries with the best score according to the given comparator;
+     *         never {@code null} but may be empty
+     * @throws NoSuchElementException if the document contains no valid entries or no score could be computed
+     * @throws IllegalArgumentException if the document entries are not of type {@link IEntryWithComparableNumericTuple}
+     * @throws IllegalStateException if the document contains a {@code null} entry
+     * @see Document
+     * @see DocumentEntry
+     * @see IEntryWithComparableNumericTuple
+     * @see NumericComparisonType
+     */
+    public static <T extends DocumentEntry> Set<T> getBestMatchesForNumericColumnComparison(final Document<T> document, NumericComparisonType type) throws NoSuchElementException {
+
+        validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
+
+        final List<T> entries = document.getEntries();
+        validateNumericTupleDocumentEntries(entries);
+        logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
+
+        final Map<T, Double> numericScores = new HashMap<>();
+        entries.forEach(entry -> numericScores.put(entry, ((IEntryWithComparableNumericTuple) entry).getBestMatchScore()));
+
+        final double bestScore =
+                numericScores.values().stream()
+                        .min(type.comparator)
+                        .orElseThrow((() -> {
+                            logger.warn("No weather entries found in document matching the filter criteria: {}", document.toString());
+                            throw new NoSuchElementException("Unable to extract temperature spread from provided list.");
+                        }));
+
+        return numericScores.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue(), bestScore))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+    }
+
+}

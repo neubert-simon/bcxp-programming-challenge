@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @see DocumentEntry
  */
-public class CountryEntry extends DocumentEntry {
+public class CountryEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(CountryEntry.class);
 
     private final int population;
@@ -63,7 +63,7 @@ public class CountryEntry extends DocumentEntry {
      *
      * @throws IllegalStateException if the area is zero, indicating an invalid object state
      */
-    public double getPopulationDensity() {
+    public double getBestMatchScore() {
         if (area <= 0) {
             logger.error("Invalid object created:\nFields: Country: {}, Population: {}, Area: {}.\nArea is less than or equal to 0.", this.getCountry(), this.population, this.area);
             throw new IllegalStateException("This object is invalid. Area can't be zero.");
@@ -72,7 +72,6 @@ public class CountryEntry extends DocumentEntry {
     }
 
     //region java.lang.Object Overrides
-
     @Override
     public String toString() {
         return "CountryEntry: " +

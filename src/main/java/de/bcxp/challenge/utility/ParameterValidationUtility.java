@@ -1,7 +1,12 @@
 package de.bcxp.challenge.utility;
 
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.DocumentEntry;
+import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -10,19 +15,26 @@ import java.util.List;
 public final class ParameterValidationUtility {
 
     //region Template log and exception messages
-    public static final String STRING_LOG = "Invalid String parameter passed in.";
-    public static final String STRING_EXCEPTION = "String parameter cannot be null or empty.";
+    public static final String STRING_LOG = "Invalid String parameter passed in";
+    public static final String STRING_EXCEPTION = "String parameter cannot be null or empty";
 
-    public static final String LIST_LOG = "Invalid List parameter passed in.";
-    public static final String LIST_EXCEPTION = "List parameter cannot be null or empty.";
+    public static final String COLLECTION_LOG = "Invalid List parameter passed in";
+    public static final String COLLECTION_EXCEPTION = "List parameter cannot be null or empty";
+
+    public static final String DOCUMENT_LOG = "Invalid Document parameter passed in";
+    public static final String DOCUMENT_EXCEPTION = "Document parameter cannot be null or empty";
     //endregion
 
     /**
      * This is a utility class which provides only static methods, therefore it shouldn't be instantiated.
      */
-    private ParameterValidationUtility() { throw new AssertionError("Cannot instantiate utility class."); }
+    private ParameterValidationUtility() {
+        throw new AssertionError("Cannot instantiate utility class.");
+    }
 
     //region Validation methods
+
+    //region Validation for built-ins
     /**
      * Validates that the provided string is non-null and not empty.
      * @param string           the string to validate
@@ -39,18 +51,57 @@ public final class ParameterValidationUtility {
     }
 
     /**
-     * Validates that the provided list is non-null and not empty.
-     * @param list             the list to validate
+     * Validates that the provided {@link Collection} and its contents are non-null and not empty.
+     * @param collection       the collection to validate
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception
      * @throws IllegalArgumentException if the list is {@code null} or empty
      */
-    public static void validateList(final List<?> list, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (list == null || list.isEmpty()) {
+    public static void validateCollection(final Collection<?> collection, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
+        if (collection == null || collection.isEmpty()) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
         }
+        for (Object element : new HashSet<>(collection)) {
+            if(element == null) throw new IllegalArgumentException("List contains null.");
+        }
     }
+    //endregion
+
+    //region Validation for self-rolled objects
+    /**
+     * Validates that the provided document is non-null and not empty.
+     * @param document         The {@link Document} to validate
+     * @param logger           the logger to use for warnings
+     * @param logMessage       the message to log if validation fails
+     * @param exceptionMessage the message to include in the thrown exception
+     * @param <T>              type of {@link DocumentEntry} the document should contain
+     */
+    public static <T extends DocumentEntry> void validateDocument(final Document<T> document, final Logger logger, final String logMessage, final String exceptionMessage) {
+        if (document == null) {
+            logger.warn(logMessage);
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+        validateCollection(document.getEntries(), logger, logMessage, exceptionMessage);
+    }
+
+    /**
+     * Checks if {@link DocumentEntry} in provided {@link Document} implements the {@link IEntryWithComparableNumericTuple} interface
+     * @param entries {@link DocumentEntry} objects contained in a {@link Document}
+     * @param <T> type of {@link DocumentEntry} the document should contain
+     */
+    public static <T extends DocumentEntry> void validateNumericTupleDocumentEntries(List<T> entries) {
+        for (T entry : new HashSet<>(entries)) {
+            if (entry == null) {
+                throw new IllegalStateException("Document entry is null");
+            }
+            if(!(entry instanceof IEntryWithComparableNumericTuple)) {
+                throw new IllegalArgumentException("Document entry is not of type IEntryWithComparableNumericTuple");
+            }
+        }
+    }
+    //endregion
+
     //endregion
 }

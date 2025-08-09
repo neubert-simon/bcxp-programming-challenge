@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @see DocumentEntry
  */
-public class WeatherEntry extends DocumentEntry {
+public class WeatherEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(WeatherEntry.class);
 
     private final double maxTemp;
@@ -55,7 +55,7 @@ public class WeatherEntry extends DocumentEntry {
      * Retrieves the numeric difference between this day's maximum and minimum temperature.
      * @return Temperature spread in double format.
      */
-    public double getTemperatureSpread() {
+    public double getBestMatchScore() {
         return maxTemp - minTemp;
     }
     

@@ -5,11 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.csv.WeatherEntry;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
+import java.util.*;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
+import static de.bcxp.challenge.analysis.AnalysisUtility.getBestMatchesForNumericColumnComparison;
 /**
  * Analyzes a weather document to find the entry with the smallest temperature spread.
  * <p>
@@ -39,21 +37,9 @@ public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public WeatherEntry getBestMatch(final Document<WeatherEntry> document) throws NoSuchElementException {
-        final List<WeatherEntry> entries = document.getEntries();
-        logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
-
-        final Optional<WeatherEntry> lowestTemperatureSpread = entries.stream()
-                .min(Comparator.comparingDouble(WeatherEntry::getTemperatureSpread));
-
-        if (lowestTemperatureSpread.isPresent()) {
-            final WeatherEntry result = lowestTemperatureSpread.get();
-            logger.info("Day with smallest temperature spread: {} (Spread: {})", result.getDay(), result.getTemperatureSpread());
-            return result;
-        }
-
-        logger.warn("No weather entries found in document matching the filter criteria: {}", document.toString());
-        throw new NoSuchElementException("Unable to extract temperature spread from provided list.");
+    public Set<WeatherEntry> getBestMatches(final Document<WeatherEntry> document) throws NoSuchElementException {
+        validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
+        return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MIN);
     }
 
 }

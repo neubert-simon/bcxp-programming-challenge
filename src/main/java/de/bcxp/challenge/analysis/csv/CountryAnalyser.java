@@ -5,10 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.csv.CountryEntry;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import static de.bcxp.challenge.analysis.AnalysisUtility.getBestMatchesForNumericColumnComparison;
+import java.util.*;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
 /**
  * Analyzes a document of {@link CountryEntry} objects to extract the country with the highest population density.
@@ -40,22 +39,8 @@ public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public CountryEntry getBestMatch(final Document<CountryEntry> document) throws NoSuchElementException {
-
-        final List<CountryEntry> entries = document.getEntries();
-        logger.debug("Analyzing {} country entries for population density.", entries.size());
-
-        final Optional<CountryEntry> highestPopulationDensity = entries.stream()
-                .max(Comparator.comparingDouble(CountryEntry::getPopulationDensity));
-
-        if (highestPopulationDensity.isPresent()) {
-            final CountryEntry result = highestPopulationDensity.get();
-            logger.info("Country with highest population density: {} ({})", result.getCountry(), result.getPopulationDensity());
-            return result;
-        }
-
-        logger.warn("No country entries found in document matching the filter criteria: {}", document.toString());
-        throw new NoSuchElementException("Unable to extract population density from provided list.");
+    public Set<CountryEntry> getBestMatches(final Document<CountryEntry> document) throws NoSuchElementException {
+        validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
+        return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MAX);
     }
-
 }

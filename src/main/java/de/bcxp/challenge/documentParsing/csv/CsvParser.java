@@ -64,7 +64,9 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
                     .setHeader()
                     .setDelimiter(this.delimiter)
                     .get();
+
             return format.parse(in).getRecords();
+
         } catch (FileNotFoundException e) {
             logger.error("\"Resource not found: {};\n{}", filepath, e.getMessage());
             throw new FileNotFoundException("Resource not found: " + filepath);

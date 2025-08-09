@@ -3,6 +3,7 @@ package de.bcxp.challenge.analysis;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Defines a contract for analyzing a {@link Document} containing entries of type {@link T}
@@ -25,6 +26,6 @@ public interface IDocumentAnalyser<T extends DocumentEntry> {
      * @return the entry of type {@code T} that best matches the implemented analysis criteria
      * @throws java.util.NoSuchElementException if no suitable entry can be found
      */
-    T getBestMatch(final Document<T> document) throws NoSuchElementException;
+    Set<T> getBestMatches(final Document<T> document) throws NoSuchElementException;
 
 }
