@@ -1,0 +1,15 @@
+<Configuration status="OFF">
+
+    <Appenders>
+        <File name="TestFile" fileName="target/logs/test.log" append="false">
+            <PatternLayout pattern="[%d{HH:mm:ss}] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="TestFile"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

@@ -1,7 +1,7 @@
 <Configuration packages="">
 
     <Appenders>
-        <File name="fout" fileName="app.log" append="false">
+        <File name="AppLog" fileName="target/logs/app.log" append="false">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n</Pattern>
             </PatternLayout>
