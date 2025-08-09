@@ -1,6 +1,10 @@
 // custom properties
 :url-repo: https://github.com/bettercodepaul/programming-challenge
 
+== Documentation
+To read the Javadoc, please visit:
+https://neubert-simon.github.io/bcxp-programming-challenge/
+
 == External Libraries
 
 === Apache Commons CSV
