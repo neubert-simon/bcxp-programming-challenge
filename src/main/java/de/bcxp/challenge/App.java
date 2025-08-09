@@ -1,13 +1,13 @@
 package de.bcxp.challenge;
 
-import analysis.IDocumentAnalyser;
-import analysis.csv.CountryAnalyser;
-import analysis.csv.WeatherAnalyser;
-import documentParsing.IDocumentParser;
-import documentParsing.csv.CountryCsvParser;
-import documentParsing.csv.WeatherCsvParser;
-import model.Document;
-import model.DocumentEntry;
+import de.bcxp.challenge.analysis.IDocumentAnalyser;
+import de.bcxp.challenge.analysis.csv.CountryAnalyser;
+import de.bcxp.challenge.analysis.csv.WeatherAnalyser;
+import de.bcxp.challenge.documentParsing.IDocumentParser;
+import de.bcxp.challenge.documentParsing.csv.CountryCsvParser;
+import de.bcxp.challenge.documentParsing.csv.WeatherCsvParser;
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,7 +56,7 @@ public final class App {
      * @param analyser the {@link IDocumentAnalyser} that finds the best match from the parsed entries
      * @param <T> the type of {@link DocumentEntry} in the document
      */
-    private static <T extends DocumentEntry> String getBestMatchFromDocument(String path, IDocumentParser<T> parser, IDocumentAnalyser<T> analyser) {
+    private static <T extends DocumentEntry> String getBestMatchFromDocument(final String path, final IDocumentParser<T> parser, final IDocumentAnalyser<T> analyser) {
         try {
             Document<T> document = new Document<>(path, parser);
             T bestMatch = analyser.getBestMatch(document);

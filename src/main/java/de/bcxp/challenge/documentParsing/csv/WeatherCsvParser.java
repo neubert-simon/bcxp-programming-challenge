@@ -1,14 +1,14 @@
-package documentParsing.csv;
+package de.bcxp.challenge.documentParsing.csv;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import model.csv.WeatherEntry;
+import de.bcxp.challenge.model.csv.WeatherEntry;
 import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import static utility.StringParsing.*;
+import static de.bcxp.challenge.utility.StringParsing.*;
 
 /**
  * A CSV parser specifically for weather data entries.
@@ -37,7 +37,7 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
      *
      * @param delimiter the character used to separate values in the CSV file.
      */
-    public WeatherCsvParser(char delimiter) {
+    public WeatherCsvParser(final char delimiter) {
         super(delimiter);
     }
 
@@ -56,12 +56,12 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<WeatherEntry> parseDocument(String filepath) throws IOException, NumberFormatException, ParseException {
+    public List<WeatherEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
 
-        Iterable<CSVRecord> records = readFileWithHeader(filepath);
-        List<WeatherEntry> weatherList = new ArrayList<>();
+        final Iterable<CSVRecord> records = readFileWithHeader(filepath);
+        final List<WeatherEntry> weatherList = new ArrayList<>();
 
-        for (CSVRecord record : records) {
+        for (final CSVRecord record : records) {
             weatherList.add(new WeatherEntry(
                     record.get(NAME),
                     getDoubleFromString(record.get(MAX_TEMP)),

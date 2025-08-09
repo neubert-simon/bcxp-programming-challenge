@@ -1,8 +1,8 @@
-package model;
+package de.bcxp.challenge.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static utility.ParameterValidationUtility.*;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
 /**
  * Represents an abstract entry within a {@link Document}. <br>

@@ -1,10 +1,10 @@
-package analysis.csv;
+package de.bcxp.challenge.analysis.csv;
 
+import de.bcxp.challenge.analysis.IDocumentAnalyser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import analysis.IDocumentAnalyser;
-import model.Document;
-import model.csv.WeatherEntry;
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.csv.WeatherEntry;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,6 +24,11 @@ public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
     private static final Logger logger = LogManager.getLogger(WeatherAnalyser.class);
 
     /**
+     * Instantiates stateless analyser.
+     */
+    public WeatherAnalyser() {}
+
+    /**
      * Finds the day with the smallest temperature spread from the provided weather document.
      * <p>
      * This method analyzes the list of {@link WeatherEntry} entries in the given {@link Document}
@@ -34,15 +39,15 @@ public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public WeatherEntry getBestMatch(Document<WeatherEntry> document) {
-        List<WeatherEntry> entries = document.getEntries();
+    public WeatherEntry getBestMatch(final Document<WeatherEntry> document) throws NoSuchElementException {
+        final List<WeatherEntry> entries = document.getEntries();
         logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
 
-        Optional<WeatherEntry> lowestTemperatureSpread = entries.stream()
+        final Optional<WeatherEntry> lowestTemperatureSpread = entries.stream()
                 .min(Comparator.comparingDouble(WeatherEntry::getTemperatureSpread));
 
         if (lowestTemperatureSpread.isPresent()) {
-            WeatherEntry result = lowestTemperatureSpread.get();
+            final WeatherEntry result = lowestTemperatureSpread.get();
             logger.info("Day with smallest temperature spread: {} (Spread: {})", result.getDay(), result.getTemperatureSpread());
             return result;
         }

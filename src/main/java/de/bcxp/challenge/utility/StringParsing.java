@@ -1,4 +1,4 @@
-package utility;
+package de.bcxp.challenge.utility;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -6,13 +6,18 @@ import org.apache.logging.log4j.Logger;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import static utility.ParameterValidationUtility.*;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
 /**
  * Utility class providing methods for parsing Strings.
  */
-public class StringParsing {
+public final class StringParsing {
     private static final Logger logger = LogManager.getLogger(StringParsing.class);
+
+    /**
+     * This is a utility class which provides only static methods, therefore it shouldn't be instantiated.
+     */
+    private StringParsing() {throw new AssertionError("Cannot instantiate utility class.");}
 
     //region Parsing numbers
     /**

@@ -1,6 +1,6 @@
-package model.csv;
+package de.bcxp.challenge.model.csv;
 
-import model.DocumentEntry;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

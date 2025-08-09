@@ -1,4 +1,4 @@
-package utility;
+package de.bcxp.challenge.utility;
 
 import org.apache.logging.log4j.Logger;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Utility class providing methods to check method parameters for validity.
  */
-public class ParameterValidationUtility {
+public final class ParameterValidationUtility {
 
     //region Template log and exception messages
     public static final String STRING_LOG = "Invalid String parameter passed in.";
@@ -16,6 +16,11 @@ public class ParameterValidationUtility {
     public static final String LIST_LOG = "Invalid List parameter passed in.";
     public static final String LIST_EXCEPTION = "List parameter cannot be null or empty.";
     //endregion
+
+    /**
+     * This is a utility class which provides only static methods, therefore it shouldn't be instantiated.
+     */
+    private ParameterValidationUtility() { throw new AssertionError("Cannot instantiate utility class."); }
 
     //region Validation methods
     /**

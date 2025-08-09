@@ -1,7 +1,7 @@
-package documentParsing.csv;
+package de.bcxp.challenge.documentParsing.csv;
 
-import documentParsing.IDocumentParser;
-import model.DocumentEntry;
+import de.bcxp.challenge.documentParsing.IDocumentParser;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
@@ -9,10 +9,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
-import static utility.ParameterValidationUtility.validateString;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.validateString;
 
 /**
  * An abstract parser class for CSV documents that implements {@link IDocumentParser}.
+ * @param <T> the type of {@link DocumentEntry} produced by the parser
  */
 public abstract class CsvParser<T extends DocumentEntry> implements IDocumentParser<T> {
     private static final Logger logger = LogManager.getLogger(CsvParser.class);
@@ -24,7 +25,7 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
      *
      * @param delimiter the character used to separate values in the CSV file.
      */
-    public CsvParser(char delimiter) {
+    protected CsvParser(final char delimiter) {
         this.delimiter = delimiter;
     }
 
@@ -54,12 +55,12 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
 
         validateString(filepath, logger, "Invalid filepath provided: " + filepath, "Filepath can't be empty");
 
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(filepath)) {
+        try (final InputStream input = getClass().getClassLoader().getResourceAsStream(filepath)) {
 
             if (input == null) throw new FileNotFoundException("Resource not found: " + filepath);
 
-            Reader in = new InputStreamReader(input);
-            CSVFormat format = CSVFormat.DEFAULT.builder()
+            final Reader in = new InputStreamReader(input);
+            final CSVFormat format = CSVFormat.DEFAULT.builder()
                     .setHeader()
                     .setDelimiter(this.delimiter)
                     .get();

@@ -1,10 +1,10 @@
-package analysis.csv;
+package de.bcxp.challenge.analysis.csv;
 
+import de.bcxp.challenge.analysis.IDocumentAnalyser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import analysis.IDocumentAnalyser;
-import model.Document;
-import model.csv.CountryEntry;
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.csv.CountryEntry;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,6 +24,11 @@ public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
     private static final Logger logger = LogManager.getLogger(CountryAnalyser.class);
 
     /**
+     * Instantiates stateless analyser.
+     */
+    public CountryAnalyser() {}
+
+    /**
      * Finds the country with the highest population density from the provided document.
      *
      * <p>This method analyzes the list of {@link CountryEntry} entries in the given {@link Document}
@@ -35,16 +40,16 @@ public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public CountryEntry getBestMatch(Document<CountryEntry> document) {
+    public CountryEntry getBestMatch(final Document<CountryEntry> document) throws NoSuchElementException {
 
-        List<CountryEntry> entries = document.getEntries();
+        final List<CountryEntry> entries = document.getEntries();
         logger.debug("Analyzing {} country entries for population density.", entries.size());
 
-        Optional<CountryEntry> highestPopulationDensity = entries.stream()
+        final Optional<CountryEntry> highestPopulationDensity = entries.stream()
                 .max(Comparator.comparingDouble(CountryEntry::getPopulationDensity));
 
         if (highestPopulationDensity.isPresent()) {
-            CountryEntry result = highestPopulationDensity.get();
+            final CountryEntry result = highestPopulationDensity.get();
             logger.info("Country with highest population density: {} ({})", result.getCountry(), result.getPopulationDensity());
             return result;
         }

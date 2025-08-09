@@ -1,8 +1,9 @@
-package model.csv;
+package de.bcxp.challenge.model.csv;
 
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import model.DocumentEntry;
 
 /**
  * Represents a data entry for a specific country.
@@ -20,7 +21,7 @@ public class CountryEntry extends DocumentEntry {
     private final double area;
 
     /**
-     * Constructs a {@link CountryEntry} object representing a country listed in a {@link model.Document}.
+     * Constructs a {@link CountryEntry} object representing a country listed in a {@link Document}.
      *
      * @param country    the name or identifier of the country
      * @param population the population count of the country (must be zero or positive)

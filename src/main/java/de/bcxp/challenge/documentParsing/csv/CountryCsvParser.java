@@ -1,16 +1,15 @@
-package documentParsing.csv;
+package de.bcxp.challenge.documentParsing.csv;
 
-import model.csv.CountryEntry;
+import de.bcxp.challenge.model.csv.CountryEntry;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import static utility.StringParsing.getDoubleFromString;
-import static utility.StringParsing.getIntFromString;
+import static de.bcxp.challenge.utility.StringParsing.getDoubleFromString;
+import static de.bcxp.challenge.utility.StringParsing.getIntFromString;
 
 /**
  * A CSV parser specialized for parsing country data entries.
@@ -57,12 +56,12 @@ public class CountryCsvParser extends CsvParser<CountryEntry> {
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<CountryEntry> parseDocument(String filepath) throws IOException, NumberFormatException, ParseException {
+    public List<CountryEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
 
-        Iterable<CSVRecord> records = readFileWithHeader(filepath);
-        List<CountryEntry> countryList = new ArrayList<>();
+        final Iterable<CSVRecord> records = readFileWithHeader(filepath);
+        final List<CountryEntry> countryList = new ArrayList<>();
 
-        for (CSVRecord record : records) {
+        for (final CSVRecord record : records) {
             countryList.add(new CountryEntry(
                     record.get(NAME),
                     getIntFromString(record.get(POPULATION)),
