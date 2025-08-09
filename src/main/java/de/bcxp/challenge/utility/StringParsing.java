@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 
 import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
@@ -17,7 +18,9 @@ public final class StringParsing {
     /**
      * This is a utility class which provides only static methods, therefore it shouldn't be instantiated.
      */
-    private StringParsing() {throw new AssertionError("Cannot instantiate utility class.");}
+    private StringParsing() {
+        throw new AssertionError("Cannot instantiate utility class.");
+    }
 
     //region Parsing numbers
     /**
@@ -29,10 +32,10 @@ public final class StringParsing {
      * @throws NumberFormatException if the String doesn't contain a valid number
      * @throws IllegalArgumentException if the input string is null, empty, or invalid
      */
-    public static int getIntFromString(final String numberCandidate) throws NumberFormatException, ParseException {
+    public static long getLongFromString(final String numberCandidate, final Locale locale) throws NumberFormatException, ParseException {
         validateString(numberCandidate, logger, STRING_LOG, STRING_EXCEPTION);
         logger.trace("Parsing int from String: {}", numberCandidate);
-        return parseNumber(numberCandidate).intValue();
+        return parseNumber(numberCandidate, locale).longValue();
     }
 
     /**
@@ -44,10 +47,10 @@ public final class StringParsing {
      * @throws NumberFormatException if the String doesn't contain a valid number
      * @throws IllegalArgumentException if the input string is null, empty, or invalid
      */
-    public static double getDoubleFromString(final String numberCandidate) throws NumberFormatException, ParseException {
+    public static double getDoubleFromString(final String numberCandidate, final Locale locale) throws NumberFormatException, ParseException {
         validateString(numberCandidate, logger, STRING_LOG, STRING_EXCEPTION);
         logger.trace("Parsing double from String: {}", numberCandidate);
-        return parseNumber(numberCandidate).doubleValue();
+        return parseNumber(numberCandidate, locale).doubleValue();
     }
 
     /**
@@ -58,13 +61,13 @@ public final class StringParsing {
      * @throws NumberFormatException if the input is not a valid number
      * @throws ParseException if the string cannot be parsed into a valid number
      */
-    private static Number parseNumber(final String numberCandidate) throws NumberFormatException, ParseException {
+    private static Number parseNumber(final String numberCandidate, final Locale locale) throws NumberFormatException, ParseException {
 
         validateString(numberCandidate, logger, STRING_LOG, STRING_EXCEPTION);
 
         try {
             logger.trace("Parsing {} as number.", numberCandidate);
-            return NumberFormat.getInstance().parse(numberCandidate.strip());
+            return NumberFormat.getInstance(locale).parse(numberCandidate.strip());
         } catch (NumberFormatException e) {
             logger.warn("Value {} is not a number: {}", numberCandidate, e.getMessage());
             throw new NumberFormatException("Value isn't a valid number.");

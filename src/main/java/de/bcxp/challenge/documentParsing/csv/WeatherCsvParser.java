@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import static de.bcxp.challenge.utility.StringParsing.*;
 
 /**
@@ -37,8 +38,8 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
      *
      * @param delimiter the character used to separate values in the CSV file.
      */
-    public WeatherCsvParser(final char delimiter) {
-        super(delimiter);
+    public WeatherCsvParser(final char delimiter, final Locale locale) {
+        super(delimiter, locale);
     }
 
     /**
@@ -64,8 +65,8 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
         for (final CSVRecord record : records) {
             weatherList.add(new WeatherEntry(
                     record.get(NAME),
-                    getDoubleFromString(record.get(MAX_TEMP)),
-                    getDoubleFromString(record.get(MIN_TEMP))
+                    getDoubleFromString(record.get(MAX_TEMP), this.getLocale()),
+                    getDoubleFromString(record.get(MIN_TEMP), this.getLocale())
                     )
             );
         }

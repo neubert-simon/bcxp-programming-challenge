@@ -54,7 +54,7 @@ public class Document<T extends DocumentEntry> {
         try {
             this.entries = new ArrayList<>(parser.parseDocument(filepath));
             logger.debug("Created Document from {} with {}", filepath, entries);
-        } catch (IOException | ParseException e) {
+        } catch (IOException | ParseException | NullPointerException e) {
             logger.error("Document creation failed for {};\n{}", filepath, e.getMessage());
             throw new DocumentCreationException("Document couldn't be created from: " + filepath);
         }

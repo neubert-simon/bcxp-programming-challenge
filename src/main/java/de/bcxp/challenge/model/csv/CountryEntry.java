@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 public class CountryEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(CountryEntry.class);
 
-    private final int population;
+    private final long population;
     private final double area;
 
     /**
@@ -29,11 +29,11 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
      *
      * @throws IllegalArgumentException if {@code population} is negative, or if {@code area} is less than or equal to zero
      */
-    public CountryEntry(final String country, final int population, final double area) {
+    public CountryEntry(final String country, final long population, final double area) {
         super(country);
         if (population < 0) {
             logger.warn("Population parameter ({}) less than 0 for {}", population, country);
-            throw new IllegalArgumentException("Population be greater or equal to 0.");
+            throw new IllegalArgumentException("Population must be greater or equal to 0.");
         }
         if (area <= 0) {
             logger.warn("Area parameter ({}) equal to or less than 0 for {}", area, country);
@@ -52,7 +52,7 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
         return area;
     }
 
-    public int getPopulation() {
+    public long getPopulation() {
         return population;
     }
 

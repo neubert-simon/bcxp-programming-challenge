@@ -1,0 +1,105 @@
+package de.bcxp.challenge.analysis.csv;
+
+import de.bcxp.challenge.analysis.IDocumentAnalyser;
+import de.bcxp.challenge.documentParsing.IDocumentParser;
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
+import de.bcxp.challenge.model.csv.CountryEntry;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+import java.util.Set;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class CountryAnalyserTest {
+
+    @Mock
+    private IDocumentParser<CountryEntry> mockParser;
+    private final String MOCK_FILEPATH = "/mock/filepath";
+
+    //region Negative Tests
+    @Test
+    public void getBestMatchesTestEmptyDocument() throws IOException, ParseException, DocumentCreationException {
+
+        final IDocumentAnalyser<CountryEntry> analyser = new CountryAnalyser();
+        when(mockParser.parseDocument(anyString())).thenReturn(List.of());
+        final Document<CountryEntry> emptyDocument = new Document<>(MOCK_FILEPATH, mockParser);
+
+        assertThrows(IllegalArgumentException.class, () -> analyser.getBestMatches(emptyDocument));
+
+    }
+    //endregion
+
+    //region Positive Tests
+    @Test
+    public void getBestMatchesTest() throws DocumentCreationException, IOException, ParseException {
+
+        //region Test 1
+        final IDocumentAnalyser<CountryEntry> analyser = new CountryAnalyser();
+        List<CountryEntry> testEntries = List.of(
+                new CountryEntry("Germany", 1_463_865_525, 3_287_000),
+                new CountryEntry("Italy", 50, 4)  //best match
+        );
+        when(mockParser.parseDocument(anyString())).thenReturn(testEntries);
+        Document<CountryEntry> mockDocument = new Document<>(MOCK_FILEPATH, mockParser);
+
+        Set<CountryEntry> bestMatch = analyser.getBestMatches(mockDocument);
+        assertEquals(Set.of(testEntries.get(0)), bestMatch);
+        assertNotEquals(Set.of(testEntries.get(1)), bestMatch);
+        //endregion
+
+        //region Test 2
+        testEntries = List.of(
+                new CountryEntry("Albania", 28, 20), //best match
+                new CountryEntry("Algeria", 17, 120)
+        );
+        when(mockParser.parseDocument(anyString())).thenReturn(testEntries);
+        mockDocument = new Document<>(MOCK_FILEPATH, mockParser);
+
+        bestMatch = analyser.getBestMatches(mockDocument);
+        assertEquals(Set.of(testEntries.get(0)), bestMatch);
+        assertNotEquals(Set.of(testEntries.get(1)), bestMatch);
+        //endregion
+    }
+
+    @Test
+    public void getBestMatchesTestMultipleMatches() throws DocumentCreationException, IOException, ParseException {
+
+        final IDocumentAnalyser<CountryEntry> analyser = new CountryAnalyser();
+
+        List<CountryEntry> entries = List.of(
+                new CountryEntry("Angola", 100_00, 10),     // Density = 1.000 people/km² -- best match 1
+                new CountryEntry("China", 100_00, 10),      // Density = 1.000 people/km² -- best match 1
+                new CountryEntry("Japan", 123_123, 800),    // Density = 152,9 people/km²
+                new CountryEntry("Uruguay", 654, 30)        // Density = 21,8 people/km²
+        );
+        when(mockParser.parseDocument(anyString())).thenReturn(entries);
+        final Document<CountryEntry> document = new Document<>(MOCK_FILEPATH, mockParser);
+
+        Set<CountryEntry> bestMatches = analyser.getBestMatches(document);
+
+        assertEquals(2, bestMatches.size());
+        assertEquals(bestMatches, Set.of(entries.get(0), entries.get(1)));
+    }
+
+    @Test
+    public void getBestMatchesTestEmptyDocumentExtremeValues() throws IOException, ParseException, DocumentCreationException {
+        final IDocumentAnalyser<CountryEntry> analyser = new CountryAnalyser();
+        List<CountryEntry> testEntries = List.of(
+                new CountryEntry("Germany", Long.MAX_VALUE, Double.MAX_VALUE),
+                new CountryEntry("Germany", 0, Double.MAX_VALUE)
+        );
+        when(mockParser.parseDocument(anyString())).thenReturn(testEntries);
+        final Document<CountryEntry> mockDocument = new Document<>(MOCK_FILEPATH, mockParser);
+
+        assertEquals(Set.of(testEntries.get(0)), analyser.getBestMatches(mockDocument));
+    }
+    //endregion
+}

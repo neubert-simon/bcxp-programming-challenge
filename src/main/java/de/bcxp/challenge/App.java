@@ -11,6 +11,7 @@ import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public final class App {
 
         String dayWithSmallestTempSpread = getBestMatchFromDocument(
                 WEATHER_CSV_PATH,
-                new WeatherCsvParser(','),
+                new WeatherCsvParser(',', Locale.GERMANY),
                 new WeatherAnalyser()
         );
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
@@ -40,7 +41,7 @@ public final class App {
 
         String countryWithHighestPopulationDensity = getBestMatchFromDocument(
                 COUNTRIES_CSV_PATH,
-                new CountryCsvParser(';'),
+                new CountryCsvParser(';', Locale.GERMANY),
                 new CountryAnalyser()
         );
         System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);

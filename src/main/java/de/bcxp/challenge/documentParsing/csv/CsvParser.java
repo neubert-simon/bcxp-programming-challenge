@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.util.Locale;
 
 import static de.bcxp.challenge.utility.ParameterValidationUtility.validateString;
 
@@ -19,14 +20,16 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
     private static final Logger logger = LogManager.getLogger(CsvParser.class);
 
     private final char delimiter;
+    private final Locale locale;
 
     /**
      * Constructs a {@link CsvParser} with the specified delimiter character.
      *
      * @param delimiter the character used to separate values in the CSV file.
      */
-    protected CsvParser(final char delimiter) {
+    protected CsvParser(final char delimiter, final Locale locale) {
         this.delimiter = delimiter;
+        this.locale = locale;
     }
 
     /**
@@ -75,5 +78,13 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
             throw new IOException("Error during reading of CSV file of {}" + filepath);
         }
 
+    }
+
+    public char getDelimiter() {
+        return delimiter;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 }

@@ -8,8 +8,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import static de.bcxp.challenge.utility.StringParsing.getDoubleFromString;
-import static de.bcxp.challenge.utility.StringParsing.getIntFromString;
+import static de.bcxp.challenge.utility.StringParsing.getLongFromString;
 
 /**
  * A CSV parser specialized for parsing country data entries.
@@ -37,8 +38,8 @@ public class CountryCsvParser extends CsvParser<CountryEntry> {
      *
      * @param delimiter the character used to separate values in the CSV file.
      */
-    public CountryCsvParser(char delimiter) {
-        super(delimiter);
+    public CountryCsvParser(final char delimiter, final Locale locale) {
+        super(delimiter, locale);
     }
 
     /**
@@ -64,8 +65,8 @@ public class CountryCsvParser extends CsvParser<CountryEntry> {
         for (final CSVRecord record : records) {
             countryList.add(new CountryEntry(
                     record.get(NAME),
-                    getIntFromString(record.get(POPULATION)),
-                    getDoubleFromString(record.get(AREA))
+                    getLongFromString(record.get(POPULATION), this.getLocale()),
+                    getDoubleFromString(record.get(AREA), this.getLocale())
                     )
             );
         }
