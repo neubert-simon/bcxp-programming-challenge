@@ -27,6 +27,7 @@ public final class StringParsing {
      * Parses int from the given {@link String}.
      *
      * @param numberCandidate the string to parse as an integer
+     * @param locale Locale used when parsing number
      * @return the parsed integer value
      * @throws ParseException if the string cannot be parsed into a valid number
      * @throws NumberFormatException if the String doesn't contain a valid number
@@ -42,6 +43,7 @@ public final class StringParsing {
      * Parses double from the given {@link String}.
      *
      * @param numberCandidate the string to parse as a double
+     * @param locale Locale used when parsing number
      * @return the parsed double value
      * @throws ParseException if the string cannot be parsed into a valid number
      * @throws NumberFormatException if the String doesn't contain a valid number
@@ -57,6 +59,7 @@ public final class StringParsing {
      * Parses the given string into a {@link Number} and returns it.
      *
      * @param numberCandidate the string to parse
+     * @param locale Locale used when parsing number
      * @return the parsed number as a {@link Number}
      * @throws NumberFormatException if the input is not a valid number
      * @throws ParseException if the string cannot be parsed into a valid number

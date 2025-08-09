@@ -37,6 +37,7 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
      * Constructs a {@link WeatherCsvParser} with the specified CSV delimiter.
      *
      * @param delimiter the character used to separate values in the CSV file.
+     * @param locale Locale used when parsing number
      */
     public WeatherCsvParser(final char delimiter, final Locale locale) {
         super(delimiter, locale);
