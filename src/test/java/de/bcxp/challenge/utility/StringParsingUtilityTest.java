@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class StringParsingUtilityTest {
 
     //region getLongFromString Tests
+
+    //region Positive tests
     @Test
     void testGetLongFromStringValidIntegerUSLocale() throws Exception {
         long result = getLongFromString("12345", Locale.US);
@@ -37,11 +39,13 @@ class StringParsingUtilityTest {
         long result = getLongFromString(String.valueOf(Long.MAX_VALUE), Locale.US);
         assertEquals(Long.MAX_VALUE, result);
     }
+    //endregion
 
+    //region Negative tests
     @Test
     void testGetLongFromStringNumberLargerThanLongMax() {
         assertThrows(NumberFormatException.class, () ->
-                getLongFromString("9223372036854775808", Locale.US));
+                getLongFromString(Long.MAX_VALUE + "123456789", Locale.US));
     }
 
     @Test
@@ -67,11 +71,13 @@ class StringParsingUtilityTest {
         assertThrows(IllegalArgumentException.class, () ->
                 getLongFromString("   ", Locale.US));
     }
+    //endregion
 
     //endregion
 
     //region getDoubleFromString Tests
 
+    //region Positive tests
     @Test
     void testGetDoubleFromStringValidDoubleUSLocale() throws Exception {
         double result = getDoubleFromString("123.45", Locale.US);
@@ -95,6 +101,14 @@ class StringParsingUtilityTest {
         double result = getDoubleFromString("-987.65", Locale.US);
         assertEquals(-987.65, result, 0.000001);
     }
+    //endregion
+
+    //region Negative tests
+    @Test
+    void testGetDoubleFromStringNumberLargerThanDoubleMax() {
+        assertThrows(NumberFormatException.class, () ->
+                getDoubleFromString(Double.MAX_VALUE + "9", Locale.US));
+    }
 
     @Test
     void testGetDoubleFromStringNullString() {
@@ -113,6 +127,7 @@ class StringParsingUtilityTest {
         assertThrows(IllegalArgumentException.class, () ->
                 getDoubleFromString("   ", Locale.US));
     }
+    //endregion
 
     //endregion
 }
