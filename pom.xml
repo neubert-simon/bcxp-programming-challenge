@@ -6,7 +6,7 @@
     <artifactId>challenge</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>weather</name>
+    <name>Solution for BxCP programming challenge - by @neubert-simon</name>
     <description>BettercallPaul programming challenge</description>
 
     <build>

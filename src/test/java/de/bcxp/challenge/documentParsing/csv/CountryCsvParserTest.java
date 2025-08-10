@@ -52,8 +52,24 @@ class CountryCsvParserTest {
             }
         };
 
-        assertThrows(ParseException.class,
+        assertThrows(NumberFormatException.class,
                 () -> parserNan.parseDocument("ignored.csv"));
+
+        final CountryCsvParser parserNum = new CountryCsvParser(',', Locale.US) {
+            @Override
+            protected Iterable<org.apache.commons.csv.CSVRecord> readFileWithHeader(String filepath) throws IOException {
+                String csv = "Name,Population,Area (km²)\nGermany,1234ms,59";
+                return org.apache.commons.csv.CSVFormat.DEFAULT.builder()
+                        .setHeader()
+                        .setDelimiter(',')
+                        .get()
+                        .parse(new java.io.StringReader(csv))
+                        .getRecords();
+            }
+        };
+
+        assertThrows(NumberFormatException.class,
+                () -> parserNum.parseDocument("ignored.csv"));
     }
 
     @Test

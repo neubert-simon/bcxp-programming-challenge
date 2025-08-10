@@ -52,8 +52,24 @@ class WeatherCsvParserTest {
             }
         };
 
-        assertThrows(ParseException.class,
+        assertThrows(NumberFormatException.class,
                 () -> parserNan.parseDocument("ignored.csv"));
+
+        final WeatherCsvParser parserNum = new WeatherCsvParser(',', Locale.GERMANY) {
+            @Override
+            protected Iterable<org.apache.commons.csv.CSVRecord> readFileWithHeader(String filepath) throws IOException {
+                String csv = "Day,MxT,MnT\n1,1234sn,59";
+                return org.apache.commons.csv.CSVFormat.DEFAULT.builder()
+                        .setHeader()
+                        .setDelimiter(',')
+                        .get()
+                        .parse(new java.io.StringReader(csv))
+                        .getRecords();
+            }
+        };
+
+        assertThrows(NumberFormatException.class,
+                () -> parserNum.parseDocument("ignored.csv"));
     }
 
     @Test

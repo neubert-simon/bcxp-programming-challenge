@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import static de.bcxp.challenge.utility.StringParsing.*;
+import static de.bcxp.challenge.utility.StringParsingUtility.*;
 
 /**
  * A CSV parser specifically for weather data entries.

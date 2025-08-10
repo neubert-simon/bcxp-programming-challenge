@@ -9,8 +9,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import static de.bcxp.challenge.utility.StringParsing.getDoubleFromString;
-import static de.bcxp.challenge.utility.StringParsing.getLongFromString;
+import static de.bcxp.challenge.utility.StringParsingUtility.getDoubleFromString;
+import static de.bcxp.challenge.utility.StringParsingUtility.getLongFromString;
 
 /**
  * A CSV parser specialized for parsing country data entries.

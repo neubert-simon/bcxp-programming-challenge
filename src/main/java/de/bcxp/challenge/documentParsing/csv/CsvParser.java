@@ -26,6 +26,7 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
      * Constructs a {@link CsvParser} with the specified delimiter character.
      *
      * @param delimiter the character used to separate values in the CSV file.
+     * @param locale the locale used to determine the format of numbers that are parsed
      */
     protected CsvParser(final char delimiter, final Locale locale) {
         this.delimiter = delimiter;
@@ -70,7 +71,7 @@ public abstract class CsvParser<T extends DocumentEntry> implements IDocumentPar
 
             return format.parse(in).getRecords();
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e) {
             logger.error("\"Resource not found: {};\n{}", filepath, e.getMessage());
             throw new FileNotFoundException("Resource not found: " + filepath);
         } catch (IOException e) {

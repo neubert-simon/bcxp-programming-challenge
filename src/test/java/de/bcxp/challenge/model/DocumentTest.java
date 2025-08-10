@@ -18,6 +18,7 @@ class DocumentTest {
 
     @Mock
     private IDocumentParser<TestEntry> mockParser;
+    private final String MOCK_FILEPATH = "/mock/filepath";
 
     static class TestEntry extends DocumentEntry {
         public TestEntry(String id) {
@@ -25,8 +26,9 @@ class DocumentTest {
         }
     }
 
+    //region Positive Tests
     @Test
-    void testDocumentCreationSuccess() throws Exception {
+    void testDocumentCreation() throws Exception {
 
         List<TestEntry> entries = List.of(
                 new TestEntry("entry1"),
@@ -34,7 +36,7 @@ class DocumentTest {
         );
 
         when(mockParser.parseDocument(anyString())).thenReturn(entries);
-        Document<TestEntry> document = new Document<>("validFile.csv", mockParser);
+        Document<TestEntry> document = new Document<>(MOCK_FILEPATH, mockParser);
 
         assertNotNull(document.getEntries());
         assertEquals(2, document.getEntries().size());
@@ -42,17 +44,25 @@ class DocumentTest {
     }
 
     @Test
+    void testDocumentCreationWithEmptyEntries() throws IOException, ParseException {
+        when(mockParser.parseDocument(anyString())).thenReturn(List.of());
+        assertDoesNotThrow(() -> new Document<>(MOCK_FILEPATH, mockParser));
+    }
+    //endregion
+
+    //region Negative Tests
+    @Test
     void testDocumentCreationThrowsIOException() throws Exception {
         when(mockParser.parseDocument(anyString())).thenThrow(new IOException("IO problem"));
         assertThrows(DocumentCreationException.class,
-                () -> new Document<>("file.csv", mockParser));
+                () -> new Document<>(MOCK_FILEPATH, mockParser));
     }
 
     @Test
     void testDocumentCreationThrowsParseException() throws Exception {
         when(mockParser.parseDocument(anyString())).thenThrow(new ParseException("parse error", 0));
         assertThrows(DocumentCreationException.class,
-                () -> new Document<>("file.csv", mockParser));
+                () -> new Document<>(MOCK_FILEPATH, mockParser));
     }
 
     @Test
@@ -66,4 +76,13 @@ class DocumentTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new Document<>("", mockParser));
     }
+
+    @Test
+    void testDocumentCreationWithNullEntries() throws IOException, ParseException {
+        when(mockParser.parseDocument(anyString())).thenReturn(null);
+        assertThrows(DocumentCreationException.class,
+                () -> new Document<>(MOCK_FILEPATH, mockParser));
+    }
+    //endregion
+
 }
