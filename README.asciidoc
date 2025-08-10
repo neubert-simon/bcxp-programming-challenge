@@ -27,18 +27,22 @@ https://mvnrepository.com/artifact/org.apache.commons/commons-csv[org.apache.com
 ==== Reasoning
 I chose to employ Apache Commons CSV for the following reasons:
 
-* *Custom delimiter support*
+* *Custom delimiter support* +
+[%hardbreaks]
 While the example CSV documents only use the two most common delimiters (`,` and `;`), this library supports a wide range of delimiters.
 This ensures future compatibility with documents using uncommon separators, without requiring major rewrites.
 
-* *Automatic header recognition*
+* *Automatic header recognition* +
+[%hardbreaks]
 Commons CSV enables accessing fields by column name instead of relying on hardcoded indices, resulting in cleaner and more readable code.
 
-* *Ease of use and maintenance*
+* *Ease of use and maintenance* +
+[%hardbreaks]
 I have prior experience using this library, and found it simple to implement and maintain in Java projects.
 It is also easy to understand how to use it when coming across it in a codebase.
 
-* *Well-established and maintained*
+* *Well-established and maintained* +
+[%hardbreaks]
 As part of the Apache Commons suite, this library is widely used and actively maintained.
 
 
