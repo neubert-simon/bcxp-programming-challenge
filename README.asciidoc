@@ -41,6 +41,25 @@ As part of the Apache Commons suite, this library is widely used and actively ma
 
 
 === Mockito
+https://mvnrepository.com/artifact/org.mockito/mockito-core
+
+==== Maven Dependency
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <version>5.18.0</version>
+    <scope>test</scope>
+</dependency>
+----
+
+==== Reasoning
+To properly test my modules independently I needed to mock some components, since they are dependent upon another.
+Mockito is a widely used and well-maintained mocking framework that makes writing independent test cases easy.
+
+=== Log4j2
 https://mvnrepository.com/artifact/org.apache.logging.log4j
 
 ==== Maven Dependency
@@ -61,29 +80,13 @@ https://mvnrepository.com/artifact/org.apache.logging.log4j
 ----
 
 ==== Reasoning
-To properly test my modules independently I needed to mock some components, since they are dependent upon another.
-Mockito is a widely used and well-maintained mocking Framework that makes writing independent test cases easy.
-
-=== Log4j2
-https://mvnrepository.com/artifact/org.mockito/mockito-core
-
-==== Maven Dependency
-
-[source,xml]
-----
-<dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-core</artifactId>
-    <version>5.18.0</version>
-    <scope>test</scope>
-</dependency>
-----
-
-==== Reasoning
 Log4j is a robust framework I have used in the past, proving easy to set up and to utilize in the project.
-It allows me to log to a file with different log levels without much hassle.
+It allows me to log to a file with different log levels.
 
-
+{empty} +
+{empty} +
+{empty} +
+{empty} +
 
 = BettercallPaul programming challenge
 
