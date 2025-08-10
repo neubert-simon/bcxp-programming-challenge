@@ -6,6 +6,8 @@ To read the Javadoc, please visit:
 
 https://neubert-simon.github.io/bcxp-programming-challenge/
 
+{empty} +
+
 == External Libraries
 
 === Apache Commons CSV
@@ -56,6 +58,7 @@ https://mvnrepository.com/artifact/org.mockito/mockito-core
 ----
 
 ==== Reasoning
+[%hardbreaks]
 To properly test my modules independently I needed to mock some components, since they are dependent upon another.
 Mockito is a widely used and well-maintained mocking framework that makes writing independent test cases easy.
 
@@ -80,8 +83,17 @@ https://mvnrepository.com/artifact/org.apache.logging.log4j
 ----
 
 ==== Reasoning
+[%hardbreaks]
 Log4j is a robust framework I have used in the past, proving easy to set up and to utilize in the project.
 It allows me to log to a file with different log levels.
+
+{empty} +
+
+== Use of generative AI
+[%hardbreaks]
+I used generative AI while working on this challenge to assist me in writing some of the Javadoc documentation and to create some sample data for unit tests.
+I used ChatGPT to that end:
+https://chatgpt.com
 
 {empty} +
 {empty} +
