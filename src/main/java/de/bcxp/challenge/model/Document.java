@@ -4,22 +4,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.documentParsing.IDocumentParser;
 import de.bcxp.challenge.exceptions.DocumentCreationException;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 
 /**
  * Represents an abstract document containing a list of {@link DocumentEntry}. <br>
  * Subclasses should define specific behavior for
  * different types of documents.
- * @param <T> the concrete type of {@link DocumentEntry} contained in the entries {@link List}
  */
-public class Document<T extends DocumentEntry> {
+public class Document {
     private static final Logger logger = LogManager.getLogger(Document.class);
 
     /**
@@ -28,7 +25,7 @@ public class Document<T extends DocumentEntry> {
      * but a {@link List} was chosen to represent the entries since there might be documents with identical
      * entries that could be valid.
      */
-    private final List<T> entries;
+    private final List<DocumentEntry> entries;
 
     /**
      * Constructs a new {@code Document} by parsing the specified file using the given parser.
@@ -47,7 +44,7 @@ public class Document<T extends DocumentEntry> {
      *
      * @see IDocumentParser
      */
-    public Document(final String filepath, final IDocumentParser<T> parser) throws DocumentCreationException {
+    public Document(final String filepath, final IDocumentParser parser) throws DocumentCreationException {
 
         validateString(filepath, logger, "Invalid filepath passed in when trying to create document.", "Filepath mustn't be empty");
 
@@ -60,7 +57,7 @@ public class Document<T extends DocumentEntry> {
         }
     }
 
-    public List<T> getEntries() {
+    public List<DocumentEntry> getEntries() {
         return entries;
     }
 

@@ -6,13 +6,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * Defines a contract for analyzing a {@link Document} containing entries of type {@link T}
+ * Defines a contract for analyzing a {@link Document} containing {@link DocumentEntry} objects
  * to determine the best matching entry based on a specific criterion.
  *
- * @param <T> the type of {@link DocumentEntry} to be analyzed
  */
 @FunctionalInterface
-public interface IDocumentAnalyser<T extends DocumentEntry> {
+public interface IDocumentAnalyser {
 
     /**
      * Analyzes the provided {@link Document} and returns the single best matching entry.
@@ -26,6 +25,6 @@ public interface IDocumentAnalyser<T extends DocumentEntry> {
      * @return the entry of type {@code T} that best matches the implemented analysis criteria
      * @throws java.util.NoSuchElementException if no suitable entry can be found
      */
-    Set<T> getBestMatches(final Document<T> document) throws NoSuchElementException;
+    Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException;
 
 }

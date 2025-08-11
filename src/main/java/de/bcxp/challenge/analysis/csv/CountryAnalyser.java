@@ -1,6 +1,7 @@
 package de.bcxp.challenge.analysis.csv;
 
 import de.bcxp.challenge.analysis.IDocumentAnalyser;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
@@ -19,7 +20,7 @@ import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
  * @see CountryEntry
  * @see Document
  */
-public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
+public class CountryAnalyser implements IDocumentAnalyser {
     private static final Logger logger = LogManager.getLogger(CountryAnalyser.class);
 
     /**
@@ -35,11 +36,11 @@ public class CountryAnalyser implements IDocumentAnalyser<CountryEntry> {
      * a {@link NoSuchElementException} is thrown.</p>
      *
      * @param document the document containing a list of {@link CountryEntry} entries
-     * @return the {@link CountryEntry} with the highest population density
+     * @return A set of {@link CountryEntry} objects with the highest population density
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public Set<CountryEntry> getBestMatches(final Document<CountryEntry> document) throws NoSuchElementException {
+    public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
         return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MAX);
     }

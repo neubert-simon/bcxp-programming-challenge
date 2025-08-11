@@ -1,5 +1,6 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.csv.WeatherEntry;
@@ -26,7 +27,7 @@ import static de.bcxp.challenge.utility.StringParsingUtility.*;
  * @see WeatherEntry
  * @see CsvParser
  */
-public class WeatherCsvParser extends CsvParser<WeatherEntry> {
+public class WeatherCsvParser extends CsvParser {
     private static final Logger logger = LogManager.getLogger(WeatherCsvParser.class);
 
     private final static String NAME = "Day";
@@ -58,10 +59,10 @@ public class WeatherCsvParser extends CsvParser<WeatherEntry> {
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<WeatherEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
+    public List<DocumentEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
 
         final Iterable<CSVRecord> records = readFileWithHeader(filepath);
-        final List<WeatherEntry> weatherList = new ArrayList<>();
+        final List<DocumentEntry> weatherList = new ArrayList<>();
 
         for (final CSVRecord record : records) {
             weatherList.add(new WeatherEntry(

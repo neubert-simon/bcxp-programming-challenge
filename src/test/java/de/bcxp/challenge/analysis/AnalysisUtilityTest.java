@@ -36,7 +36,7 @@ class AnalysisUtilityTest {
     }
 
     @Mock
-    private IDocumentParser<TestEntry> mockParser;
+    private IDocumentParser mockParser;
     private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region Positive Tests
@@ -46,9 +46,9 @@ class AnalysisUtilityTest {
         TestEntry e2 = new TestEntry("B", 30);
         TestEntry e3 = new TestEntry("C", 20);
         when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<TestEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX);
+        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX);
 
         assertEquals(Set.of(e2), result);
     }
@@ -59,9 +59,9 @@ class AnalysisUtilityTest {
         TestEntry e2 = new TestEntry("B", 5);
         TestEntry e3 = new TestEntry("C", 8);
         when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<TestEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
+        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
 
         assertEquals(Set.of(e2), result);
     }
@@ -72,9 +72,9 @@ class AnalysisUtilityTest {
         TestEntry e2 = new TestEntry("B", 10);
         TestEntry e3 = new TestEntry("C", 20);
        when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<TestEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
+        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
 
         assertEquals(Set.of(e1, e2), result);
     }
@@ -84,7 +84,7 @@ class AnalysisUtilityTest {
     @Test
     void testThrowsForEmptyDocument() throws DocumentCreationException, IOException, ParseException {
         when(mockParser.parseDocument(anyString())).thenReturn(List.of());
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
         assertThrows(IllegalArgumentException.class, () ->
                 AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX));

@@ -1,7 +1,6 @@
 package de.bcxp.challenge.documentParsing.csv;
 
 import de.bcxp.challenge.documentParsing.IDocumentParser;
-import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
@@ -14,9 +13,8 @@ import static de.bcxp.challenge.utility.ParameterValidationUtility.validateStrin
 
 /**
  * An abstract parser class for CSV documents that implements {@link IDocumentParser}.
- * @param <T> the type of {@link DocumentEntry} produced by the parser
  */
-public abstract class CsvParser<T extends DocumentEntry> implements IDocumentParser<T> {
+public abstract class CsvParser implements IDocumentParser {
     private static final Logger logger = LogManager.getLogger(CsvParser.class);
 
     private final char delimiter;

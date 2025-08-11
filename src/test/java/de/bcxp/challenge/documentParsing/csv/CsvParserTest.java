@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CsvParserTest {
 
-    static class CsvParserTestImpl extends CsvParser<DocumentEntry> {
+    static class CsvParserTestImpl extends CsvParser {
         public CsvParserTestImpl(final char delimiter, final Locale locale) {
             super(delimiter, locale);
         }

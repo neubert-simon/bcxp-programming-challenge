@@ -8,10 +8,9 @@ import java.util.List;
 /**
  * Interface for parsing a document from a given file path. <br>
  * Implementations should handle the logic for reading the file.
- * @param <T> the type of {@link DocumentEntry} produced by the parser
  */
 @FunctionalInterface
-public interface IDocumentParser<T extends DocumentEntry> {
+public interface IDocumentParser {
 
     /**
      * Parses a document from the specified file path.
@@ -21,6 +20,6 @@ public interface IDocumentParser<T extends DocumentEntry> {
      * @throws IOException if an I/O error occurs while reading the file
      * @throws ParseException if an error occurs while trying to parse the file
      */
-    List<T> parseDocument(final String filepath) throws IOException, ParseException;
+    List<DocumentEntry> parseDocument(final String filepath) throws IOException, ParseException;
 
 }

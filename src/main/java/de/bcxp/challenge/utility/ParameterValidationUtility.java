@@ -76,9 +76,8 @@ public final class ParameterValidationUtility {
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception
-     * @param <T>              type of {@link DocumentEntry} the document should contain
      */
-    public static <T extends DocumentEntry> void validateDocument(final Document<T> document, final Logger logger, final String logMessage, final String exceptionMessage) {
+    public static void validateDocument(final Document document, final Logger logger, final String logMessage, final String exceptionMessage) {
         if (document == null) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
@@ -89,10 +88,9 @@ public final class ParameterValidationUtility {
     /**
      * Checks if {@link DocumentEntry} in provided {@link Document} implements the {@link IEntryWithComparableNumericTuple} interface
      * @param entries {@link DocumentEntry} objects contained in a {@link Document}
-     * @param <T> type of {@link DocumentEntry} the document should contain
      */
-    public static <T extends DocumentEntry> void validateNumericTupleDocumentEntries(List<T> entries) {
-        for (T entry : new HashSet<>(entries)) {
+    public static void validateNumericTupleDocumentEntries(List<DocumentEntry> entries) {
+        for (DocumentEntry entry : new HashSet<>(entries)) {
             if (entry == null) {
                 throw new IllegalStateException("Document entry is null");
             }

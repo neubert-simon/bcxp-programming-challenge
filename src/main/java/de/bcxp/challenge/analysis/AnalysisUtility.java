@@ -53,7 +53,6 @@ public final class AnalysisUtility {
      * no entries or if no score could be determined.
      * </p>
      *
-     * @param <T>      the specific type of {@link DocumentEntry} contained in the document
      * @param document the {@link Document} containing entries to analyze; must not be {@code null}
      * @param type     the {@link NumericComparisonType} determining whether the "best" score is
      *                 the minimum, maximum, or another numeric ordering
@@ -67,15 +66,15 @@ public final class AnalysisUtility {
      * @see IEntryWithComparableNumericTuple
      * @see NumericComparisonType
      */
-    public static <T extends DocumentEntry> Set<T> getBestMatchesForNumericColumnComparison(final Document<T> document, NumericComparisonType type) throws NoSuchElementException {
+    public static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, NumericComparisonType type) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
 
-        final List<T> entries = document.getEntries();
+        final List<DocumentEntry> entries = document.getEntries();
         validateNumericTupleDocumentEntries(entries);
         logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
 
-        final Map<T, Double> numericScores = new HashMap<>();
+        final Map<DocumentEntry, Double> numericScores = new HashMap<>();
         entries.forEach(entry -> numericScores.put(entry, ((IEntryWithComparableNumericTuple) entry).getBestMatchScore()));
 
         final double bestScore =

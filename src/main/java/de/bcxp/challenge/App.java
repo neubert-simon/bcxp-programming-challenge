@@ -61,12 +61,11 @@ public final class App {
      * @param path the file path to the document (typically a classpath resource)
      * @param parser the {@link IDocumentParser} that reads and parses the document into entries
      * @param analyser the {@link IDocumentAnalyser} that finds the best match from the parsed entries
-     * @param <T> the type of {@link DocumentEntry} in the document
      */
-    private static <T extends DocumentEntry> String getBestMatchFromDocument(final String path, final IDocumentParser<T> parser, final IDocumentAnalyser<T> analyser) {
+    private static String getBestMatchFromDocument(final String path, final IDocumentParser parser, final IDocumentAnalyser analyser) {
         try {
-            Document<T> document = new Document<>(path, parser);
-            Set<T> bestMatches = analyser.getBestMatches(document);
+            Document document = new Document(path, parser);
+            Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
             return bestMatches.stream()
                     .findAny()
                     .orElseThrow(() -> new NoSuchElementException("Unable to find best match"))

@@ -1,6 +1,7 @@
 package de.bcxp.challenge.analysis.csv;
 
 import de.bcxp.challenge.analysis.IDocumentAnalyser;
+import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
@@ -18,7 +19,7 @@ import static de.bcxp.challenge.analysis.AnalysisUtility.getBestMatchesForNumeri
  * @see WeatherEntry
  * @see Document
  */
-public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
+public class WeatherAnalyser implements IDocumentAnalyser {
     private static final Logger logger = LogManager.getLogger(WeatherAnalyser.class);
 
     /**
@@ -33,11 +34,11 @@ public class WeatherAnalyser implements IDocumentAnalyser<WeatherEntry> {
      * and returns the one with the smallest temperature spread (i.e., maxTemp - minTemp).
      * </p>
      * @param document the document containing a list of {@link WeatherEntry} entries
-     * @return the {@link WeatherEntry} entry with the smallest temperature spread
+     * @return A set of {@link WeatherEntry} entry with the smallest temperature spread
      * @throws NoSuchElementException if the document contains no entries
      */
     @Override
-    public Set<WeatherEntry> getBestMatches(final Document<WeatherEntry> document) throws NoSuchElementException {
+    public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
         return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MIN);
     }

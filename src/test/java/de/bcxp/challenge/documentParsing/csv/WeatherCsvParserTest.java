@@ -1,12 +1,12 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.WeatherEntry;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeatherCsvParserTest {
@@ -15,20 +15,26 @@ class WeatherCsvParserTest {
 
     @Test
     void testParseDocument() throws IOException, ParseException {
-        List<WeatherEntry> entries = parser.parseDocument("weatherCsvParserTest.csv");
+        List<DocumentEntry> entries = parser.parseDocument("weatherCsvParserTest.csv");
 
         assertNotNull(entries);
         assertEquals(3, entries.size());
 
-        WeatherEntry first = entries.get(0);
-        assertEquals("1", first.getDay());
-        assertEquals(88.0, first.getMaxTemp());
-        assertEquals(59.0, first.getMinTemp());
+        DocumentEntry first = entries.get(0);
+        assertNotNull(first);
+        assertInstanceOf(WeatherEntry.class, first);
+        WeatherEntry firstWeather = (WeatherEntry) first;
+        assertEquals("1", firstWeather.getDay());
+        assertEquals(88.0, firstWeather.getMaxTemp());
+        assertEquals(59.0, firstWeather.getMinTemp());
 
-        WeatherEntry second = entries.get(1);
-        assertEquals("2", second.getDay());
-        assertEquals(79.0, second.getMaxTemp());
-        assertEquals(63.0, second.getMinTemp());
+        DocumentEntry second = entries.get(1);
+        assertNotNull(second);
+        assertInstanceOf(WeatherEntry.class, second);
+        WeatherEntry secondWeather = (WeatherEntry) second;
+        assertEquals("2", secondWeather.getDay());
+        assertEquals(79.0, secondWeather.getMaxTemp());
+        assertEquals(63.0, secondWeather.getMinTemp());
     }
 
     @Test

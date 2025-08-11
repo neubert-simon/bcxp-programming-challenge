@@ -37,7 +37,7 @@ class ParameterValidationUtilityTest {
     @Mock
     private Logger mockLogger;
     @Mock
-    private IDocumentParser<TestEntry> mockParser;
+    private IDocumentParser mockParser;
     private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region validateString() Tests
@@ -121,7 +121,7 @@ class ParameterValidationUtilityTest {
     @Test
     void validateDocumentValid() throws IOException, ParseException, DocumentCreationException {
         when(mockParser.parseDocument(anyString())).thenReturn(List.of(new TestEntry("d")));
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
         assertDoesNotThrow(() -> validateDocument(
                 doc, mockLogger,
@@ -143,7 +143,7 @@ class ParameterValidationUtilityTest {
     @Test
     void validateDocumentEmptyEntries() throws IOException, ParseException, DocumentCreationException {
         when(mockParser.parseDocument(anyString())).thenReturn(List.of());
-        Document<TestEntry> doc = new Document<>(MOCK_FILEPATH, mockParser);
+        Document doc = new Document(MOCK_FILEPATH, mockParser);
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateDocument(
@@ -163,7 +163,7 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateNumericTupleDocumentEntriesNullEntry() {
-        List<TestEntry> listWithNull = Arrays.asList(new TestEntry("1"), null);
+        List<DocumentEntry> listWithNull = Arrays.asList(new TestEntry("1"), null);
         IllegalStateException ex = assertThrows(IllegalStateException.class,
                 () -> validateNumericTupleDocumentEntries(listWithNull));
         assertEquals("Document entry is null", ex.getMessage());

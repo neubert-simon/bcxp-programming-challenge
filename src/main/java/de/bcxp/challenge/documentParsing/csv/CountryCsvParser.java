@@ -1,5 +1,6 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +27,7 @@ import static de.bcxp.challenge.utility.StringParsingUtility.getLongFromString;
  * @see CsvParser
  * @see CountryEntry
  */
-public class CountryCsvParser extends CsvParser<CountryEntry> {
+public class CountryCsvParser extends CsvParser {
     private static final Logger logger = LogManager.getLogger(CountryCsvParser.class);
 
     private final static String NAME = "Name";
@@ -58,10 +59,10 @@ public class CountryCsvParser extends CsvParser<CountryEntry> {
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<CountryEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
+    public List<DocumentEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
 
         final Iterable<CSVRecord> records = readFileWithHeader(filepath);
-        final List<CountryEntry> countryList = new ArrayList<>();
+        final List<DocumentEntry> countryList = new ArrayList<>();
 
         for (final CSVRecord record : records) {
             countryList.add(new CountryEntry(

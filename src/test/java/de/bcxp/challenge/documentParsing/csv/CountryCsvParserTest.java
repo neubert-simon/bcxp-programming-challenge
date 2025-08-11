@@ -1,5 +1,6 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
@@ -15,20 +16,26 @@ class CountryCsvParserTest {
 
     @Test
     void testParseDocument() throws IOException, ParseException {
-        List<CountryEntry> entries = parser.parseDocument("countryCsvParserTest.csv");
+        List<DocumentEntry> entries = parser.parseDocument("countryCsvParserTest.csv");
 
         assertNotNull(entries);
         assertEquals(3, entries.size());
 
-        CountryEntry first = entries.get(0);
-        assertEquals("Germany", first.getCountry());
-        assertEquals(8880, first.getPopulation());
-        assertEquals(590, first.getArea());
+        DocumentEntry first = entries.get(0);
+        assertNotNull(first);
+        assertInstanceOf(CountryEntry.class, first);
+        CountryEntry firstCountry = (CountryEntry) first;
+        assertEquals("Germany", firstCountry.getCountry());
+        assertEquals(8880, firstCountry.getPopulation());
+        assertEquals(590, firstCountry.getArea());
 
-        CountryEntry second = entries.get(1);
-        assertEquals("Italy", second.getCountry());
-        assertEquals(932_123, second.getPopulation());
-        assertEquals(630.21, second.getArea());
+        DocumentEntry second = entries.get(1);
+        assertNotNull(second);
+        assertInstanceOf(CountryEntry.class, second);
+        CountryEntry secondCountry = (CountryEntry) second;
+        assertEquals("Italy", secondCountry.getCountry());
+        assertEquals(932_123, secondCountry.getPopulation());
+        assertEquals(630.21, secondCountry.getArea());
     }
 
     @Test
