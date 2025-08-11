@@ -11,7 +11,7 @@ import java.util.Comparator;
  * another ordering strategy in the future.
  * </p>
  *
- * <h2>Usage Example:</h2>
+ * <h3>Usage Example:</h3>
  * <pre>{@code
  * double best = scores.stream()
  *                     .min(NumericComparisonType.MIN.comparator)
@@ -20,6 +20,7 @@ import java.util.Comparator;
  *
  * <p>
  * Each constant stores a comparator that defines the ordering for comparison.
+ * These are to be used in conjunction with the functional IDocumentAnalyser interface.
  * </p>
  */
 public enum NumericComparisonType {
