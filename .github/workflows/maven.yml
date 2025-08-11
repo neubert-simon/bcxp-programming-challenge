@@ -38,11 +38,14 @@ jobs:
     - name: Test with Maven
       run: mvn test
 
+    - name: Generate Surefire report
+      run: mvn surefire-report:report
+
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4
       with:
         name: junit-test-reports
-        path: target/surefire-reports/
+        path: target/surefire-reports
 
     - name: Generate Javadoc
       run: mvn javadoc:javadoc
@@ -57,6 +60,6 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./target/surefire-reports
-        destination_dir: surefire-reports
+        publish_dir: ./target/reports
+        destination_dir: surefire-report
 
