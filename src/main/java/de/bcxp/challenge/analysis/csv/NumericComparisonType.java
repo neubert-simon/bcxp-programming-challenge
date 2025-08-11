@@ -10,8 +10,8 @@ import java.util.Comparator;
  * algorithms to determine whether the optimal value is the minimum, maximum, or
  * another ordering strategy in the future.
  * </p>
- *
- * <h3>Usage Example:</h3>
+ * <br>
+ * <strong>Usage Example:</strong>
  * <pre>{@code
  * double best = scores.stream()
  *                     .min(NumericComparisonType.MIN.comparator)
