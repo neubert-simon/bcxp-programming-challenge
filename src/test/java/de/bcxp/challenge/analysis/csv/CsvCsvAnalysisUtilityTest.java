@@ -1,6 +1,5 @@
-package de.bcxp.challenge.analysis;
+package de.bcxp.challenge.analysis.csv;
 
-import de.bcxp.challenge.analysis.csv.NumericComparisonType;
 import de.bcxp.challenge.documentParsing.IDocumentParser;
 import de.bcxp.challenge.exceptions.DocumentCreationException;
 import de.bcxp.challenge.model.Document;
@@ -18,7 +17,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AnalysisUtilityTest {
+class CsvCsvAnalysisUtilityTest {
 
     static class TestEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
 
@@ -48,7 +47,7 @@ class AnalysisUtilityTest {
         when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
         Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX);
+        Set<DocumentEntry> result = CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX);
 
         assertEquals(Set.of(e2), result);
     }
@@ -61,7 +60,7 @@ class AnalysisUtilityTest {
         when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
         Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
+        Set<DocumentEntry> result = CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
 
         assertEquals(Set.of(e2), result);
     }
@@ -74,7 +73,7 @@ class AnalysisUtilityTest {
        when(mockParser.parseDocument(anyString())).thenReturn(List.of(e1, e2, e3));
         Document doc = new Document(MOCK_FILEPATH, mockParser);
 
-        Set<DocumentEntry> result = AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
+        Set<DocumentEntry> result = CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MIN);
 
         assertEquals(Set.of(e1, e2), result);
     }
@@ -87,13 +86,13 @@ class AnalysisUtilityTest {
         Document doc = new Document(MOCK_FILEPATH, mockParser);
 
         assertThrows(IllegalArgumentException.class, () ->
-                AnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX));
+                CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(doc, NumericComparisonType.MAX));
     }
 
     @Test
     void testThrowsForNullDocument() {
         assertThrows(IllegalArgumentException.class, () ->
-                AnalysisUtility.getBestMatchesForNumericColumnComparison(null, NumericComparisonType.MIN));
+                CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(null, NumericComparisonType.MIN));
     }
     //endregion
 }

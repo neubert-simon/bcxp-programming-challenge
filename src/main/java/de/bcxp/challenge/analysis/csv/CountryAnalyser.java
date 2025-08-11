@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.csv.CountryEntry;
-import static de.bcxp.challenge.analysis.AnalysisUtility.getBestMatchesForNumericColumnComparison;
+import static de.bcxp.challenge.analysis.csv.CsvAnalysisUtility.getBestMatchesForNumericColumnComparison;
 import java.util.*;
 import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 

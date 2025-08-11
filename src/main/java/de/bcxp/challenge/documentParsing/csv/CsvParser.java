@@ -14,7 +14,7 @@ import static de.bcxp.challenge.utility.ParameterValidationUtility.validateStrin
 /**
  * An abstract parser class for CSV documents that implements {@link IDocumentParser}.
  */
-public abstract class CsvParser implements IDocumentParser {
+abstract class CsvParser implements IDocumentParser {
     private static final Logger logger = LogManager.getLogger(CsvParser.class);
 
     private final char delimiter;

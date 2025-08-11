@@ -23,7 +23,7 @@ import java.util.Comparator;
  * These are to be used in conjunction with the functional IDocumentAnalyser interface.
  * </p>
  */
-public enum NumericComparisonType {
+enum NumericComparisonType {
 
     /**
      * Selects the smallest numeric value as the best score.

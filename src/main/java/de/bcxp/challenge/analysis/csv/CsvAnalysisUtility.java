@@ -1,6 +1,5 @@
-package de.bcxp.challenge.analysis;
+package de.bcxp.challenge.analysis.csv;
 
-import de.bcxp.challenge.analysis.csv.NumericComparisonType;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
@@ -22,13 +21,13 @@ import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
  * </p>
  *
  */
-public final class AnalysisUtility {
-    private static final Logger logger = LogManager.getLogger(AnalysisUtility.class);
+final class CsvAnalysisUtility {
+    private static final Logger logger = LogManager.getLogger(CsvAnalysisUtility.class);
 
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
-    private AnalysisUtility() {
+    private CsvAnalysisUtility() {
         throw new AssertionError("Cannot instantiate utility class.");
     }
 
@@ -66,7 +65,7 @@ public final class AnalysisUtility {
      * @see IEntryWithComparableNumericTuple
      * @see NumericComparisonType
      */
-    public static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, NumericComparisonType type) throws NoSuchElementException {
+    static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, NumericComparisonType type) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
 
