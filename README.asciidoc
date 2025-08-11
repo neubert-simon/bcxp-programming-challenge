@@ -6,6 +6,9 @@ To read the Javadoc, please visit:
 
 https://neubert-simon.github.io/bcxp-programming-challenge/
 
+To inspect the Surefire test-report, please visit:
+https://neubert-simon.github.io/bcxp-programming-challenge/surefire-report/
+
 {empty} +
 
 == External Libraries
