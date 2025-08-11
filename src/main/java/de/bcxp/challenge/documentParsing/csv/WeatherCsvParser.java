@@ -1,5 +1,7 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,14 +54,14 @@ public class WeatherCsvParser extends CsvParser {
      * </p>
      *
      * @param filepath the {@link String} path to the CSV document resource
-     * @return a {@link List} of {@link WeatherEntry} objects representing the parsed content
+     * @return a {@link Document} objects representing the parsed content
      *
      * @throws IOException if an I/O error occurs while accessing or reading the file
      * @throws NumberFormatException if a numeric field (e.g., temperature) cannot be parsed as a {@code double}
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<DocumentEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
+    public Document parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException, DocumentCreationException {
 
         final Iterable<CSVRecord> records = readFileWithHeader(filepath);
         final List<DocumentEntry> weatherList = new ArrayList<>();
@@ -75,6 +77,6 @@ public class WeatherCsvParser extends CsvParser {
 
         logger.debug("Parsed {} from {}", weatherList.toString() , filepath);
 
-        return weatherList;
+        return new Document(weatherList);
     }
 }

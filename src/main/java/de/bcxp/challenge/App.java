@@ -10,7 +10,6 @@ import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -64,7 +63,7 @@ public final class App {
      */
     private static String getBestMatchFromDocument(final String path, final IDocumentParser parser, final IDocumentAnalyser analyser) {
         try {
-            Document document = new Document(path, parser);
+            Document document = parser.parseDocument(path);
             Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
             return bestMatches.stream()
                     .findAny()

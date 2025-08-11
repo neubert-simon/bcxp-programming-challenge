@@ -1,5 +1,7 @@
 package de.bcxp.challenge.documentParsing;
 
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import java.io.IOException;
 import java.text.ParseException;
@@ -16,10 +18,10 @@ public interface IDocumentParser {
      * Parses a document from the specified file path.
      *
      * @param filepath the {@link String} representation of the documents filepath
-     * @return a List of {@link DocumentEntry} representing the parsed content
+     * @return a {@link Document} representing the parsed content
      * @throws IOException if an I/O error occurs while reading the file
      * @throws ParseException if an error occurs while trying to parse the file
      */
-    List<DocumentEntry> parseDocument(final String filepath) throws IOException, ParseException;
+    Document parseDocument(final String filepath) throws IOException, ParseException, DocumentCreationException;
 
 }

@@ -1,5 +1,7 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.apache.commons.csv.CSVRecord;
@@ -52,14 +54,14 @@ public class CountryCsvParser extends CsvParser {
      * </p>
      *
      * @param filepath the {@link String} path to the CSV document resource
-     * @return a {@link List} of {@link CountryEntry} objects representing the parsed content
+     * @return a {@link Document} object representing the parsed content
      *
      * @throws IOException if an I/O error occurs while accessing or reading the file
      * @throws NumberFormatException if a numeric field (e.g., population) cannot be parsed as a {@link Number}
      * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
      */
     @Override
-    public List<DocumentEntry> parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException {
+    public Document parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException, DocumentCreationException {
 
         final Iterable<CSVRecord> records = readFileWithHeader(filepath);
         final List<DocumentEntry> countryList = new ArrayList<>();
@@ -74,7 +76,7 @@ public class CountryCsvParser extends CsvParser {
         }
 
         logger.debug("Parsed {} from {}", countryList.toString() , filepath);
-        return countryList;
+        return new Document(countryList);
     }
 
 }

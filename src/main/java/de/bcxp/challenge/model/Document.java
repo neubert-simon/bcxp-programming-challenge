@@ -36,25 +36,21 @@ public class Document {
      * {@code entries}.
      * </p>
      *
-     * @param filepath the path to the file to be parsed; must be non-null and non-empty
-     * @param parser   the {@link IDocumentParser} implementation to use for parsing
-     *                 the document; must not be {@code null}
+     * @param entries a {@link List} of {@link DocumentEntry} objects that represent the Document contents
      * @throws DocumentCreationException if the file path is invalid, or if an
      *         {@link IOException} or {@link ParseException} occurs during parsing
      *
      * @see IDocumentParser
      */
-    public Document(final String filepath, final IDocumentParser parser) throws DocumentCreationException {
+    public Document(List<DocumentEntry> entries) throws DocumentCreationException {
 
-        validateString(filepath, logger, "Invalid filepath passed in when trying to create document.", "Filepath mustn't be empty");
-
-        try {
-            this.entries = new ArrayList<>(parser.parseDocument(filepath));
-            logger.debug("Created Document from {} with {}", filepath, entries);
-        } catch (IOException | ParseException | NullPointerException e) {
-            logger.error("Document creation failed for {};\n{}", filepath, e.getMessage());
-            throw new DocumentCreationException("Document couldn't be created from: " + filepath);
+        if(entries == null) {
+            logger.warn("Entries were null when trying to create Document.");
+            throw new IllegalArgumentException("Entries can't be null.");
         }
+
+        this.entries = entries;
+        logger.debug("Created Document with {}", entries);
     }
 
     public List<DocumentEntry> getEntries() {
