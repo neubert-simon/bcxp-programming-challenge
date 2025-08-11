@@ -15,7 +15,7 @@ class WeatherCsvParserTest {
 
     @Test
     void testParseDocument() throws IOException, ParseException {
-        List<DocumentEntry> entries = parser.parseDocument("weatherCsvParserTest.csv");
+        List<DocumentEntry> entries = parser.parseDocument("parsingDocuments/csv/WeatherCsvParserTest.csv");
 
         assertNotNull(entries);
         assertEquals(3, entries.size());

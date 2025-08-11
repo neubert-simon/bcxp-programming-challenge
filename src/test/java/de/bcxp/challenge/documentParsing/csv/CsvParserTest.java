@@ -24,7 +24,7 @@ class CsvParserTest {
 
     @Test
     void testReadFileWithHeader() throws IOException {
-        Iterable<CSVRecord> records = parser.readFileWithHeader("csvParserTest.csv");
+        Iterable<CSVRecord> records = parser.readFileWithHeader("parsingDocuments//csv/CsvParserTest.csv");
         assertNotNull(records);
 
         List<CSVRecord> recordList = (List<CSVRecord>) records;

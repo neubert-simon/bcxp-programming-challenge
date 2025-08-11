@@ -34,7 +34,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Test with Maven
-      run: mvn test --debug
+      run: mvn test
 
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4

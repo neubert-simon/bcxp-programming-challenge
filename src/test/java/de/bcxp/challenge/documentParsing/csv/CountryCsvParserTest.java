@@ -16,7 +16,7 @@ class CountryCsvParserTest {
 
     @Test
     void testParseDocument() throws IOException, ParseException {
-        List<DocumentEntry> entries = parser.parseDocument("countryCsvParserTest.csv");
+        List<DocumentEntry> entries = parser.parseDocument("parsingDocuments/csv/CountryCsvParserTest.csv");
 
         assertNotNull(entries);
         assertEquals(3, entries.size());
