@@ -21,7 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      MAVEN_OPTS: -XX:+EnableDynamicAgentLoading
+      MAVEN_OPTS: -XX:+EnableDynamicAgentLoading -Xshare:off
 
     steps:
     - uses: actions/checkout@v4
@@ -40,6 +40,9 @@ jobs:
 
     - name: Generate Surefire report
       run: mvn surefire-report:report
+
+    - name: Rename surefire.html to index.html
+      run: mv target/reports/surefire.html target/reports/index.html
 
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4
