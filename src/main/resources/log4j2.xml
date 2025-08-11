@@ -10,7 +10,7 @@
 
     <Loggers>
         <Root level="DEBUG">
-            <AppenderRef ref="fout"/>
+            <AppenderRef ref="AppLog"/>
         </Root>
     </Loggers>
 
