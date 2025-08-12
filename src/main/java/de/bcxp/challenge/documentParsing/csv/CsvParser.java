@@ -50,7 +50,6 @@ abstract class CsvParser implements IDocumentParser {
         this.locale = locale;
     }
 
-
     /**
      * Reads a CSV file and converts its records into a {@link Document} by delegating
      * the record-to-entry conversion to getEntriesFromRecords(Iterable).
