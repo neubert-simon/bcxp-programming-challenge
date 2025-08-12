@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * <p>
@@ -53,29 +54,6 @@ public final class ParameterValidationUtility {
         }
     }
 
-    /**
-     * <p>
-     * Validates that the provided {@link Collection} and its contents are non-null.
-     * THIS METHOD ALLOWS FOR EMPTY LISTS.
-     * </p>
-     * @param collection       the collection to validate
-     * @param logger           the logger to use for warnings
-     * @param logMessage       the message to log if validation fails
-     * @param exceptionMessage the message to include in the thrown exception
-     * @throws IllegalArgumentException if the list is {@code null} or empty
-     */
-    public static void validateCollection(final Collection<?> collection, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (collection == null) {
-            logger.warn(logMessage);
-            throw new IllegalArgumentException(exceptionMessage);
-        }
-        for (Object element : new HashSet<>(collection)) {
-            if(element == null) {
-                logger.warn(logMessage);
-                throw new IllegalArgumentException(exceptionMessage);
-            }
-        }
-    }
     //endregion
 
     //region Validation for self-rolled objects
@@ -91,21 +69,59 @@ public final class ParameterValidationUtility {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
         }
-        validateCollection(document.getEntries(), logger, logMessage, exceptionMessage);
+        validateEntries(document.getEntries(), true, logger, logMessage, exceptionMessage);
     }
 
     /**
-     * Checks if {@link DocumentEntry} in provided {@link Document} implements the {@link IEntryWithComparableNumericTuple} interface
-     * @param entries {@link DocumentEntry} objects contained in a {@link Document}
+     * <p>
+     * Validates that the provided {@link Collection} and its contents are non-null.
+     * </p>
+     * @param collection       the collection to validate
+     * @param allowEmpty       if the entries can be empty
+     * @param logger           the logger to use for warnings
+     * @param logMessage       the message to log if validation fails
+     * @param exceptionMessage the message to include in the thrown exception
+     * @throws IllegalArgumentException if the list is {@code null} or empty
      */
-    public static void validateNumericTupleDocumentEntries(List<DocumentEntry> entries) {
+    public static void validateEntries(final Collection<? extends DocumentEntry> collection, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
+        if (collection == null) {
+            logger.warn(logMessage);
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+        if((collection.isEmpty() && !allowEmpty)) {
+            logger.warn(logMessage);
+            throw new NoSuchElementException("Collection empty.");
+        }
+        for (Object element : new HashSet<>(collection)) {
+            if(element == null) {
+                logger.warn(logMessage);
+                throw new IllegalStateException(exceptionMessage);
+            }
+        }
+    }
+
+    /**
+     * Checks if the list of {@link DocumentEntry} entries from a {@link Document} all implement the {@link IEntryWithComparableNumericTuple} interface and are all of the same type.
+     * @param entries {@link DocumentEntry} objects contained in a {@link Document}
+     * @param logger Logger to log possible error messages to
+     */
+    public static void validateNumericTupleDocumentEntries(final List<DocumentEntry> entries, final Logger logger) {
+
+        validateEntries(entries, false, logger, "Entries were null or empty when checking for numeric tuple.", "Entries can't be null or empty.");
+        Class<? extends DocumentEntry> type = entries.get(0).getClass();
+
         for (DocumentEntry entry : new HashSet<>(entries)) {
-            if (entry == null) {
-                throw new IllegalStateException("Document entry is null");
-            }
+
             if(!(entry instanceof IEntryWithComparableNumericTuple)) {
-                throw new IllegalArgumentException("Document entry is not of type IEntryWithComparableNumericTuple");
+                logger.warn("Document entry is not of type IEntryWithComparableNumericTuple {}", entry);
+                throw new IllegalArgumentException("Document entries are not all of type IEntryWithComparableNumericTuple");
             }
+
+            if(!type.isInstance(entry)) {
+                logger.warn("Different DocumentEntry types present {} - {}", entry.getClass(), type);
+                throw new IllegalArgumentException("Entries must all be of the same type.");
+            }
+
         }
     }
     //endregion

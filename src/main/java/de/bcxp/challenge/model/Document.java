@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.documentParsing.IDocumentParser;
 import java.util.List;
 import java.util.Set;
-import static de.bcxp.challenge.utility.ParameterValidationUtility.validateCollection;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.validateEntries;
 
 /**
  * Represents an abstract document containing a list of {@link DocumentEntry}. <br>
@@ -37,7 +37,7 @@ public class Document {
      * @see IDocumentParser
      */
     public Document(List<DocumentEntry> entries) {
-        validateCollection(entries, logger, "List of entries was null or contained null when trying to create Document.", "Entries can't be null.");
+        validateEntries(entries, true, logger, "List of entries was null or contained null when trying to create Document.", "Entries can't be null.");
         this.entries = entries;
         logger.debug("Created Document with {}", entries);
     }

@@ -67,13 +67,11 @@ final class CsvAnalysisUtility {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
         final List<DocumentEntry> entries = document.getEntries();
 
-        validateNumericTupleDocumentEntries(entries);
+        validateNumericTupleDocumentEntries(entries, logger);
         final Set<IEntryWithComparableNumericTuple> comparableEntries =
                 entries.stream()
                         .map(entry -> (IEntryWithComparableNumericTuple) entry)
                         .collect(Collectors.toSet());
-
-        logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
 
         final IEntryWithComparableNumericTuple bestEntry = comparableEntries.stream()
                 .max(Comparator.naturalOrder())

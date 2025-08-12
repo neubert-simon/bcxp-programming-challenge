@@ -34,7 +34,6 @@ public class WeatherAnalyserTest {
         assertThrows(NoSuchElementException.class, () -> analyser.getBestMatches(emptyDocument));
 
     }
-
     //endregion
 
     //region Positive Tests
