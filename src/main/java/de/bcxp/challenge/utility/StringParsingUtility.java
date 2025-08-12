@@ -39,7 +39,8 @@ public final class StringParsingUtility {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(locale);
         final String decimalSeparator = String.valueOf(symbols.getDecimalSeparator());
         final String groupingSeparator = String.valueOf(symbols.getGroupingSeparator());
-        final String numberCandidateStripped = String.valueOf(parsed)
+        final String numberCandidateStripped = 
+                String.valueOf(parsed)
                 .replace(decimalSeparator, "")
                 .replace(groupingSeparator, "");
 
@@ -81,7 +82,7 @@ public final class StringParsingUtility {
         try {
             return NumberFormat.getInstance(locale).parse(numberCandidate);
         } catch (ParseException e) {
-            logger.warn("Error during number parsing for {}: {}", numberCandidate, e.getMessage());
+            logger.warn("Error during number parsing for {}: {}", numberCandidate, e);
             throw new ParseException("Error during number parsing of " + numberCandidate, e.getErrorOffset());
         }
     }

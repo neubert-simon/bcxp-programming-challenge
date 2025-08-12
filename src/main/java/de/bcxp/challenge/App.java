@@ -63,14 +63,14 @@ public final class App {
      */
     private static String getBestMatchFromDocument(final String path, final IDocumentParser parser, final IDocumentAnalyser analyser) {
         try {
-            Document document = parser.parseDocument(path);
-            Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
+            final Document document = parser.parseDocument(path);
+            final Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
             return bestMatches.stream()
                     .findAny()
                     .orElseThrow(() -> new NoSuchElementException("Unable to find best match"))
                     .getId();
         } catch (Exception e) {
-            logger.fatal("Reading and analysis of document {} failed: {}", path, e.getMessage());
+            logger.fatal("Reading and analysis of document {} failed: {}", path, e);
             System.err.println("Document analysis failed for: " + path);
             return "N/A";
         }

@@ -9,6 +9,7 @@ import de.bcxp.challenge.model.csv.WeatherEntry;
 import java.util.*;
 import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
 import static de.bcxp.challenge.analysis.csv.CsvAnalysisUtility.getBestMatchesForNumericColumnComparison;
+
 /**
  * Analyzes a weather document to find the entry with the smallest temperature spread.
  * <p>

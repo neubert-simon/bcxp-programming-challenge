@@ -4,13 +4,16 @@ import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
 import org.apache.logging.log4j.Logger;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 /**
+ * <p>
  * Utility class providing methods to check method parameters for validity.
+ * Used instead of Objects.requireNonNull() for logging purposes, and to throw IllegalArgumentException
+ * instead of NullPointerException.
+ * </p>
  */
 public final class ParameterValidationUtility {
 
@@ -62,13 +65,15 @@ public final class ParameterValidationUtility {
      * @throws IllegalArgumentException if the list is {@code null} or empty
      */
     public static void validateCollection(final Collection<?> collection, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (collection == null ) {
+        if (collection == null) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
         }
         for (Object element : new HashSet<>(collection)) {
-            logger.warn(logMessage);
-            if(element == null) throw new IllegalArgumentException(exceptionMessage);
+            if(element == null) {
+                logger.warn(logMessage);
+                throw new IllegalArgumentException(exceptionMessage);
+            }
         }
     }
     //endregion

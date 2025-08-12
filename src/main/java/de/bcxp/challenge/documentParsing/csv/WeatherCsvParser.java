@@ -29,9 +29,7 @@ import static de.bcxp.challenge.utility.StringParsingUtility.*;
 public class WeatherCsvParser extends CsvParser {
     private static final Logger logger = LogManager.getLogger(WeatherCsvParser.class);
 
-    private final static String NAME = "Day";
-    private final static String MAX_TEMP = "MxT";
-    private final static String MIN_TEMP = "MnT";
+    private final static String NAME = "Day", MAX_TEMP = "MxT", MIN_TEMP = "MnT";
 
     /**
      * Constructs a {@link WeatherCsvParser} with the specified CSV delimiter.

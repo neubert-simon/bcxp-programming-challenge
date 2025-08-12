@@ -29,9 +29,7 @@ import static de.bcxp.challenge.utility.StringParsingUtility.getLongFromString;
 public class CountryCsvParser extends CsvParser {
     private static final Logger logger = LogManager.getLogger(CountryCsvParser.class);
 
-    private final static String NAME = "Name";
-    private final static String POPULATION = "Population";
-    private final static String AREA = "Area (km²)";
+    private final static String NAME = "Name", POPULATION = "Population", AREA = "Area (km²)";
 
     /**
      * Constructs a {@link CountryCsvParser} with the specified CSV delimiter.
