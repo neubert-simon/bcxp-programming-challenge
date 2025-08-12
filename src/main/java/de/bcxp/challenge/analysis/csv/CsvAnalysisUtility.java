@@ -33,7 +33,7 @@ final class CsvAnalysisUtility {
 
     /**
      * Finds all entries in the given {@link Document} that share the "best" numeric score,
-     * according to the specified {@link NumericComparisonType}.
+     * according to the specified {@link Comparator}.
      * <p>
      * The method performs the following steps:
      * </p>
@@ -61,7 +61,6 @@ final class CsvAnalysisUtility {
      * @see Document
      * @see DocumentEntry
      * @see IEntryWithComparableNumericTuple
-     * @see NumericComparisonType
      */
     static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document) throws NoSuchElementException {
 
