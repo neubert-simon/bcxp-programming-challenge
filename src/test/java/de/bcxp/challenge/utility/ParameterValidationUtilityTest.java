@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +49,7 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateStringNull() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateString(
                         null, mockLogger,
                         STRING_LOG,
@@ -62,7 +60,7 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateStringEmpty() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateString(
                         "", mockLogger,
                         STRING_LOG,
@@ -105,8 +103,8 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateCollectionContainsNull() {
-        List<String> listWithNull = Arrays.asList("one", null);
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        final List<String> listWithNull = Arrays.asList("one", null);
+        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateCollection(
                         listWithNull,
                         mockLogger,
@@ -118,12 +116,12 @@ class ParameterValidationUtilityTest {
 
     //region validateDocument() Tests
     @Test
-    void validateDocumentValid() throws IOException, ParseException, DocumentCreationException {
+    void validateDocumentValid() throws DocumentCreationException {
         when(mockParser
                 .parseDocument(anyString()))
                 .thenReturn(new Document(List.of(new TestEntry("d"))));
         final String MOCK_FILEPATH = "/mock/filepath";
-        Document doc = mockParser.parseDocument(MOCK_FILEPATH);
+        final Document doc = mockParser.parseDocument(MOCK_FILEPATH);
 
         assertDoesNotThrow(() -> validateDocument(
                 doc, mockLogger,
@@ -144,7 +142,7 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateDocumentEmptyEntries() {
-        Document doc = new Document(List.of());
+        final Document doc = new Document(List.of());
         assertDoesNotThrow(() ->
                 validateDocument(
                         doc,
@@ -163,16 +161,16 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateNumericTupleDocumentEntriesNullEntry() {
-        List<DocumentEntry> listWithNull = Arrays.asList(new TestEntry("1"), null);
-        IllegalStateException ex = assertThrows(IllegalStateException.class,
+        final List<DocumentEntry> listWithNull = Arrays.asList(new TestEntry("1"), null);
+        final IllegalStateException ex = assertThrows(IllegalStateException.class,
                 () -> validateNumericTupleDocumentEntries(listWithNull));
         assertEquals("Document entry is null", ex.getMessage());
     }
 
     @Test
     void validateNumericTupleDocumentEntriesInvalidType() {
-        class NotTupleEntry extends DocumentEntry {
-            protected NotTupleEntry(String id) {
+        final class NotTupleEntry extends DocumentEntry {
+            private NotTupleEntry(String id) {
                 super(id);
             }
         }

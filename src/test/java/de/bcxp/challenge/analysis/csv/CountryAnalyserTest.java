@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -28,7 +26,7 @@ public class CountryAnalyserTest {
 
     //region Negative Tests
     @Test
-    public void getBestMatchesTestEmptyDocument() throws IOException, ParseException, DocumentCreationException {
+    public void getBestMatchesTestEmptyDocument() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new CountryAnalyser();
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
@@ -41,7 +39,7 @@ public class CountryAnalyserTest {
 
     //region Positive Tests
     @Test
-    public void getBestMatchesTest() throws DocumentCreationException, IOException, ParseException {
+    public void getBestMatchesTest() throws DocumentCreationException {
 
         //region Test 1
         final IDocumentAnalyser analyser = new CountryAnalyser();
@@ -72,11 +70,11 @@ public class CountryAnalyserTest {
     }
 
     @Test
-    public void getBestMatchesTestMultipleMatches() throws DocumentCreationException, IOException, ParseException {
+    public void getBestMatchesTestMultipleMatches() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new CountryAnalyser();
 
-        List<DocumentEntry> entries = List.of(
+        final List<DocumentEntry> entries = List.of(
                 new CountryEntry("Angola", 100_00, 10),     // Density = 1.000 people/km² -- best match 1
                 new CountryEntry("China", 100_00, 10),      // Density = 1.000 people/km² -- best match 1
                 new CountryEntry("Japan", 123_123, 800),    // Density = 152,9 people/km²
@@ -92,10 +90,10 @@ public class CountryAnalyserTest {
     }
 
     @Test
-    public void getBestMatchesTestEmptyDocumentExtremeValues() throws IOException, ParseException, DocumentCreationException {
+    public void getBestMatchesTestEmptyDocumentExtremeValues() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new CountryAnalyser();
-        List<DocumentEntry> testEntries = List.of(
+        final List<DocumentEntry> testEntries = List.of(
                 new CountryEntry("Germany", Long.MAX_VALUE, Double.MAX_VALUE),
                 new CountryEntry("Germany", 0, Double.MAX_VALUE)
         );

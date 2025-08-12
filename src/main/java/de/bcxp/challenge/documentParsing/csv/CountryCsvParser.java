@@ -1,13 +1,10 @@
 package de.bcxp.challenge.documentParsing.csv;
 
-import de.bcxp.challenge.exceptions.DocumentCreationException;
-import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,37 +43,20 @@ public class CountryCsvParser extends CsvParser {
         super(delimiter, locale);
     }
 
-    /**
-     * Parses a {@link List} of {@link CountryEntry} from the specified file path.
-     * <p>
-     * Reads a CSV file with headers and converts each record into a {@link CountryEntry}.
-     * The expected headers include values for name, population, and area.
-     * </p>
-     *
-     * @param filepath the {@link String} path to the CSV document resource
-     * @return a {@link Document} object representing the parsed content
-     *
-     * @throws IOException if an I/O error occurs while accessing or reading the file
-     * @throws NumberFormatException if a numeric field (e.g., population) cannot be parsed as a {@link Number}
-     * @throws ParseException if a parsing-related error occurs (e.g., malformed or missing fields)
-     */
     @Override
-    public Document parseDocument(final String filepath) throws IOException, NumberFormatException, ParseException, DocumentCreationException {
-
-        final Iterable<CSVRecord> records = readFileWithHeader(filepath);
-        final List<DocumentEntry> countryList = new ArrayList<>();
+    List<DocumentEntry> getEntriesFromRecords(Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
+        List<DocumentEntry> countryList = new ArrayList<>();
 
         for (final CSVRecord record : records) {
             countryList.add(new CountryEntry(
-                    record.get(NAME),
-                    getLongFromString(record.get(POPULATION), this.getLocale()),
-                    getDoubleFromString(record.get(AREA), this.getLocale())
+                            record.get(NAME),
+                            getLongFromString(record.get(POPULATION), this.getLocale()),
+                            getDoubleFromString(record.get(AREA), this.getLocale())
                     )
             );
         }
 
-        logger.debug("Parsed {} from {}", countryList.toString() , filepath);
-        return new Document(countryList);
+        return countryList;
     }
 
 }

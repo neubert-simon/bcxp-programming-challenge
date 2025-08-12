@@ -20,14 +20,14 @@ class WeatherEntryTest {
 
     @Test
     void testExceptionWhenMaxTempLessThanMinTemp() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> new WeatherEntry("Tuesday", 10.0, 20.0));
         assertEquals("Maximum temperature can't be less than minimum temperature.", exception.getMessage());
     }
 
     @Test
     void testGetBestMatchScore() {
-        WeatherEntry entry = new WeatherEntry("Thursday", 40.0, 25.5);
+        final WeatherEntry entry = new WeatherEntry("Thursday", 40.0, 25.5);
         assertEquals(40.0 - 25.5, entry.getBestMatchScore());
     }
 

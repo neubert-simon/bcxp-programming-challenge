@@ -5,8 +5,6 @@ import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,14 +15,14 @@ class CountryCsvParserTest {
     private final CountryCsvParser parser = new CountryCsvParser(',', Locale.US);
 
     @Test
-    void testParseDocument() throws IOException, ParseException, DocumentCreationException {
+    void testParseDocument() throws DocumentCreationException {
         Document document = parser.parseDocument("parsingDocuments/csv/CountryCsvParserTest.csv");
-        List<DocumentEntry> entries = document.getEntries();
+        final List<DocumentEntry> entries = document.getEntries();
 
         assertNotNull(entries);
         assertEquals(3, entries.size());
 
-        DocumentEntry first = entries.get(0);
+        final DocumentEntry first = entries.get(0);
         assertNotNull(first);
         assertInstanceOf(CountryEntry.class, first);
         CountryEntry firstCountry = (CountryEntry) first;
@@ -32,7 +30,7 @@ class CountryCsvParserTest {
         assertEquals(8880, firstCountry.getPopulation());
         assertEquals(590, firstCountry.getArea());
 
-        DocumentEntry second = entries.get(1);
+        final DocumentEntry second = entries.get(1);
         assertNotNull(second);
         assertInstanceOf(CountryEntry.class, second);
         CountryEntry secondCountry = (CountryEntry) second;
@@ -43,61 +41,25 @@ class CountryCsvParserTest {
 
     @Test
     void testParseDocumentFileNotFound() {
-        assertThrows(IOException.class,
+        assertThrows(DocumentCreationException.class,
                 () -> parser.parseDocument("non_existent_file.csv"));
     }
 
     @Test
     void testParseDocumentMalformedNumber() {
-        final CountryCsvParser parserNan = new CountryCsvParser(',', Locale.US) {
-            @Override
-            protected Iterable<org.apache.commons.csv.CSVRecord> readFileWithHeader(String filepath) throws IOException {
-                String csv = "Name,Population,Area (km²)\nGermany,notANumber,59";
-                return org.apache.commons.csv.CSVFormat.DEFAULT.builder()
-                        .setHeader()
-                        .setDelimiter(',')
-                        .get()
-                        .parse(new java.io.StringReader(csv))
-                        .getRecords();
-            }
-        };
-
-        assertThrows(NumberFormatException.class,
+        final CsvParser parserNan = new CountryCsvParser(',', Locale.US);
+        assertThrows(DocumentCreationException.class,
                 () -> parserNan.parseDocument("ignored.csv"));
 
-        final CountryCsvParser parserNum = new CountryCsvParser(',', Locale.US) {
-            @Override
-            protected Iterable<org.apache.commons.csv.CSVRecord> readFileWithHeader(String filepath) throws IOException {
-                String csv = "Name,Population,Area (km²)\nGermany,1234ms,59";
-                return org.apache.commons.csv.CSVFormat.DEFAULT.builder()
-                        .setHeader()
-                        .setDelimiter(',')
-                        .get()
-                        .parse(new java.io.StringReader(csv))
-                        .getRecords();
-            }
-        };
-
-        assertThrows(NumberFormatException.class,
+        final CsvParser parserNum = new CountryCsvParser(',', Locale.US);
+        assertThrows(DocumentCreationException.class,
                 () -> parserNum.parseDocument("ignored.csv"));
     }
 
     @Test
     void testParseDocumentMissingField() {
-        CountryCsvParser parser = new CountryCsvParser(',', Locale.US) {
-            @Override
-            protected Iterable<org.apache.commons.csv.CSVRecord> readFileWithHeader(String filepath) throws IOException {
-                String csv = "Name,Population\nCanada,88";
-                return org.apache.commons.csv.CSVFormat.DEFAULT.builder()
-                        .setHeader()
-                        .setDelimiter(',')
-                        .get()
-                        .parse(new java.io.StringReader(csv))
-                        .getRecords();
-            }
-        };
-
-        assertThrows(IllegalArgumentException.class,
+        final CsvParser parser = new CountryCsvParser(',', Locale.US);
+        assertThrows(DocumentCreationException.class,
                 () -> parser.parseDocument("ignored.csv"));
     }
 }

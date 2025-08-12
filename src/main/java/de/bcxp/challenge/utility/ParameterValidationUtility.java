@@ -51,8 +51,10 @@ public final class ParameterValidationUtility {
     }
 
     /**
+     * <p>
      * Validates that the provided {@link Collection} and its contents are non-null.
      * THIS METHOD ALLOWS FOR EMPTY LISTS.
+     * </p>
      * @param collection       the collection to validate
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails

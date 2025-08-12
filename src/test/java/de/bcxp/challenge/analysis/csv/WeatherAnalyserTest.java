@@ -8,8 +8,6 @@ import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.WeatherEntry;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -27,7 +25,7 @@ public class WeatherAnalyserTest {
 
     //region Negative Tests
     @Test
-    public void getBestMatchesTestEmptyDocument() throws IOException, ParseException, DocumentCreationException {
+    public void getBestMatchesTestEmptyDocument() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new WeatherAnalyser();
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
@@ -41,7 +39,7 @@ public class WeatherAnalyserTest {
 
     //region Positive Tests
     @Test
-    public void getBestMatchesTest() throws DocumentCreationException, IOException, ParseException {
+    public void getBestMatchesTest() throws DocumentCreationException {
 
         //region Test 1
         final IDocumentAnalyser analyser = new WeatherAnalyser();
@@ -73,11 +71,11 @@ public class WeatherAnalyserTest {
     }
 
     @Test
-    public void getBestMatchesTestMultipleMatches() throws DocumentCreationException, IOException, ParseException {
+    public void getBestMatchesTestMultipleMatches() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new WeatherAnalyser();
 
-        List<DocumentEntry> entries = List.of(
+        final List<DocumentEntry> entries = List.of(
                 new WeatherEntry("1", 10, 5),    // Spread = 5 -- best match 1
                 new WeatherEntry("2", 7, 2),     // Spread = 5 -- best match 1
                 new WeatherEntry("3", 50, 20),   // Spread = 30
@@ -86,16 +84,16 @@ public class WeatherAnalyserTest {
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(entries));
         final Document document = mockParser.parseDocument(MOCK_FILEPATH);
 
-        Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
+        final Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
 
         assertEquals(2, bestMatches.size());
         assertEquals(bestMatches, Set.of(entries.get(0), entries.get(1)));
     }
 
     @Test
-    public void getBestMatchesTestEmptyDocumentExtremeValues() throws IOException, ParseException, DocumentCreationException {
+    public void getBestMatchesTestEmptyDocumentExtremeValues() throws DocumentCreationException {
         final IDocumentAnalyser analyser = new WeatherAnalyser();
-        List<DocumentEntry> testEntries = List.of(
+        final List<DocumentEntry> testEntries = List.of(
                 new WeatherEntry("5", Double.MAX_VALUE, Double.MAX_VALUE - 1),
                 new WeatherEntry("8", 0, -Double.MAX_VALUE)
         );

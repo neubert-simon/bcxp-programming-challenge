@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -40,13 +38,13 @@ class CsvCsvAnalysisUtilityTest {
 
     //region Positive Tests
     @Test
-    void testReturnsMaxScoreEntry() throws DocumentCreationException, IOException, ParseException {
+    void testReturnsMaxScoreEntry() throws DocumentCreationException {
         TestEntry e1 = new TestEntry("A", 10);
         TestEntry e2 = new TestEntry("B", 30);
         TestEntry e3 = new TestEntry("C", 20);
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
 
-        Set<DocumentEntry> result = CsvAnalysisUtility
+        final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
                         mockParser.parseDocument(MOCK_FILEPATH),
                         NumericComparisonType.MAX);
@@ -55,13 +53,13 @@ class CsvCsvAnalysisUtilityTest {
     }
 
     @Test
-    void testReturnsMinScoreEntry() throws DocumentCreationException, IOException, ParseException {
+    void testReturnsMinScoreEntry() throws DocumentCreationException {
         TestEntry e1 = new TestEntry("A", 10);
         TestEntry e2 = new TestEntry("B", 5);
         TestEntry e3 = new TestEntry("C", 8);
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
 
-        Set<DocumentEntry> result = CsvAnalysisUtility
+        final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
                         mockParser.parseDocument(MOCK_FILEPATH),
                         NumericComparisonType.MIN);
@@ -70,13 +68,13 @@ class CsvCsvAnalysisUtilityTest {
     }
 
     @Test
-    void testHandlesTiesForBestScore() throws IOException, ParseException, DocumentCreationException {
+    void testHandlesTiesForBestScore() throws DocumentCreationException {
         TestEntry e1 = new TestEntry("A", 10);
         TestEntry e2 = new TestEntry("B", 10);
         TestEntry e3 = new TestEntry("C", 20);
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
 
-        Set<DocumentEntry> result = CsvAnalysisUtility
+        final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
                         mockParser.parseDocument(MOCK_FILEPATH),
                         NumericComparisonType.MIN);
@@ -87,7 +85,7 @@ class CsvCsvAnalysisUtilityTest {
 
     //region Negative Tests
     @Test
-    void testThrowsForEmptyDocument() throws DocumentCreationException, IOException, ParseException {
+    void testThrowsForEmptyDocument() throws DocumentCreationException {
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
 
         assertThrows(NoSuchElementException.class, () ->
