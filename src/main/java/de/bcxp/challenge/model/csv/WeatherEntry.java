@@ -39,18 +39,6 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
         logger.trace("Created new country entry with {}, {}, {}", day, maxTemp, minTemp);
     }
 
-    public String getDay() {
-        return this.getId();
-    }
-
-    public double getMaxTemp() {
-        return maxTemp;
-    }
-
-    public double getMinTemp() {
-        return minTemp;
-    }
-
     /**
      * Retrieves the numeric difference between this day's maximum and minimum temperature.
      * @return Temperature spread in double format.
@@ -63,7 +51,26 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
         }
         return result;
     }
-    
+
+    @Override
+    public int compareTo(final IEntryWithComparableNumericTuple o) {
+        return Double.compare(o.getBestMatchScore(), this.getBestMatchScore());
+    }
+
+    //region Getter
+    public String getDay() {
+        return this.getId();
+    }
+
+    public double getMaxTemp() {
+        return maxTemp;
+    }
+
+    public double getMinTemp() {
+        return minTemp;
+    }
+    //endregion
+
     //region java.lang.Object Overrides
     @Override
     public String toString() {

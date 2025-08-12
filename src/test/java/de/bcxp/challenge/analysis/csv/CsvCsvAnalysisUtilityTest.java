@@ -30,6 +30,11 @@ class CsvCsvAnalysisUtilityTest {
         public double getBestMatchScore() {
             return score;
         }
+
+        @Override
+        public int compareTo(IEntryWithComparableNumericTuple o) {
+            return Double.compare(score, o.getBestMatchScore());
+        }
     }
 
     @Mock
@@ -46,23 +51,8 @@ class CsvCsvAnalysisUtilityTest {
 
         final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
-                        NumericComparisonType.MAX);
-
-        assertEquals(Set.of(e2), result);
-    }
-
-    @Test
-    void testReturnsMinScoreEntry() throws DocumentCreationException {
-        TestEntry e1 = new TestEntry("A", 10);
-        TestEntry e2 = new TestEntry("B", 5);
-        TestEntry e3 = new TestEntry("C", 8);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
-
-        final Set<DocumentEntry> result = CsvAnalysisUtility
-                .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
-                        NumericComparisonType.MIN);
+                        mockParser.parseDocument(MOCK_FILEPATH)
+                );
 
         assertEquals(Set.of(e2), result);
     }
@@ -71,13 +61,13 @@ class CsvCsvAnalysisUtilityTest {
     void testHandlesTiesForBestScore() throws DocumentCreationException {
         TestEntry e1 = new TestEntry("A", 10);
         TestEntry e2 = new TestEntry("B", 10);
-        TestEntry e3 = new TestEntry("C", 20);
+        TestEntry e3 = new TestEntry("C", 5);
         when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
 
         final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
-                        NumericComparisonType.MIN);
+                        mockParser.parseDocument(MOCK_FILEPATH)
+                );
 
         assertEquals(Set.of(e1, e2), result);
     }
@@ -90,8 +80,8 @@ class CsvCsvAnalysisUtilityTest {
 
         assertThrows(NoSuchElementException.class, () ->
                 CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
-                        NumericComparisonType.MAX));
+                        mockParser.parseDocument(MOCK_FILEPATH)
+                ));
     }
 
     @Test
@@ -99,8 +89,8 @@ class CsvCsvAnalysisUtilityTest {
         assertThrows(IllegalArgumentException.class, () ->
                 CsvAnalysisUtility
                         .getBestMatchesForNumericColumnComparison(
-                                null,
-                                NumericComparisonType.MIN));
+                                null
+                        ));
     }
     //endregion
 }

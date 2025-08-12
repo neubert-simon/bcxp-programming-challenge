@@ -41,7 +41,7 @@ public class WeatherAnalyser implements IDocumentAnalyser {
     @Override
     public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-        return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MIN);
+        return getBestMatchesForNumericColumnComparison(document);
     }
 
 }

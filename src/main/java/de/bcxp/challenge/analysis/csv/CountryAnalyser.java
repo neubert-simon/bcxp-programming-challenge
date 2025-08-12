@@ -42,6 +42,6 @@ public class CountryAnalyser implements IDocumentAnalyser {
     @Override
     public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-        return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MAX);
+        return getBestMatchesForNumericColumnComparison(document);
     }
 }

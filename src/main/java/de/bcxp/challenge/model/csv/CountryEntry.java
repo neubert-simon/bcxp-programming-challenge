@@ -44,18 +44,6 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
         logger.trace("Created new country entry with {}, {}, {}", country, population, area);
     }
 
-    public String getCountry() {
-        return this.getId();
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public long getPopulation() {
-        return population;
-    }
-
     /**
      * Calculates and returns the population density for this country instance.
      *
@@ -70,6 +58,25 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
         }
         return population / area;
     }
+
+    @Override
+    public int compareTo(final IEntryWithComparableNumericTuple o) {
+        return Double.compare(this.getBestMatchScore(), o.getBestMatchScore());
+    }
+
+    //region Getter
+    public String getCountry() {
+        return this.getId();
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public long getPopulation() {
+        return population;
+    }
+    //endregion
 
     //region java.lang.Object Overrides
     @Override

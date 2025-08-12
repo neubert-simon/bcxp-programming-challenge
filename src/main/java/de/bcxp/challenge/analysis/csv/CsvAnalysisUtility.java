@@ -53,8 +53,6 @@ final class CsvAnalysisUtility {
      * </p>
      *
      * @param document the {@link Document} containing entries to analyze; must not be {@code null}
-     * @param type     the {@link NumericComparisonType} determining whether the "best" score is
-     *                 the minimum, maximum, or another numeric ordering
      * @return a {@link Set} of entries with the best score according to the given comparator;
      *         never {@code null} but may be empty
      * @throws NoSuchElementException if the document contains no valid entries or no score could be computed
@@ -65,28 +63,29 @@ final class CsvAnalysisUtility {
      * @see IEntryWithComparableNumericTuple
      * @see NumericComparisonType
      */
-    static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, NumericComparisonType type) throws NoSuchElementException {
+    static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-
         final List<DocumentEntry> entries = document.getEntries();
+
         validateNumericTupleDocumentEntries(entries);
+        final Set<IEntryWithComparableNumericTuple> comparableEntries =
+                entries.stream()
+                        .map(entry -> (IEntryWithComparableNumericTuple) entry)
+                        .collect(Collectors.toSet());
+
         logger.debug("Analyzing {} weather entries for temperature spread.", entries.size());
 
-        final Map<DocumentEntry, Double> numericScores = new HashMap<>();
-        entries.forEach(entry -> numericScores.put(entry, ((IEntryWithComparableNumericTuple) entry).getBestMatchScore()));
+        final IEntryWithComparableNumericTuple bestEntry = comparableEntries.stream()
+                .max(Comparator.naturalOrder())
+                .orElseThrow(() -> {
+                    logger.warn("No best match found in {}", comparableEntries);
+                    return new NoSuchElementException("No best match found.");
+                });
 
-        final double bestScore =
-                numericScores.values().stream()
-                        .min(type.comparator)
-                        .orElseThrow((() -> {
-                            logger.warn("No weather entries found in document matching the filter criteria: {}", document.toString());
-                            throw new NoSuchElementException("Unable to extract temperature spread from provided list.");
-                        }));
-
-        return numericScores.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), bestScore))
-                .map(Map.Entry::getKey)
+        return comparableEntries.stream()
+                .filter(entry -> entry.compareTo(bestEntry) == 0)
+                .map(entry -> (DocumentEntry) entry)
                 .collect(Collectors.toSet());
     }
 

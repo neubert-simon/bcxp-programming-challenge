@@ -1,17 +1,17 @@
 package de.bcxp.challenge.model.csv;
 
 /**
- * Functional interface providing a contract for an entry that can produce a numeric score
+ * Interface providing a contract for an entry that can produce a numeric score
  * for comparison purposes.
  * <p>
  * Implementations of this interface provide a single numeric value,
  * which can be used in analytical operations such as
  * finding minimum or maximum values across a collection of entries.
+ * This score must make the Object comparable via the {@link Comparable} interface.
  * </p>
  *
  */
-@FunctionalInterface
-public interface IEntryWithComparableNumericTuple {
+public interface IEntryWithComparableNumericTuple extends Comparable<IEntryWithComparableNumericTuple> {
 
     /**
      * Returns the numeric score representing this entry's "best match" value.
