@@ -53,7 +53,7 @@ abstract class CsvParser implements IDocumentParser {
 
     /**
      * Reads a CSV file and converts its records into a {@link Document} by delegating
-     * the record-to-entry conversion to {@link #getEntriesFromRecords(Iterable)}.
+     * the record-to-entry conversion to getEntriesFromRecords(Iterable).
      * <p>
      * This method handles parsing errors, file not found errors, and general I/O issues,
      * wrapping them into a {@link DocumentCreationException}.
@@ -98,7 +98,7 @@ abstract class CsvParser implements IDocumentParser {
      * @throws NumberFormatException if a numeric value in the records cannot be parsed
      * @throws ParseException        if a value in the records cannot be parsed according to the locale
      */
-    abstract List<DocumentEntry> getEntriesFromRecords(Iterable<CSVRecord> records) throws NumberFormatException, ParseException;
+    abstract List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException;
 
     /**
      * Reads a CSV file from the application's classpath and parses its content into an {@link Iterable} of
