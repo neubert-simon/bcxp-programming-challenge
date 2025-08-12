@@ -1,5 +1,7 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.CountryEntry;
 import org.junit.jupiter.api.Test;
@@ -15,8 +17,9 @@ class CountryCsvParserTest {
     private final CountryCsvParser parser = new CountryCsvParser(',', Locale.US);
 
     @Test
-    void testParseDocument() throws IOException, ParseException {
-        List<DocumentEntry> entries = parser.parseDocument("parsingDocuments/csv/CountryCsvParserTest.csv");
+    void testParseDocument() throws IOException, ParseException, DocumentCreationException {
+        Document document = parser.parseDocument("parsingDocuments/csv/CountryCsvParserTest.csv");
+        List<DocumentEntry> entries = document.getEntries();
 
         assertNotNull(entries);
         assertEquals(3, entries.size());

@@ -1,6 +1,6 @@
 package de.bcxp.challenge.documentParsing.csv;
 
-import de.bcxp.challenge.model.DocumentEntry;
+import de.bcxp.challenge.model.Document;
 import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
@@ -15,8 +15,8 @@ class CsvParserTest {
         public CsvParserTestImpl(final char delimiter, final Locale locale) {
             super(delimiter, locale);
         }
-        public List<DocumentEntry> parseDocument(String filepath) {
-            return List.of();
+        public Document parseDocument(String filepath) {
+            return new Document(List.of());
         }
     }
 

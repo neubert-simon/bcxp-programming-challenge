@@ -51,7 +51,8 @@ public final class ParameterValidationUtility {
     }
 
     /**
-     * Validates that the provided {@link Collection} and its contents are non-null and not empty.
+     * Validates that the provided {@link Collection} and its contents are non-null.
+     * THIS METHOD ALLOWS FOR EMPTY LISTS.
      * @param collection       the collection to validate
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
@@ -59,12 +60,13 @@ public final class ParameterValidationUtility {
      * @throws IllegalArgumentException if the list is {@code null} or empty
      */
     public static void validateCollection(final Collection<?> collection, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (collection == null || collection.isEmpty()) {
+        if (collection == null ) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
         }
         for (Object element : new HashSet<>(collection)) {
-            if(element == null) throw new IllegalArgumentException("List contains null.");
+            logger.warn(logMessage);
+            if(element == null) throw new IllegalArgumentException(exceptionMessage);
         }
     }
     //endregion

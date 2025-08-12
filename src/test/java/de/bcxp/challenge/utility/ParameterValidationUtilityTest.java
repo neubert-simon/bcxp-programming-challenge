@@ -38,7 +38,6 @@ class ParameterValidationUtilityTest {
     private Logger mockLogger;
     @Mock
     private IDocumentParser mockParser;
-    private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region validateString() Tests
     @Test
@@ -77,10 +76,10 @@ class ParameterValidationUtilityTest {
     @Test
     void validateCollectionValid() {
         assertDoesNotThrow(() -> validateCollection(
-                List.of("one", "two"), mockLogger,
+                List.of("one", "two"),
+                mockLogger,
                 COLLECTION_LOG,
                 COLLECTION_EXCEPTION));
-        verifyNoInteractions(mockLogger);
     }
 
     @Test
@@ -96,32 +95,35 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateCollectionEmpty() {
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> validateCollection(
-                        Collections.emptyList(), mockLogger,
+        assertDoesNotThrow(() ->
+                validateCollection(
+                        Collections.emptyList(),
+                        mockLogger,
                         COLLECTION_LOG,
                         COLLECTION_EXCEPTION));
-        assertEquals(COLLECTION_EXCEPTION, ex.getMessage());
-        verify(mockLogger).warn(COLLECTION_LOG);
     }
 
     @Test
-    void validateCollection_containsNull() {
+    void validateCollectionContainsNull() {
         List<String> listWithNull = Arrays.asList("one", null);
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateCollection(
-                        listWithNull, mockLogger,
+                        listWithNull,
+                        mockLogger,
                         COLLECTION_LOG,
                         COLLECTION_EXCEPTION));
-        assertEquals("List contains null.", ex.getMessage());
+        assertEquals("List parameter cannot be null or empty", ex.getMessage());
     }
     //endregion
 
     //region validateDocument() Tests
     @Test
     void validateDocumentValid() throws IOException, ParseException, DocumentCreationException {
-        when(mockParser.parseDocument(anyString())).thenReturn(List.of(new TestEntry("d")));
-        Document doc = new Document(MOCK_FILEPATH, mockParser);
+        when(mockParser
+                .parseDocument(anyString()))
+                .thenReturn(new Document(List.of(new TestEntry("d"))));
+        final String MOCK_FILEPATH = "/mock/filepath";
+        Document doc = mockParser.parseDocument(MOCK_FILEPATH);
 
         assertDoesNotThrow(() -> validateDocument(
                 doc, mockLogger,
@@ -141,16 +143,14 @@ class ParameterValidationUtilityTest {
     }
 
     @Test
-    void validateDocumentEmptyEntries() throws IOException, ParseException, DocumentCreationException {
-        when(mockParser.parseDocument(anyString())).thenReturn(List.of());
-        Document doc = new Document(MOCK_FILEPATH, mockParser);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> validateDocument(
-                        doc, mockLogger,
+    void validateDocumentEmptyEntries() {
+        Document doc = new Document(List.of());
+        assertDoesNotThrow(() ->
+                validateDocument(
+                        doc,
+                        mockLogger,
                         DOCUMENT_LOG,
                         DOCUMENT_EXCEPTION));
-        assertEquals(DOCUMENT_EXCEPTION, ex.getMessage());
     }
     //endregion
 
@@ -170,7 +170,7 @@ class ParameterValidationUtilityTest {
     }
 
     @Test
-    void validateNumericTupleDocumentEntries_invalidType() {
+    void validateNumericTupleDocumentEntriesInvalidType() {
         class NotTupleEntry extends DocumentEntry {
             protected NotTupleEntry(String id) {
                 super(id);

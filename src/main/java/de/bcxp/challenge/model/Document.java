@@ -3,13 +3,9 @@ package de.bcxp.challenge.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.documentParsing.IDocumentParser;
-import de.bcxp.challenge.exceptions.DocumentCreationException;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import static de.bcxp.challenge.utility.ParameterValidationUtility.*;
+import static de.bcxp.challenge.utility.ParameterValidationUtility.validateCollection;
 
 /**
  * Represents an abstract document containing a list of {@link DocumentEntry}. <br>
@@ -37,18 +33,11 @@ public class Document {
      * </p>
      *
      * @param entries a {@link List} of {@link DocumentEntry} objects that represent the Document contents
-     * @throws DocumentCreationException if the file path is invalid, or if an
-     *         {@link IOException} or {@link ParseException} occurs during parsing
      *
      * @see IDocumentParser
      */
-    public Document(List<DocumentEntry> entries) throws DocumentCreationException {
-
-        if(entries == null) {
-            logger.warn("Entries were null when trying to create Document.");
-            throw new IllegalArgumentException("Entries can't be null.");
-        }
-
+    public Document(List<DocumentEntry> entries) {
+        validateCollection(entries, logger, "List of entries was null or contained null when trying to create Document.", "Entries can't be null.");
         this.entries = entries;
         logger.debug("Created Document with {}", entries);
     }

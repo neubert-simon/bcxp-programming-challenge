@@ -1,5 +1,7 @@
 package de.bcxp.challenge.documentParsing.csv;
 
+import de.bcxp.challenge.exceptions.DocumentCreationException;
+import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.WeatherEntry;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,9 @@ class WeatherCsvParserTest {
     private final WeatherCsvParser parser = new WeatherCsvParser(',', Locale.GERMANY);
 
     @Test
-    void testParseDocument() throws IOException, ParseException {
-        List<DocumentEntry> entries = parser.parseDocument("parsingDocuments/csv/WeatherCsvParserTest.csv");
+    void testParseDocument() throws IOException, ParseException, DocumentCreationException {
+        Document document = parser.parseDocument("parsingDocuments/csv/WeatherCsvParserTest.csv");
+        List<DocumentEntry> entries = document.getEntries();
 
         assertNotNull(entries);
         assertEquals(3, entries.size());

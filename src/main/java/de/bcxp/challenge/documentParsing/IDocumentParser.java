@@ -2,10 +2,8 @@ package de.bcxp.challenge.documentParsing;
 
 import de.bcxp.challenge.exceptions.DocumentCreationException;
 import de.bcxp.challenge.model.Document;
-import de.bcxp.challenge.model.DocumentEntry;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
 /**
  * Interface for parsing a document from a given file path. <br>
