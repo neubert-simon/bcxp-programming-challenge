@@ -5,7 +5,7 @@ import de.bcxp.challenge.exceptions.DocumentCreationException;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
-import de.bcxp.challenge.model.csv.NumericComparisonType;
+import de.bcxp.challenge.utility.NumericComparisonType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

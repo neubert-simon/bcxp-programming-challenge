@@ -1,4 +1,4 @@
-package de.bcxp.challenge.model.csv;
+package de.bcxp.challenge.utility;
 
 import java.util.Comparator;
 

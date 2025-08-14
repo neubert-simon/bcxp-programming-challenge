@@ -3,7 +3,7 @@ package de.bcxp.challenge.analysis.csv;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
-import de.bcxp.challenge.model.csv.NumericComparisonType;
+import de.bcxp.challenge.utility.NumericComparisonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.*;
@@ -54,6 +54,7 @@ final class CsvAnalysisUtility {
      * </p>
      *
      * @param document the {@link Document} containing entries to analyze; must not be {@code null}
+     * @param type the {@link NumericComparisonType} providing the Comparator for best score determination
      * @return a {@link Set} of entries with the best score according to the given comparator;
      *         never {@code null} but may be empty
      * @throws NoSuchElementException if the document contains no valid entries or no score could be computed

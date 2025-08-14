@@ -2,7 +2,7 @@ package de.bcxp.challenge.analysis.csv;
 
 import de.bcxp.challenge.analysis.IDocumentAnalyser;
 import de.bcxp.challenge.model.DocumentEntry;
-import de.bcxp.challenge.model.csv.NumericComparisonType;
+import de.bcxp.challenge.utility.NumericComparisonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
