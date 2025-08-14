@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
  * </p>
  *
  * @see DocumentEntry
+ * @see Comparable
  */
 public class WeatherEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(WeatherEntry.class);
@@ -50,11 +51,6 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
             throw new ArithmeticException("Overflow detected. Values can't be subtracted from another.");
         }
         return result;
-    }
-
-    @Override
-    public int compareTo(final IEntryWithComparableNumericTuple o) {
-        return Double.compare(o.getBestMatchScore(), this.getBestMatchScore());
     }
 
     //region Getter

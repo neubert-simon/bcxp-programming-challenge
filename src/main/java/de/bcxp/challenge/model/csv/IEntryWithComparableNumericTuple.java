@@ -1,7 +1,9 @@
 package de.bcxp.challenge.model.csv;
 
+import java.util.Comparator;
+
 /**
- * Interface providing a contract for an entry that can produce a numeric score
+ * Functional interface providing a contract for an entry that can produce a numeric score
  * for comparison purposes.
  * <p>
  * Implementations of this interface provide a single numeric value,
@@ -11,13 +13,14 @@ package de.bcxp.challenge.model.csv;
  * </p>
  *
  */
-public interface IEntryWithComparableNumericTuple extends Comparable<IEntryWithComparableNumericTuple> {
+@FunctionalInterface
+public interface IEntryWithComparableNumericTuple {
 
     /**
      * Returns the numeric score representing this entry's "best match" value.
      * <p>
      * This score should be used for comparisons when determining optimal entries
-     * according to a given {@link java.util.Comparator}.
+     * according to a given {@link Comparator}.
      * </p>
      *
      * @return the numeric score for this entry

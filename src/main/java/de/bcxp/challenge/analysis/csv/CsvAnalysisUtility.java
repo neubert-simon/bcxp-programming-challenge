@@ -3,6 +3,7 @@ package de.bcxp.challenge.analysis.csv;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
+import de.bcxp.challenge.model.csv.NumericComparisonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.*;
@@ -62,7 +63,7 @@ final class CsvAnalysisUtility {
      * @see DocumentEntry
      * @see IEntryWithComparableNumericTuple
      */
-    static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document) throws NoSuchElementException {
+    static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, final NumericComparisonType type) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
         final List<DocumentEntry> entries = document.getEntries();
@@ -73,15 +74,16 @@ final class CsvAnalysisUtility {
                         .map(entry -> (IEntryWithComparableNumericTuple) entry)
                         .collect(Collectors.toSet());
 
-        final IEntryWithComparableNumericTuple bestEntry = comparableEntries.stream()
-                .max(Comparator.naturalOrder())
+        final double bestScore = comparableEntries.stream()
+                .map(IEntryWithComparableNumericTuple::getBestMatchScore)
+                .max(type.comparator)
                 .orElseThrow(() -> {
                     logger.warn("No best match found in {}", comparableEntries);
                     return new NoSuchElementException("No best match found.");
                 });
 
         return comparableEntries.stream()
-                .filter(entry -> entry.compareTo(bestEntry) == 0)
+                .filter(entry -> entry.getBestMatchScore() == bestScore)
                 .map(entry -> (DocumentEntry) entry)
                 .collect(Collectors.toSet());
     }

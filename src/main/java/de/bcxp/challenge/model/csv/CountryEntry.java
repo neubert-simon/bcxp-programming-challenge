@@ -9,10 +9,11 @@ import org.apache.logging.log4j.Logger;
  * Represents a data entry for a specific country.
  * <p>
  * This class extends {@link DocumentEntry} and adds population and area-specific information.
- * It also provides a method to compute population density.
+ * It provides a method to compute population density.
  * </p>
  *
  * @see DocumentEntry
+ * @see Comparable
  */
 public class CountryEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(CountryEntry.class);
@@ -57,11 +58,6 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
             throw new IllegalStateException("This object is invalid. Area can't be zero.");
         }
         return population / area;
-    }
-
-    @Override
-    public int compareTo(final IEntryWithComparableNumericTuple o) {
-        return Double.compare(this.getBestMatchScore(), o.getBestMatchScore());
     }
 
     //region Getter

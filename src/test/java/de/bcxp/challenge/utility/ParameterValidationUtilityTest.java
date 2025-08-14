@@ -34,11 +34,6 @@ class ParameterValidationUtilityTest {
         public double getBestMatchScore() {
             return 0;
         }
-
-        @Override
-        public int compareTo(IEntryWithComparableNumericTuple o) {
-            return Double.compare(getBestMatchScore(), o.getBestMatchScore());
-        }
     }
 
     @Mock

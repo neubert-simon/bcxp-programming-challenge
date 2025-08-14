@@ -2,6 +2,7 @@ package de.bcxp.challenge.analysis.csv;
 
 import de.bcxp.challenge.analysis.IDocumentAnalyser;
 import de.bcxp.challenge.model.DocumentEntry;
+import de.bcxp.challenge.model.csv.NumericComparisonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import de.bcxp.challenge.model.Document;
@@ -42,6 +43,6 @@ public class CountryAnalyser implements IDocumentAnalyser {
     @Override
     public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-        return getBestMatchesForNumericColumnComparison(document);
+        return getBestMatchesForNumericColumnComparison(document, NumericComparisonType.MAX);
     }
 }

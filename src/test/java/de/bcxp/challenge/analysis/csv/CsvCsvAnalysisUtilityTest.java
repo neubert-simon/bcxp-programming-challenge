@@ -5,6 +5,7 @@ import de.bcxp.challenge.exceptions.DocumentCreationException;
 import de.bcxp.challenge.model.Document;
 import de.bcxp.challenge.model.DocumentEntry;
 import de.bcxp.challenge.model.csv.IEntryWithComparableNumericTuple;
+import de.bcxp.challenge.model.csv.NumericComparisonType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -30,11 +31,6 @@ class CsvCsvAnalysisUtilityTest {
         public double getBestMatchScore() {
             return score;
         }
-
-        @Override
-        public int compareTo(IEntryWithComparableNumericTuple o) {
-            return Double.compare(score, o.getBestMatchScore());
-        }
     }
 
     @Mock
@@ -51,7 +47,8 @@ class CsvCsvAnalysisUtilityTest {
 
         final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH)
+                        mockParser.parseDocument(MOCK_FILEPATH),
+                        NumericComparisonType.MAX
                 );
 
         assertEquals(Set.of(e2), result);
@@ -66,7 +63,8 @@ class CsvCsvAnalysisUtilityTest {
 
         final Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH)
+                        mockParser.parseDocument(MOCK_FILEPATH),
+                        NumericComparisonType.MAX
                 );
 
         assertEquals(Set.of(e1, e2), result);
@@ -80,7 +78,8 @@ class CsvCsvAnalysisUtilityTest {
 
         assertThrows(NoSuchElementException.class, () ->
                 CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH)
+                        mockParser.parseDocument(MOCK_FILEPATH),
+                        NumericComparisonType.MAX
                 ));
     }
 
@@ -89,7 +88,8 @@ class CsvCsvAnalysisUtilityTest {
         assertThrows(IllegalArgumentException.class, () ->
                 CsvAnalysisUtility
                         .getBestMatchesForNumericColumnComparison(
-                                null
+                                null,
+                                NumericComparisonType.MAX
                         ));
     }
     //endregion
