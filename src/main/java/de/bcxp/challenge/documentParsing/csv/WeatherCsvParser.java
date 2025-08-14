@@ -42,14 +42,14 @@ public class WeatherCsvParser extends CsvParser {
     }
 
     @Override
-    List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
-        List<DocumentEntry> weatherList = new ArrayList<>();
+    protected List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
+        final List<DocumentEntry> weatherList = new ArrayList<>();
 
         for (final CSVRecord record : records) {
             weatherList.add(new WeatherEntry(
                 record.get(NAME),
-                getDoubleFromString(record.get(MAX_TEMP), this.getLocale()),
-                getDoubleFromString(record.get(MIN_TEMP), this.getLocale())
+                getDoubleFromString(record.get(MAX_TEMP), super.getLocale()),
+                getDoubleFromString(record.get(MIN_TEMP), super.getLocale())
                 )
             );
         }

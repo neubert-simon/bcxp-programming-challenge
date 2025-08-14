@@ -95,10 +95,12 @@ public final class StringParsingUtility {
      * @throws NumberFormatException if the string contains illegal characters
      */
     private static String validateCandidateString(String numberCandidate) {
-        ParameterValidationUtility.validateString(numberCandidate,
+        ParameterValidationUtility.validateString(
+                numberCandidate,
                 logger,
                 ParameterValidationUtility.STRING_LOG,
-                ParameterValidationUtility.STRING_EXCEPTION);
+                ParameterValidationUtility.STRING_EXCEPTION
+        );
         numberCandidate = numberCandidate.strip();
         if(numberCandidate.matches(".*[a-zA-Z].*")) {
             throw new NumberFormatException("Number can't contain letters.");

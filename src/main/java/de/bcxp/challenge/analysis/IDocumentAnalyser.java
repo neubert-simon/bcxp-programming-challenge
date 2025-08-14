@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * Defines a contract for analyzing a {@link Document} containing {@link DocumentEntry} objects
+ * Functional interface that defines a contract for analyzing a {@link Document} containing {@link DocumentEntry} objects
  * to determine the best matching entry based on a specific criterion.
  *
  */

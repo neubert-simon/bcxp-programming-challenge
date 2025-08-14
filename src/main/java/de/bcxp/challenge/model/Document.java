@@ -36,7 +36,7 @@ public class Document {
      *
      * @see IDocumentParser
      */
-    public Document(List<DocumentEntry> entries) {
+    public Document(final List<DocumentEntry> entries) {
         validateEntries(entries, true, logger, "List of entries was null or contained null when trying to create Document.", "Entries can't be null.");
         this.entries = entries;
         logger.debug("Created Document with {}", entries);

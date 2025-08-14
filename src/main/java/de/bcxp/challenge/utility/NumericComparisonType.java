@@ -34,7 +34,7 @@ public enum NumericComparisonType {
 
     public final Comparator<Double> comparator;
 
-    NumericComparisonType(Comparator<Double> comparator) {
+    NumericComparisonType(final Comparator<Double> comparator) {
         this.comparator = comparator;
     }
 }

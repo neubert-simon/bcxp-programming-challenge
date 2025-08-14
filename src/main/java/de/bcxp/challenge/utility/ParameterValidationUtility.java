@@ -108,9 +108,9 @@ public final class ParameterValidationUtility {
     public static void validateNumericTupleDocumentEntries(final List<DocumentEntry> entries, final Logger logger) throws IllegalArgumentException {
 
         validateEntries(entries, false, logger, "Entries were null or empty when checking for numeric tuple.", "Entries can't be null or empty.");
-        Class<? extends DocumentEntry> type = entries.get(0).getClass();
+        final Class<? extends DocumentEntry> type = entries.get(0).getClass();
 
-        for (DocumentEntry entry : new HashSet<>(entries)) {
+        for (final DocumentEntry entry : new HashSet<>(entries)) {
 
             if(!(entry instanceof IEntryWithComparableNumericTuple)) {
                 logger.warn("Document entry is not of type IEntryWithComparableNumericTuple {}", entry);

@@ -42,14 +42,14 @@ public class CountryCsvParser extends CsvParser {
     }
 
     @Override
-    List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
-        List<DocumentEntry> countryList = new ArrayList<>();
+    protected List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
+        final List<DocumentEntry> countryList = new ArrayList<>();
 
         for (final CSVRecord record : records) {
             countryList.add(new CountryEntry(
                             record.get(NAME),
-                            getLongFromString(record.get(POPULATION), this.getLocale()),
-                            getDoubleFromString(record.get(AREA), this.getLocale())
+                            getLongFromString(record.get(POPULATION), super.getLocale()),
+                            getDoubleFromString(record.get(AREA), super.getLocale())
                     )
             );
         }

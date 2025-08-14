@@ -52,12 +52,10 @@ public final class App {
      * using the provided analyser, and prints the extracted result using the given result extractor function.
      * <p>
      * Since the provided main()-Method in App.java calls for only one value, an arbitrary value is pulled from the set of results.
-     * For example, if there are multiple days with equal temperature spreads, only one will be returned.
+     * For example, if there are multiple days with equal temperature spreads, only one arbitrary day be returned.
      * </p>
-     * <p>This method is generic and works with any type of {@link DocumentEntry}, as long as appropriate parser and analyser
-     * implementations are provided.</p>
      *
-     * @param path the file path to the document (typically a classpath resource)
+     * @param path the file path to the document
      * @param parser the {@link IDocumentParser} that reads and parses the document into entries
      * @param analyser the {@link IDocumentAnalyser} that finds the best match from the parsed entries
      */

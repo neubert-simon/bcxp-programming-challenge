@@ -62,7 +62,7 @@ final class CsvAnalysisUtility {
     static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, final NumericComparisonType type) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-        final Set<IEntryWithComparableNumericTuple> comparableEntries = getEntryWithComparableNumericTuples(document);
+        final Set<IEntryWithComparableNumericTuple> comparableEntries = getEntriesWithComparableNumericTuples(document);
 
         final double bestScore = comparableEntries.stream()
                 .map(IEntryWithComparableNumericTuple::getBestMatchScore)
@@ -81,7 +81,7 @@ final class CsvAnalysisUtility {
      * @return a {@link Set} of {@link IEntryWithComparableNumericTuple} objects representing the entries from the given document
      * @throws IllegalArgumentException if the entries are empty, null, or not all the same concrete type implementing {@link IEntryWithComparableNumericTuple}
      */
-    private static Set<IEntryWithComparableNumericTuple> getEntryWithComparableNumericTuples(final Document document) throws IllegalArgumentException {
+    private static Set<IEntryWithComparableNumericTuple> getEntriesWithComparableNumericTuples(final Document document) throws IllegalArgumentException {
         final List<DocumentEntry> entries = document.getEntries();
         validateNumericTupleDocumentEntries(entries, logger);
         return entries.stream()
