@@ -1,13 +1,13 @@
 package de.bcxp.challenge;
 
-import de.bcxp.challenge.analysis.IDocumentAnalyser;
-import de.bcxp.challenge.analysis.csv.CountryAnalyser;
-import de.bcxp.challenge.analysis.csv.WeatherAnalyser;
-import de.bcxp.challenge.documentParsing.IDocumentParser;
-import de.bcxp.challenge.documentParsing.csv.CountryCsvParser;
-import de.bcxp.challenge.documentParsing.csv.WeatherCsvParser;
-import de.bcxp.challenge.model.Document;
-import de.bcxp.challenge.model.DocumentEntry;
+import de.bcxp.challenge.common.analysis.IDocumentAnalyser;
+import de.bcxp.challenge.countries.CountryAnalyser;
+import de.bcxp.challenge.weather.WeatherAnalyser;
+import de.bcxp.challenge.common.documentParsing.IDocumentParser;
+import de.bcxp.challenge.countries.CountryCsvParser;
+import de.bcxp.challenge.weather.WeatherCsvParser;
+import de.bcxp.challenge.common.model.Document;
+import de.bcxp.challenge.common.model.DocumentEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.Locale;
