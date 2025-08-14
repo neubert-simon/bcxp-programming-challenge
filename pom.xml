@@ -32,7 +32,8 @@
                 <configuration>
                     <doctitle>BxCP Coding Challenge Solution - by @neubert-simon</doctitle>
                     <windowtitle>BxCP Challenge Docs</windowtitle>
-                    <source>17</source>
+                    <release>11</release>  <!-- To make it easier to analyse the solution for the challenge, not usually used in production -->
+                    <show>private</show>
                 </configuration>
             </plugin>
         </plugins>

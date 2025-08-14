@@ -95,7 +95,7 @@ final class CsvAnalysisUtility {
      * @param bestScore Score to filter for
      * @return Set of all {@link DocumentEntry} objects with the best score.
      */
-    private static Set<DocumentEntry> getAllDocumentEntriesWithBestScore(final Set<IEntryWithComparableNumericTuple> comparableEntries, double bestScore) {
+    private static Set<DocumentEntry> getAllDocumentEntriesWithBestScore(final Set<IEntryWithComparableNumericTuple> comparableEntries, final double bestScore) {
         return comparableEntries.stream()
                 .filter(entry -> entry.getBestMatchScore() == bestScore)
                 .map(entry -> (DocumentEntry) entry)
