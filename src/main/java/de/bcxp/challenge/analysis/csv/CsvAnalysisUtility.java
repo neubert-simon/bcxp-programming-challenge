@@ -48,12 +48,7 @@ final class CsvAnalysisUtility {
      *   <li>Collects and returns all entries that have this best score.</li>
      * </ol>
      *
-     * <p>
-     * This method will throw a {@link NoSuchElementException} if the document contains
-     * no entries or if no score could be determined.
-     * </p>
-     *
-     * @param document the {@link Document} containing entries to analyze; must not be {@code null}
+     * @param document the {@link Document} containing entries to analyze
      * @param type the {@link NumericComparisonType} providing the Comparator for best score determination
      * @return a {@link Set} of entries with the best score according to the given comparator;
      *         never {@code null} but may be empty
@@ -67,13 +62,7 @@ final class CsvAnalysisUtility {
     static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, final NumericComparisonType type) throws NoSuchElementException {
 
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
-        final List<DocumentEntry> entries = document.getEntries();
-
-        validateNumericTupleDocumentEntries(entries, logger);
-        final Set<IEntryWithComparableNumericTuple> comparableEntries =
-                entries.stream()
-                        .map(entry -> (IEntryWithComparableNumericTuple) entry)
-                        .collect(Collectors.toSet());
+        final Set<IEntryWithComparableNumericTuple> comparableEntries = getEntryWithComparableNumericTuples(document);
 
         final double bestScore = comparableEntries.stream()
                 .map(IEntryWithComparableNumericTuple::getBestMatchScore)
@@ -83,6 +72,30 @@ final class CsvAnalysisUtility {
                     return new NoSuchElementException("No best match found.");
                 });
 
+        return getAllDocumentEntriesWithBestScore(comparableEntries, bestScore);
+    }
+
+    /**
+     * Maps all {@link DocumentEntry} objects from a {@link Document} to {@link IEntryWithComparableNumericTuple}
+     * @param document Document with numeric tuples
+     * @return a {@link Set} of {@link IEntryWithComparableNumericTuple} objects representing the entries from the given document
+     * @throws IllegalArgumentException if the entries are empty, null, or not all the same concrete type implementing {@link IEntryWithComparableNumericTuple}
+     */
+    private static Set<IEntryWithComparableNumericTuple> getEntryWithComparableNumericTuples(final Document document) throws IllegalArgumentException {
+        final List<DocumentEntry> entries = document.getEntries();
+        validateNumericTupleDocumentEntries(entries, logger);
+        return entries.stream()
+                .map(entry -> (IEntryWithComparableNumericTuple) entry)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Retrieves all entries from the given set that have the determined score.
+     * @param comparableEntries Set containing all entries from the document.
+     * @param bestScore Score to filter for
+     * @return Set of all {@link DocumentEntry} objects with the best score.
+     */
+    private static Set<DocumentEntry> getAllDocumentEntriesWithBestScore(final Set<IEntryWithComparableNumericTuple> comparableEntries, double bestScore) {
         return comparableEntries.stream()
                 .filter(entry -> entry.getBestMatchScore() == bestScore)
                 .map(entry -> (DocumentEntry) entry)

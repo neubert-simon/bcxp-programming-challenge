@@ -64,7 +64,7 @@ public final class ParameterValidationUtility {
      * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception
      */
-    public static void validateDocument(final Document document, final Logger logger, final String logMessage, final String exceptionMessage) {
+    public static void validateDocument(final Document document, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
         if (document == null) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
@@ -83,7 +83,7 @@ public final class ParameterValidationUtility {
      * @param exceptionMessage the message to include in the thrown exception
      * @throws IllegalArgumentException if the list is {@code null} or empty
      */
-    public static void validateEntries(final Collection<? extends DocumentEntry> collection, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
+    public static void validateEntries(final Collection<? extends DocumentEntry> collection, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException, NoSuchElementException, IllegalStateException {
         if (collection == null) {
             logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
@@ -105,7 +105,7 @@ public final class ParameterValidationUtility {
      * @param entries {@link DocumentEntry} objects contained in a {@link Document}
      * @param logger Logger to log possible error messages to
      */
-    public static void validateNumericTupleDocumentEntries(final List<DocumentEntry> entries, final Logger logger) {
+    public static void validateNumericTupleDocumentEntries(final List<DocumentEntry> entries, final Logger logger) throws IllegalArgumentException {
 
         validateEntries(entries, false, logger, "Entries were null or empty when checking for numeric tuple.", "Entries can't be null or empty.");
         Class<? extends DocumentEntry> type = entries.get(0).getClass();
