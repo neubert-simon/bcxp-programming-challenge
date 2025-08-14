@@ -106,7 +106,11 @@ public final class ParameterValidationUtility {
             logger.warn(logMessage);
             throw new NoSuchElementException("Collection empty.");
         }
-        new HashSet<>(entries).forEach(element -> nullCheck(element, logger, logMessage, exceptionMessage));
+        try {
+            new HashSet<>(entries).forEach(element -> nullCheck(element, logger, logMessage, exceptionMessage));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException(e.getMessage());
+        }
     }
 
     /**
