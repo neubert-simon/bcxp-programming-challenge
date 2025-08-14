@@ -32,11 +32,17 @@ class StringParsingUtilityTest {
     void testGetLongFromStringNegativeNumber() throws Exception {
         long result = getLongFromString("-987", Locale.US);
         assertEquals(-987L, result);
+
+        result = getLongFromString("-98732421", Locale.US);
+        assertEquals(-98732421L, result);
     }
 
     @Test
     void testGetLongFromStringLargeNumber() throws Exception {
         long result = getLongFromString(String.valueOf(Long.MAX_VALUE), Locale.US);
+        assertEquals(Long.MAX_VALUE, result);
+
+        result = getLongFromString(String.valueOf(Long.MAX_VALUE), Locale.GERMANY);
         assertEquals(Long.MAX_VALUE, result);
     }
     //endregion

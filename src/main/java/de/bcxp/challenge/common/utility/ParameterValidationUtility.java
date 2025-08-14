@@ -4,10 +4,8 @@ import de.bcxp.challenge.common.model.Document;
 import de.bcxp.challenge.common.model.DocumentEntry;
 import de.bcxp.challenge.common.model.csv.IEntryWithComparableNumericTuple;
 import org.apache.logging.log4j.Logger;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
+
+import java.util.*;
 
 /**
  * <p>
@@ -43,17 +41,37 @@ public final class ParameterValidationUtility {
      * Validates that the provided string is non-null and not empty.
      * @param string           the string to validate
      * @param logger           the logger to use for warnings
-     * @param errorLogMessage       the message to log if validation fails
+     * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception.
      * @throws IllegalArgumentException if the string is {@code null} or empty
      */
-    public static void validateString(final String string, final Logger logger, final String errorLogMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (string == null || string.isEmpty()) {
-            logger.warn(errorLogMessage);
+    public static void validateString(final String string, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
+        validateLoggerAndMessages(logger, logMessage, exceptionMessage);
+        nullCheck(string, logger, logMessage, exceptionMessage);
+        if (string.isEmpty() || string.isBlank()) {
+            logger.warn(logMessage);
             throw new IllegalArgumentException(exceptionMessage);
         }
     }
 
+    /**
+     * Validates that the provided object reference is not {@code null}.
+     * <p>
+     * If the object is {@code null}, this method logs a warning message using the provided
+     * {@link Logger} and then throws an {@link IllegalArgumentException} with the specified
+     * exception message.
+     * </p>
+     *
+     * @param o                the object reference to validate
+     * @throws IllegalArgumentException if {@code o} is {@code null}
+     */
+    public static void nullCheck(final Object o, final Logger logger, final String logMessage, final String exceptionMessage) {
+        validateLoggerAndMessages(logger, logMessage, exceptionMessage);
+        if(o == null) {
+            logger.warn(logMessage);
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+    }
     //endregion
 
     //region Validation for self-rolled objects
@@ -65,10 +83,8 @@ public final class ParameterValidationUtility {
      * @param exceptionMessage the message to include in the thrown exception
      */
     public static void validateDocument(final Document document, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException {
-        if (document == null) {
-            logger.warn(logMessage);
-            throw new IllegalArgumentException(exceptionMessage);
-        }
+        validateLoggerAndMessages(logger, logMessage, exceptionMessage);
+        nullCheck(document, logger, logMessage, exceptionMessage);
         validateEntries(document.getEntries(), true, logger, logMessage, exceptionMessage);
     }
 
@@ -76,28 +92,21 @@ public final class ParameterValidationUtility {
      * <p>
      * Validates that the provided {@link Collection} and its contents are non-null.
      * </p>
-     * @param collection       the collection to validate
+     * @param entries       the entries to validate
      * @param allowEmpty       if the entries can be empty
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception
      * @throws IllegalArgumentException if the list is {@code null} or empty
      */
-    public static void validateEntries(final Collection<? extends DocumentEntry> collection, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException, NoSuchElementException, IllegalStateException {
-        if (collection == null) {
-            logger.warn(logMessage);
-            throw new IllegalArgumentException(exceptionMessage);
-        }
-        if((collection.isEmpty() && !allowEmpty)) {
+    public static void validateEntries(final Collection<? extends DocumentEntry> entries, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException, NoSuchElementException, IllegalStateException {
+        validateLoggerAndMessages(logger, logMessage, exceptionMessage);
+        nullCheck(entries, logger, logMessage, exceptionMessage);
+        if((entries.isEmpty() && !allowEmpty)) {
             logger.warn(logMessage);
             throw new NoSuchElementException("Collection empty.");
         }
-        for (Object element : new HashSet<>(collection)) {
-            if(element == null) {
-                logger.warn(logMessage);
-                throw new IllegalStateException(exceptionMessage);
-            }
-        }
+        new HashSet<>(entries).forEach(element -> nullCheck(element, logger, logMessage, exceptionMessage));
     }
 
     /**
@@ -122,6 +131,19 @@ public final class ParameterValidationUtility {
                 throw new IllegalArgumentException("Entries must all be of the same type.");
             }
 
+        }
+    }
+    //endregion
+
+    //region Auxiliary
+    private static void validateLoggerAndMessages(final Logger logger, final String logMessage, final String exceptionMessage) {
+        try {
+            Objects.requireNonNull(logger);
+            Objects.requireNonNull(logMessage);
+            Objects.requireNonNull(exceptionMessage);
+        } catch (NullPointerException e) {
+            logger.warn("Null parameter passed into validator-method: {}, {}, {}", logger, logMessage, exceptionMessage, e);
+            throw new IllegalArgumentException("Logger and exception messages can't be Null.");
         }
     }
     //endregion

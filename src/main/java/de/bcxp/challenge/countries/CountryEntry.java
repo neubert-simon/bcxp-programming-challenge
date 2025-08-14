@@ -58,7 +58,12 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
             logger.error("Invalid object created:\nFields: Country: {}, Population: {}, Area: {}.\nArea is less than or equal to 0.", this.getCountry(), this.population, this.area);
             throw new IllegalStateException("This object is invalid. Area can't be zero.");
         }
-        return population / area;
+        final double result = population / area;
+        if(!Double.isFinite(result)) {
+            logger.warn("Score calculation for country: {} failed with population: {} and area: {}", getCountry(), population, area);
+            throw new ArithmeticException("Calculating score failed.");
+        }
+        return result;
     }
 
     //region Getter

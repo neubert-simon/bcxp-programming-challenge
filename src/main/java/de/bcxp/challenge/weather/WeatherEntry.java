@@ -46,8 +46,8 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
      * @return Temperature spread in double format.
      */
     public double getBestMatchScore() {
-        double result = maxTemp - minTemp;
-        if(result == Double.POSITIVE_INFINITY || result == Double.NEGATIVE_INFINITY) {
+        final double result = maxTemp - minTemp;
+        if(!Double.isFinite(result)) {
             logger.error("Double subtraction resulted in Infinity, overflow detected:\nMax temp: {}, Min temp: {}", maxTemp, minTemp);
             throw new ArithmeticException("Overflow detected. Values can't be subtracted from another.");
         }

@@ -24,9 +24,9 @@ import static de.bcxp.challenge.common.utility.ParameterValidationUtility.*;
 @ExtendWith(MockitoExtension.class)
 class ParameterValidationUtilityTest {
 
-    static class TestEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
+    static final class TestEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
 
-        protected TestEntry(String id) {
+        private TestEntry(String id) {
             super(id);
         }
 
@@ -71,6 +71,25 @@ class ParameterValidationUtilityTest {
                         "", mockLogger,
                         STRING_LOG,
                         STRING_EXCEPTION));
+        assertEquals(STRING_EXCEPTION, ex.getMessage());
+        verify(mockLogger).warn(STRING_LOG);
+    }
+    //endregion
+
+    //region nullCheck() Tests
+    @Test
+    void nullCheckObjectIsNotNull() {
+        assertDoesNotThrow(() ->
+                nullCheck("value", mockLogger, STRING_LOG, STRING_EXCEPTION)
+        );
+        verify(mockLogger, never()).warn(anyString());
+    }
+
+    @Test
+    void nullCheckObjectIsNull() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+                nullCheck(null, mockLogger, STRING_LOG, STRING_EXCEPTION)
+        );
         assertEquals(STRING_EXCEPTION, ex.getMessage());
         verify(mockLogger).warn(STRING_LOG);
     }
