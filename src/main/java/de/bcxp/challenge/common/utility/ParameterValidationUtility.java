@@ -102,14 +102,14 @@ public final class ParameterValidationUtility {
     public static void validateEntries(final Collection<? extends DocumentEntry> entries, final boolean allowEmpty, final Logger logger, final String logMessage, final String exceptionMessage) throws IllegalArgumentException, NoSuchElementException, IllegalStateException {
         validateLoggerAndMessages(logger, logMessage, exceptionMessage);
         nullCheck(entries, logger, logMessage, exceptionMessage);
-        if((entries.isEmpty() && !allowEmpty)) {
-            logger.warn(logMessage);
-            throw new NoSuchElementException("Collection empty.");
-        }
         try {
             new HashSet<>(entries).forEach(element -> nullCheck(element, logger, logMessage, exceptionMessage));
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException(e.getMessage());
+        }
+        if((entries.isEmpty() && !allowEmpty)) {
+            logger.warn(logMessage);
+            throw new NoSuchElementException("Collection empty.");
         }
     }
 

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,6 +40,7 @@ class DocumentTest {
         assertNotNull(document.getEntries());
         assertEquals(2, document.getEntries().size());
         assertEquals("entry1", document.getEntries().get(0).getId());
+        assertEquals("entry2", document.getEntries().get(1).getId());
     }
 
     @Test
@@ -49,9 +52,14 @@ class DocumentTest {
 
     //region Negative Tests
     @Test
-    void testDocumentCreationWithNullFilepath() {
+    void testDocumentCreationWithNullEntries() {
         assertThrows(IllegalArgumentException.class,
                 () -> new Document(null));
+
+        List<DocumentEntry> list = new ArrayList<>();
+        list.add(null);
+        assertThrows(IllegalStateException.class,
+                () -> new Document(list));
     }
     //endregion
 

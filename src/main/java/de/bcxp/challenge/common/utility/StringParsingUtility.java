@@ -98,7 +98,7 @@ public final class StringParsingUtility {
         if(numberCandidate.matches(".*[a-zA-Z].*")) {
             throw new NumberFormatException("Number can't contain letters.");
         }
-        return numberCandidate;
+        return numberCandidate.replace(" ", "");
     }
     //endregion
 

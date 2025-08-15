@@ -66,7 +66,7 @@ class ParameterValidationUtilityTest {
 
     @Test
     void validateStringEmptyTest() {
-        final IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> validateString(
                         "", mockLogger,
                         STRING_LOG,
@@ -74,6 +74,18 @@ class ParameterValidationUtilityTest {
         assertEquals(STRING_EXCEPTION, ex.getMessage());
         verify(mockLogger).warn(STRING_LOG);
     }
+
+    @Test
+    void validateStringBlankTest() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> validateString(
+                        "        ", mockLogger,
+                        STRING_LOG,
+                        STRING_EXCEPTION));
+        assertEquals(STRING_EXCEPTION, ex.getMessage());
+        verify(mockLogger).warn(STRING_LOG);
+    }
+
     //endregion
 
     //region nullCheck() Tests
