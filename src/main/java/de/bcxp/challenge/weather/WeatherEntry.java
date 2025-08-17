@@ -8,12 +8,10 @@ import org.apache.logging.log4j.Logger;
 /**
  * Represents a weather data entry for a specific day, containing the maximum and minimum temperatures.
  * <p>
- * This class extends {@link DocumentEntry} and provides additional temperature-specific information
- * such as the maximum temperature, minimum temperature, and temperature spread.
+ * This class extends {@link DocumentEntry} and provides additional temperature-specific information.
  * </p>
  *
  * @see DocumentEntry
- * @see Comparable
  */
 public class WeatherEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(WeatherEntry.class);
@@ -28,7 +26,7 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
      * @param maxTemp  the maximum temperature for the day
      * @param minTemp  the minimum temperature for the day
      *
-     * @throws IllegalArgumentException if {@param maxTemp} is less than {@param minTemp}
+     * @throws IllegalArgumentException if {@code maxTemp} is less than {@code minTemp}
      */
     public WeatherEntry(final String day, final double maxTemp, final double minTemp) {
         super(day);
@@ -45,6 +43,7 @@ public class WeatherEntry extends DocumentEntry implements IEntryWithComparableN
      * Retrieves the numeric difference between this day's maximum and minimum temperature.
      * @return Temperature spread in double format.
      */
+    @Override
     public double getBestMatchScore() {
         final double result = maxTemp - minTemp;
         if(!Double.isFinite(result)) {

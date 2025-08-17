@@ -37,7 +37,7 @@ public class CountryAnalyser implements IDocumentAnalyser {
      *
      * @param document the document containing a list of {@link CountryEntry} entries
      * @return A set of {@link CountryEntry} objects with the highest population density
-     * @throws NoSuchElementException if the document contains no entries
+     * @throws NoSuchElementException if the document contains no matching entries
      */
     @Override
     public Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException {

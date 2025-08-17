@@ -189,7 +189,7 @@ class ParameterValidationUtilityTest {
     }
 
     @Test
-    void validateDocumentEmptyEntriesTest() {
+    void validateDocumentEmptyEntriesTest() throws DocumentCreationException {
         final Document doc = new Document(List.of());
         assertDoesNotThrow(() ->
                 validateDocument(

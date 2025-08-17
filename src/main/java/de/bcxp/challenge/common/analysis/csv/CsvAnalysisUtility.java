@@ -60,7 +60,6 @@ public final class CsvAnalysisUtility {
      * @see IEntryWithComparableNumericTuple
      */
     public static Set<DocumentEntry> getBestMatchesForNumericColumnComparison(final Document document, final NumericComparisonType type) throws NoSuchElementException {
-
         validateDocument(document, logger, DOCUMENT_LOG, DOCUMENT_EXCEPTION);
         final Set<IEntryWithComparableNumericTuple> comparableEntries = getEntriesWithComparableNumericTuples(document);
 

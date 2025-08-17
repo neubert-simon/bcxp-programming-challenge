@@ -32,7 +32,7 @@ public class CountryCsvParser extends CsvParser {
     private final static String NAME = "Name", POPULATION = "Population", AREA = "Area (km²)";
 
     /**
-     * Constructs a {@link CountryCsvParser} with the specified CSV delimiter.
+     * Constructs a {@link CountryCsvParser} with the specified CSV delimiter and Locale.
      *
      * @param delimiter the character used to separate values in the CSV file.
      * @param locale Locale used when parsing number
@@ -41,6 +41,22 @@ public class CountryCsvParser extends CsvParser {
         super(delimiter, locale);
     }
 
+    /**
+     * Converts a collection of CSV records into a list of {@link DocumentEntry} objects,
+     * specifically {@link CountryEntry} instances. Each record is expected to contain
+     * country-related data such as the name, population, and area.
+     *
+     * @param records an {@link Iterable} of {@link CSVRecord} objects containing country data.
+     *                Each record must provide values for {@code NAME}, {@code POPULATION},
+     *                and {@code AREA}.
+     *
+     * @return a {@link List} of {@link DocumentEntry} objects, where each entry corresponds
+     *         to a parsed {@link CountryEntry} from the CSV records.
+     *
+     * @throws NumberFormatException if numeric values (population or area) cannot be parsed.
+     * @throws ParseException if a parsing error occurs during number conversion
+     *                        (e.g., due to locale-specific formatting issues).
+     */
     @Override
     protected List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
         final List<DocumentEntry> countryList = new ArrayList<>();

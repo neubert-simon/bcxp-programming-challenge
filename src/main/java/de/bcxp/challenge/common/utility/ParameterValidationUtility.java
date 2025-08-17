@@ -10,8 +10,7 @@ import java.util.*;
 /**
  * <p>
  * Utility class providing methods to check method parameters for validity.
- * Used instead of Objects.requireNonNull() for logging purposes, and to throw IllegalArgumentException
- * instead of NullPointerException.
+ * Used instead of Objects.requireNonNull() for logging purposes, and to throw more fitting exceptions than NullPointerException.
  * </p>
  */
 public final class ParameterValidationUtility {
@@ -38,7 +37,7 @@ public final class ParameterValidationUtility {
 
     //region Validation for built-ins
     /**
-     * Validates that the provided string is non-null and not empty.
+     * Validates that the provided string is non-null and not empty or blank.
      * @param string           the string to validate
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
@@ -76,7 +75,7 @@ public final class ParameterValidationUtility {
 
     //region Validation for self-rolled objects
     /**
-     * Validates that the provided document is non-null and not empty.
+     * Validates that the provided document and it's entries are non-null.
      * @param document         The {@link Document} to validate
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
@@ -90,10 +89,10 @@ public final class ParameterValidationUtility {
 
     /**
      * <p>
-     * Validates that the provided {@link Collection} and its contents are non-null.
+     * Validates that the provided {@link Collection} of {@link DocumentEntry} objects contents are non-null.
      * </p>
      * @param entries       the entries to validate
-     * @param allowEmpty       if the entries can be empty
+     * @param allowEmpty       Flag to set true if the entries can be empty, false otherwise
      * @param logger           the logger to use for warnings
      * @param logMessage       the message to log if validation fails
      * @param exceptionMessage the message to include in the thrown exception
@@ -114,40 +113,54 @@ public final class ParameterValidationUtility {
     }
 
     /**
-     * Checks if the list of {@link DocumentEntry} entries from a {@link Document} all implement the {@link IEntryWithComparableNumericTuple} interface and are all of the same type.
+     * Checks if the list of {@link DocumentEntry} entries from a {@link Document} all implement the {@link IEntryWithComparableNumericTuple} interface and are all of the same concrete type.
      * @param entries {@link DocumentEntry} objects contained in a {@link Document}
      * @param logger Logger to log possible error messages to
      */
     public static void validateNumericTupleDocumentEntries(final List<DocumentEntry> entries, final Logger logger) throws IllegalArgumentException {
-
+        if(logger == null) throw new IllegalArgumentException("Logger can't be null when checking NumericTupleDocumentEntries.");
         validateEntries(entries, false, logger, "Entries were null or empty when checking for numeric tuple.", "Entries can't be null or empty.");
+
         final Class<? extends DocumentEntry> type = entries.get(0).getClass();
-
         for (final DocumentEntry entry : new HashSet<>(entries)) {
-
             if(!(entry instanceof IEntryWithComparableNumericTuple)) {
                 logger.warn("Document entry is not of type IEntryWithComparableNumericTuple {}", entry);
                 throw new IllegalArgumentException("Document entries are not all of type IEntryWithComparableNumericTuple");
             }
-
             if(!type.isInstance(entry)) {
                 logger.warn("Different DocumentEntry types present {} - {}", entry.getClass(), type);
                 throw new IllegalArgumentException("Entries must all be of the same type.");
             }
-
         }
     }
     //endregion
 
     //region Auxiliary
+    /**
+     * Validates that the provided {@link Logger} and message strings are not {@code null}.
+     * <p>
+     * If any of the parameters are {@code null}, the method logs a warning using the given
+     * {@link Logger} (if not {@code null}) and throws an {@link IllegalArgumentException}.
+     * </p>
+     *
+     * @param logger           the {@link Logger} instance to validate; must not be {@code null}.
+     * @param logMessage       the log message string to validate; must not be {@code null}.
+     * @param exceptionMessage the exception message string to validate; must not be {@code null}.
+     *
+     * @throws IllegalArgumentException if any parameter is {@code null}.
+     */
     private static void validateLoggerAndMessages(final Logger logger, final String logMessage, final String exceptionMessage) {
         try {
             Objects.requireNonNull(logger);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Logger can't be null.");
+        }
+        try {
             Objects.requireNonNull(logMessage);
             Objects.requireNonNull(exceptionMessage);
         } catch (NullPointerException e) {
-            logger.warn("Null parameter passed into validator-method: {}, {}, {}", logger, logMessage, exceptionMessage, e);
-            throw new IllegalArgumentException("Logger and exception messages can't be Null.");
+            logger.warn("Null String passed into validator-method: {}, {}", logMessage, exceptionMessage, e);
+            throw new IllegalArgumentException("Exception messages can't be null.");
         }
     }
     //endregion

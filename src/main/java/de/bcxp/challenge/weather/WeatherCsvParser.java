@@ -20,7 +20,7 @@ import static de.bcxp.challenge.common.utility.StringParsingUtility.*;
  * </p>
  *
  * <p>
- * This parser assumes that the CSV file includes a header row, and uses a configurable delimiter.
+ * This parser assumes that the CSV file includes a header row.
  * </p>
  *
  * @see WeatherEntry
@@ -41,6 +41,22 @@ public class WeatherCsvParser extends CsvParser {
         super(delimiter, locale);
     }
 
+    /**
+     * Converts a collection of CSV records into a list of {@link DocumentEntry} objects,
+     * specifically {@link WeatherEntry} instances. Each record is expected to contain
+     * weather-related data such as the name, maximum temperature, and minimum temperature.
+     *
+     * @param records an {@link Iterable} of {@link CSVRecord} objects containing weather data.
+     *                Each record must provide values for {@code NAME}, {@code MAX_TEMP},
+     *                and {@code MIN_TEMP}.
+     *
+     * @return a {@link List} of {@link DocumentEntry} objects, where each entry corresponds
+     *         to a parsed {@link WeatherEntry} from the CSV records.
+     *
+     * @throws NumberFormatException if temperature values cannot be parsed as doubles.
+     * @throws ParseException if a parsing error occurs during number conversion
+     *                        (e.g., due to locale-specific formatting issues).
+     */
     @Override
     protected List<DocumentEntry> getEntriesFromRecords(final Iterable<CSVRecord> records) throws NumberFormatException, ParseException {
         final List<DocumentEntry> weatherList = new ArrayList<>();

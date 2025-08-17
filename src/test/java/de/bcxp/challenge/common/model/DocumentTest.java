@@ -53,12 +53,12 @@ class DocumentTest {
     //region Negative Tests
     @Test
     void testDocumentCreationWithNullEntries() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(DocumentCreationException.class,
                 () -> new Document(null));
 
         List<DocumentEntry> list = new ArrayList<>();
         list.add(null);
-        assertThrows(IllegalStateException.class,
+        assertThrows(DocumentCreationException.class,
                 () -> new Document(list));
     }
     //endregion

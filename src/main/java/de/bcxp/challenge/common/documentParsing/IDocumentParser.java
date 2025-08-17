@@ -15,7 +15,7 @@ public interface IDocumentParser {
      *
      * @param filepath the {@link String} representation of the documents filepath
      * @return a {@link Document} representing the parsed content
-     * @throws DocumentCreationException if an I/O error or ParseError occurs while reading the file
+     * @throws DocumentCreationException if parsing the file fails
      */
     Document parseDocument(final String filepath) throws DocumentCreationException;
 

@@ -20,9 +20,9 @@ public interface IDocumentAnalyser {
      * apply filtering, sorting, or scoring logic to select the optimal result.
      * </p>
      *
-     * @param document the {@link Document} containing entries of type {@code T} to analyze;
+     * @param document the {@link Document} to analyze;
      *                 must not be {@code null}
-     * @return the entry of type {@code T} that best matches the implemented analysis criteria
+     * @return a {@link Set} of {@link DocumentEntry} objects that best match the implemented analysis criteria
      * @throws java.util.NoSuchElementException if no suitable entry can be found
      */
     Set<DocumentEntry> getBestMatches(final Document document) throws NoSuchElementException;

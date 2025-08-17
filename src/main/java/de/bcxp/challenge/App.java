@@ -49,15 +49,16 @@ public final class App {
 
     /**
      * Loads a document from the given file path using the provided parser, analyzes its entries to find the best match
-     * using the provided analyser, and prints the extracted result using the given result extractor function.
+     * using the provided analyser, and returns the result.
      * <p>
      * Since the provided main()-Method in App.java calls for only one value, an arbitrary value is pulled from the set of results.
-     * For example, if there are multiple days with equal temperature spreads, only one arbitrary day be returned.
+     * For example, if there are multiple days with equal temperature spreads, one arbitrary from this set of days is returned.
      * </p>
      *
      * @param path the file path to the document
      * @param parser the {@link IDocumentParser} that reads and parses the document into entries
      * @param analyser the {@link IDocumentAnalyser} that finds the best match from the parsed entries
+     * @return The ID of an arbitrary result from the result Set
      */
     private static String getBestMatchFromDocument(final String path, final IDocumentParser parser, final IDocumentAnalyser analyser) {
         try {

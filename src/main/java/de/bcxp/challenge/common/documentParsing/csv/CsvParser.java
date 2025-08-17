@@ -64,7 +64,6 @@ public abstract class CsvParser implements IDocumentParser {
     @Override
     public Document parseDocument(final String filepath) throws DocumentCreationException {
         try {
-
             final Iterable<CSVRecord> records = readFileWithHeader(filepath);
             final List<DocumentEntry> entries = getEntriesFromRecords(records);
 

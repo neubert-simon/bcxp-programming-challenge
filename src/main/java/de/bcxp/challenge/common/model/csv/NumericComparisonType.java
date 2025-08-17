@@ -9,14 +9,6 @@ import java.util.Comparator;
  * This enum encapsulates a {@link Comparator} for {@link Double} values, allowing
  * algorithms to determine whether the optimal value is the minimum or maximum score.
  * </p>
- *
- * <h2>Usage Example:</h2>
- * <pre>{@code
- * double best = scores.stream()
- *                     .min(NumericComparisonType.MIN.comparator)
- *                     .orElseThrow();
- * }</pre>
- *
  * <p>
  * Each constant stores a comparator that defines the ordering for comparison.
  * </p>
@@ -32,6 +24,15 @@ public enum NumericComparisonType {
      */
     MIN(Comparator.reverseOrder());
 
+    /**
+     * Comparator used with max() function applied to a double stream.
+     * <h2>Usage Example:</h2>
+     *  <pre>{@code
+     *  final double bestScore = comparableEntries.stream()
+     *                 .map(IEntryWithComparableNumericTuple::getBestMatchScore)
+     *                 .max(type.comparator)
+     *  }</pre>
+     */
     public final Comparator<Double> comparator;
 
     NumericComparisonType(final Comparator<Double> comparator) {

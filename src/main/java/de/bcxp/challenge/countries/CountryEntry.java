@@ -1,6 +1,5 @@
 package de.bcxp.challenge.countries;
 
-import de.bcxp.challenge.common.model.Document;
 import de.bcxp.challenge.common.model.DocumentEntry;
 import de.bcxp.challenge.common.model.csv.IEntryWithComparableNumericTuple;
 import org.apache.logging.log4j.LogManager;
@@ -10,11 +9,9 @@ import org.apache.logging.log4j.Logger;
  * Represents a data entry for a specific country.
  * <p>
  * This class extends {@link DocumentEntry} and adds population and area-specific information.
- * It provides a method to compute population density.
  * </p>
  *
  * @see DocumentEntry
- * @see Comparable
  */
 public class CountryEntry extends DocumentEntry implements IEntryWithComparableNumericTuple {
     private static final Logger logger = LogManager.getLogger(CountryEntry.class);
@@ -23,7 +20,7 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
     private final double area;
 
     /**
-     * Constructs a {@link CountryEntry} object representing a country listed in a {@link Document}.
+     * Constructs a {@link CountryEntry} object.
      *
      * @param country    the name or identifier of the country
      * @param population the population count of the country (must be zero or positive)
@@ -53,6 +50,8 @@ public class CountryEntry extends DocumentEntry implements IEntryWithComparableN
      *
      * @throws IllegalStateException if the area is zero, indicating an invalid object state
      */
+
+    @Override
     public double getBestMatchScore() {
         if (area <= 0) {
             logger.error("Invalid object created:\nFields: Country: {}, Population: {}, Area: {}.\nArea is less than or equal to 0.", this.getCountry(), this.population, this.area);
