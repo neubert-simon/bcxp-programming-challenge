@@ -68,6 +68,7 @@ public final class StringParsingUtility {
      *                        must not be {@code null} or empty
      * @param locale          the {@link Locale} whose formatting rules should be used
      *                        for parsing; must not be {@code null}
+     * @param numberFormat    Format to use when parsing the numberCandidate {@link String}
      * @return a {@link Number} representing the parsed value
      * @throws ParseException if the string cannot be parsed as a number according to the given locale
      * @throws NullPointerException if {@code numberCandidate} or {@code locale} is {@code null}

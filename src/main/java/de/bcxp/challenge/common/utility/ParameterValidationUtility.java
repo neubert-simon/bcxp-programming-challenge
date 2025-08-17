@@ -62,6 +62,9 @@ public final class ParameterValidationUtility {
      * </p>
      *
      * @param o                the object reference to validate
+     * @param logger           the logger to use for warnings
+     * @param logMessage       the message to log if validation fails
+     * @param exceptionMessage the message to include in the thrown exception.
      * @throws IllegalArgumentException if {@code o} is {@code null}
      */
     public static void nullCheck(final Object o, final Logger logger, final String logMessage, final String exceptionMessage) {

@@ -25,8 +25,8 @@ public enum NumericComparisonType {
     MIN(Comparator.reverseOrder());
 
     /**
-     * Comparator used with max() function applied to a double stream.
-     * <h2>Usage Example:</h2>
+     * <p>Comparator to be used with max() function applied to a double stream.</p>
+     * <strong>Usage Example:</strong>
      *  <pre>{@code
      *  final double bestScore = comparableEntries.stream()
      *                 .map(IEntryWithComparableNumericTuple::getBestMatchScore)
