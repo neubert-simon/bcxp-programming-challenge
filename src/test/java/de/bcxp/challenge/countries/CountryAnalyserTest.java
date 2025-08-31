@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,17 +20,16 @@ public class CountryAnalyserTest {
 
     @Mock
     private IDocumentParser mockParser;
-    private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region Negative Tests
     @Test
     public void getBestMatchesTestEmptyDocument() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new CountryAnalyser();
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of()));
 
         assertThrows(NoSuchElementException.class,
-                () -> analyser.getBestMatches(mockParser.parseDocument(MOCK_FILEPATH)));
+                () -> analyser.getBestMatches(mockParser.parseDocument()));
 
     }
     //endregion
@@ -46,8 +44,8 @@ public class CountryAnalyserTest {
                 new CountryEntry("Germany", 1_463_865_525, 3_287_000),
                 new CountryEntry("Italy", 50, 4)  //best match
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        Document mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        Document mockDocument = mockParser.parseDocument();
 
         Set<DocumentEntry> bestMatch = analyser.getBestMatches(mockDocument);
         assertEquals(Set.of(testEntries.get(0)), bestMatch);
@@ -59,8 +57,8 @@ public class CountryAnalyserTest {
                 new CountryEntry("Albania", 28, 20), //best match
                 new CountryEntry("Algeria", 17, 120)
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        mockDocument = mockParser.parseDocument();
 
         bestMatch = analyser.getBestMatches(mockDocument);
         assertEquals(Set.of(testEntries.get(0)), bestMatch);
@@ -79,8 +77,8 @@ public class CountryAnalyserTest {
                 new CountryEntry("Japan", 123_123, 800),    // Density = 152,9 people/km²
                 new CountryEntry("Uruguay", 654, 30)        // Density = 21,8 people/km²
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(entries));
-        final Document document = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(entries));
+        final Document document = mockParser.parseDocument();
 
         Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
 
@@ -97,8 +95,8 @@ public class CountryAnalyserTest {
                 new CountryEntry("Germany", 0, Double.MAX_VALUE)
         );
 
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        final Document mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        final Document mockDocument = mockParser.parseDocument();
 
         assertEquals(Set.of(testEntries.get(0)), analyser.getBestMatches(mockDocument));
     }

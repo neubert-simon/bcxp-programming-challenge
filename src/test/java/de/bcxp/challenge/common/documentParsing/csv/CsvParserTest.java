@@ -24,8 +24,8 @@ final class CsvParserTest {
     }
 
     final static class CsvParserTestImpl extends CsvParser {
-        public CsvParserTestImpl(final char delimiter, final Locale locale) {
-            super(delimiter, locale);
+        public CsvParserTestImpl(final char delimiter, final Locale locale, final String filepath) {
+            super(delimiter, locale, filepath);
         }
         @Override
         protected List<DocumentEntry> getEntriesFromRecords(Iterable<CSVRecord> records) throws NumberFormatException {
@@ -43,8 +43,8 @@ final class CsvParserTest {
 
     @Test
     void testParseDocumentLocaleAgnostic() throws DocumentCreationException {
-        final CsvParserTestImpl parser = new CsvParserTestImpl(',', Locale.GERMANY);
-        final Document document = parser.parseDocument("parsingDocuments/csv/CsvParserTest/CsvParserTest.csv");
+        final CsvParserTestImpl parser = new CsvParserTestImpl(',', Locale.GERMANY, "parsingDocuments/csv/CsvParserTest/CsvParserTest.csv");
+        final Document document = parser.parseDocument();
         assertNotNull(document);
 
         final List<DocumentEntry> entries = document.getEntries();
@@ -59,8 +59,8 @@ final class CsvParserTest {
 
     @Test
     void testParseDocumentWithUSLocale() throws DocumentCreationException {
-        final CsvParserTestImpl parserUS = new CsvParserTestImpl(';', Locale.US);
-        final Document document = parserUS.parseDocument("parsingDocuments/csv/CsvParserTest/CsvParserTestUS.csv");
+        final CsvParserTestImpl parserUS = new CsvParserTestImpl(';', Locale.US, "parsingDocuments/csv/CsvParserTest/CsvParserTestUS.csv");
+        final Document document = parserUS.parseDocument();
 
         assertNotNull(document);
         final List<DocumentEntry> entries = document.getEntries();
@@ -81,8 +81,8 @@ final class CsvParserTest {
 
     @Test
     void testParseDocumentWithFranceLocale() throws DocumentCreationException {
-        CsvParserTestImpl parserFR = new CsvParserTestImpl(';', Locale.FRANCE);
-        final Document document = parserFR.parseDocument("parsingDocuments/csv/CsvParserTest/CsvParserTestFR.csv");
+        CsvParserTestImpl parserFR = new CsvParserTestImpl(';', Locale.FRANCE, "parsingDocuments/csv/CsvParserTest/CsvParserTestFR.csv");
+        final Document document = parserFR.parseDocument();
 
         assertNotNull(document);
         final List<DocumentEntry> entries = document.getEntries();
@@ -103,8 +103,8 @@ final class CsvParserTest {
 
     @Test
     void testParseDocumentWithGermanyLocale() throws DocumentCreationException {
-        CsvParserTestImpl parserDE = new CsvParserTestImpl(';', Locale.GERMANY);
-        final Document document = parserDE.parseDocument("parsingDocuments/csv/CsvParserTest/CsvParserTestDE.csv");
+        CsvParserTestImpl parserDE = new CsvParserTestImpl(';', Locale.GERMANY, "parsingDocuments/csv/CsvParserTest/CsvParserTestDE.csv");
+        final Document document = parserDE.parseDocument();
 
         assertNotNull(document);
         final List<DocumentEntry> entries = document.getEntries();

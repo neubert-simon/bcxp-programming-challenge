@@ -11,11 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WeatherCsvParserTest {
 
-    private final WeatherCsvParser parser = new WeatherCsvParser(',', Locale.GERMANY);
-
     @Test
     void testParseDocument() throws DocumentCreationException {
-        final Document document = parser.parseDocument("parsingDocuments/csv/WeatherCsvParserTest.csv");
+        final WeatherCsvParser parser = new WeatherCsvParser(',', Locale.GERMANY, "parsingDocuments/csv/WeatherCsvParserTest.csv");
+        final Document document = parser.parseDocument();
         final List<DocumentEntry> entries = document.getEntries();
 
         assertNotNull(entries);
@@ -40,25 +39,22 @@ class WeatherCsvParserTest {
 
     @Test
     void testParseDocumentFileNotFound() {
-        assertThrows(DocumentCreationException.class,
-                () -> parser.parseDocument("non_existent_file.csv"));
+        final WeatherCsvParser parser = new WeatherCsvParser(',', Locale.GERMANY, "p");
+        assertThrows(DocumentCreationException.class, parser::parseDocument);
     }
 
     @Test
     void testParseDocumentMalformedNumber() {
-        final CsvParser parserNan = new WeatherCsvParser(',', Locale.GERMANY);
-        assertThrows(DocumentCreationException.class,
-                () -> parserNan.parseDocument("ignored.csv"));
+        final CsvParser parserNan = new WeatherCsvParser(',', Locale.GERMANY, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parserNan::parseDocument);
 
-        final CsvParser parserNum = new WeatherCsvParser(',', Locale.GERMANY);
-        assertThrows(DocumentCreationException.class,
-                () -> parserNum.parseDocument("ignored.csv"));
+        final CsvParser parserNum = new WeatherCsvParser(',', Locale.GERMANY, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parserNum::parseDocument);
     }
 
     @Test
     void testParseDocumentMissingField() {
-        final CsvParser parser = new WeatherCsvParser(',', Locale.GERMANY);
-        assertThrows(DocumentCreationException.class,
-                () -> parser.parseDocument("ignored.csv"));
+        final CsvParser parser = new WeatherCsvParser(',', Locale.GERMANY, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parser::parseDocument);
     }
 }

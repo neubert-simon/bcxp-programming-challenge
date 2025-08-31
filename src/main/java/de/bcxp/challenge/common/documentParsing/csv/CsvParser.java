@@ -36,6 +36,7 @@ public abstract class CsvParser implements IDocumentParser {
 
     private final char delimiter;
     private final Locale locale;
+    private final String filepath;
 
     /**
      * Constructs a {@link CsvParser} with the specified delimiter character.
@@ -43,9 +44,10 @@ public abstract class CsvParser implements IDocumentParser {
      * @param delimiter the character used to separate values in the CSV file.
      * @param locale the locale used to determine the format of numbers that are parsed
      */
-    protected CsvParser(final char delimiter, final Locale locale) {
+    protected CsvParser(final char delimiter, final Locale locale, String filepath) {
         this.delimiter = delimiter;
         this.locale = locale;
+        this.filepath = filepath;
     }
 
     /**
@@ -56,13 +58,12 @@ public abstract class CsvParser implements IDocumentParser {
      * wrapping them into a {@link DocumentCreationException}.
      * </p>
      *
-     * @param filepath the relative path to the CSV file within the application's classpath
      * @return a {@link Document} containing the parsed entries from the CSV file
      * @throws DocumentCreationException if parsing fails due to invalid data formatting,
      *                                   missing file, or I/O errors
      */
     @Override
-    public Document parseDocument(final String filepath) throws DocumentCreationException {
+    public Document parseDocument() throws DocumentCreationException {
         try {
             final Iterable<CSVRecord> records = readFileWithHeader(filepath);
             final List<DocumentEntry> entries = getEntriesFromRecords(records);
@@ -151,6 +152,10 @@ public abstract class CsvParser implements IDocumentParser {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public String getFilepath() {
+        return filepath;
     }
     //endregion
 }

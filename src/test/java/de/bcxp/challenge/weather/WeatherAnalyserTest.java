@@ -20,15 +20,14 @@ public class WeatherAnalyserTest {
 
     @Mock
     private IDocumentParser mockParser;
-    private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region Negative Tests
     @Test
     public void getBestMatchesTestEmptyDocument() throws DocumentCreationException {
 
         final IDocumentAnalyser analyser = new WeatherAnalyser();
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
-        final Document emptyDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of()));
+        final Document emptyDocument = mockParser.parseDocument();
 
         assertThrows(NoSuchElementException.class, () -> analyser.getBestMatches(emptyDocument));
 
@@ -46,8 +45,8 @@ public class WeatherAnalyserTest {
                 new WeatherEntry("1", 3, 2),   //best match
                 new WeatherEntry("2", 50, -50)
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        Document mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        Document mockDocument = mockParser.parseDocument();
         
         Set<DocumentEntry> bestMatch = analyser.getBestMatches(mockDocument);
         assertEquals(Set.of(testEntries.get(0)), bestMatch);
@@ -59,8 +58,8 @@ public class WeatherAnalyserTest {
                 new WeatherEntry("1", 24, 12), //best match
                 new WeatherEntry("2", 28, 9)
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        mockDocument = mockParser.parseDocument();
 
         bestMatch = analyser.getBestMatches(mockDocument);
         assertEquals(Set.of(testEntries.get(0)), bestMatch);
@@ -79,8 +78,8 @@ public class WeatherAnalyserTest {
                 new WeatherEntry("3", 50, 20),   // Spread = 30
                 new WeatherEntry("3", 50, -50)   // Spread = 100
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(entries));
-        final Document document = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(entries));
+        final Document document = mockParser.parseDocument();
 
         final Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
 
@@ -95,8 +94,8 @@ public class WeatherAnalyserTest {
                 new WeatherEntry("5", Double.MAX_VALUE, Double.MAX_VALUE - 1),
                 new WeatherEntry("8", 0, -Double.MAX_VALUE)
         );
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(testEntries));
-        final Document mockDocument = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(testEntries));
+        final Document mockDocument = mockParser.parseDocument();
 
         assertEquals(Set.of(testEntries.get(0)), analyser.getBestMatches(mockDocument));
     }

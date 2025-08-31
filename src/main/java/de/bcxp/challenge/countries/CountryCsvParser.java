@@ -36,9 +36,10 @@ public class CountryCsvParser extends CsvParser {
      *
      * @param delimiter the character used to separate values in the CSV file.
      * @param locale Locale used when parsing number
+     * @param filepath Filepath to the csv
      */
-    public CountryCsvParser(final char delimiter, final Locale locale) {
-        super(delimiter, locale);
+    public CountryCsvParser(final char delimiter, final Locale locale, final String filepath) {
+        super(delimiter, locale, filepath);
     }
 
     /**

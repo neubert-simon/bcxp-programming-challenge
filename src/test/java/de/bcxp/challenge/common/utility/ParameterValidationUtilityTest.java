@@ -166,10 +166,9 @@ class ParameterValidationUtilityTest {
     @Test
     void validateDocumentValidTest() throws DocumentCreationException {
         when(mockParser
-                .parseDocument(anyString()))
+                .parseDocument())
                 .thenReturn(new Document(List.of(new TestEntry("d"))));
-        final String MOCK_FILEPATH = "/mock/filepath";
-        final Document doc = mockParser.parseDocument(MOCK_FILEPATH);
+        final Document doc = mockParser.parseDocument();
 
         assertDoesNotThrow(() -> validateDocument(
                 doc, mockLogger,

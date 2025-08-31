@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +31,6 @@ class CsvCsvAnalysisUtilityTest {
 
     @Mock
     private IDocumentParser mockParser;
-    private final String MOCK_FILEPATH = "/mock/filepath";
 
     //region Positive Tests
     @Test
@@ -40,11 +38,11 @@ class CsvCsvAnalysisUtilityTest {
         TestEntry e1 = new TestEntry("A", 10.);
         TestEntry e2 = new TestEntry("B", 30.);
         TestEntry e3 = new TestEntry("C", 20.);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MAX
                 );
         assertNotNull(result);
@@ -54,11 +52,11 @@ class CsvCsvAnalysisUtilityTest {
         e1 = new TestEntry("A", Double.MAX_VALUE);
         e2 = new TestEntry("B", Double.MIN_VALUE);
         e3 = new TestEntry("C", 0.);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MAX
                 );
         assertNotNull(result);
@@ -71,11 +69,11 @@ class CsvCsvAnalysisUtilityTest {
         TestEntry e1 = new TestEntry("A", 10.);
         TestEntry e2 = new TestEntry("B", 30.);
         TestEntry e3 = new TestEntry("C", 20.);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MIN
                 );
 
@@ -86,11 +84,11 @@ class CsvCsvAnalysisUtilityTest {
         e1 = new TestEntry("A", Double.MAX_VALUE);
         e2 = new TestEntry("B", -Double.MAX_VALUE);
         e3 = new TestEntry("C", 0.);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MIN
                 );
         assertNotNull(result);
@@ -103,11 +101,11 @@ class CsvCsvAnalysisUtilityTest {
         TestEntry e1 = new TestEntry("A", 10.);
         TestEntry e2 = new TestEntry("B", 10.);
         TestEntry e3 = new TestEntry("C", 5.);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         Set<DocumentEntry> result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MAX
                 );
         assertNotNull(result);
@@ -117,11 +115,11 @@ class CsvCsvAnalysisUtilityTest {
         e1 = new TestEntry("A", Double.MIN_VALUE);
         e2 = new TestEntry("B", Double.MIN_VALUE);
         e3 = new TestEntry("C", Double.MIN_VALUE);
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of(e1, e2, e3)));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of(e1, e2, e3)));
 
         result = CsvAnalysisUtility
                 .getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MAX
                 );
         assertNotNull(result);
@@ -133,11 +131,11 @@ class CsvCsvAnalysisUtilityTest {
     //region Negative Tests
     @Test
     void testThrowsForEmptyDocument() throws DocumentCreationException {
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of()));
 
         assertThrows(NoSuchElementException.class, () ->
                 CsvAnalysisUtility.getBestMatchesForNumericColumnComparison(
-                        mockParser.parseDocument(MOCK_FILEPATH),
+                        mockParser.parseDocument(),
                         NumericComparisonType.MAX
                 ));
     }

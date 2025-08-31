@@ -31,16 +31,14 @@ public final class App {
     public static void main(String... args) {
 
         String dayWithSmallestTempSpread = getBestMatchFromDocument(
-                WEATHER_CSV_PATH,
-                new WeatherCsvParser(',', Locale.GERMANY),
+                new WeatherCsvParser(',', Locale.GERMANY, WEATHER_CSV_PATH),
                 new WeatherAnalyser()
         );
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread);
 
 
         String countryWithHighestPopulationDensity = getBestMatchFromDocument(
-                COUNTRIES_CSV_PATH,
-                new CountryCsvParser(';', Locale.GERMANY),
+                new CountryCsvParser(';', Locale.GERMANY, COUNTRIES_CSV_PATH),
                 new CountryAnalyser()
         );
         System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
@@ -55,22 +53,21 @@ public final class App {
      * For example, if there are multiple days with equal temperature spreads, one arbitrary from this set of days is returned.
      * </p>
      *
-     * @param path the file path to the document
      * @param parser the {@link IDocumentParser} that reads and parses the document into entries
      * @param analyser the {@link IDocumentAnalyser} that finds the best match from the parsed entries
      * @return The ID of an arbitrary result from the result Set
      */
-    private static String getBestMatchFromDocument(final String path, final IDocumentParser parser, final IDocumentAnalyser analyser) {
+    private static String getBestMatchFromDocument(final IDocumentParser parser, final IDocumentAnalyser analyser) {
         try {
-            final Document document = parser.parseDocument(path);
+            final Document document = parser.parseDocument();
             final Set<DocumentEntry> bestMatches = analyser.getBestMatches(document);
             return bestMatches.stream()
                     .findAny()
                     .orElseThrow(() -> new NoSuchElementException("Unable to find best match"))
                     .getId();
         } catch (Exception e) {
-            logger.fatal("Reading and analysis of document {} failed: {}", path, e);
-            System.err.println("Document analysis failed for: " + path);
+            logger.fatal("Reading and analysis of document failed.", e);
+            System.err.println("Document analysis failed.");
             return "N/A";
         }
     }

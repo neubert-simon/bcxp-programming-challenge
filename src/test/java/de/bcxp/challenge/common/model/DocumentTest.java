@@ -17,7 +17,6 @@ class DocumentTest {
 
     @Mock
     private IDocumentParser mockParser;
-    private final String MOCK_FILEPATH = "/mock/filepath";
 
     static class TestEntry extends DocumentEntry {
         public TestEntry(String id) {
@@ -34,8 +33,8 @@ class DocumentTest {
                 new TestEntry("entry2")
         );
 
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(entries));
-        final Document document = mockParser.parseDocument(MOCK_FILEPATH);
+        when(mockParser.parseDocument()).thenReturn(new Document(entries));
+        final Document document = mockParser.parseDocument();
 
         assertNotNull(document.getEntries());
         assertEquals(2, document.getEntries().size());
@@ -45,8 +44,8 @@ class DocumentTest {
 
     @Test
     void testDocumentCreationWithEmptyEntries() throws DocumentCreationException {
-        when(mockParser.parseDocument(anyString())).thenReturn(new Document(List.of()));
-        assertDoesNotThrow(() -> mockParser.parseDocument(MOCK_FILEPATH));
+        when(mockParser.parseDocument()).thenReturn(new Document(List.of()));
+        assertDoesNotThrow(() -> mockParser.parseDocument());
     }
     //endregion
 

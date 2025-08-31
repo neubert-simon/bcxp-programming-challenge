@@ -28,7 +28,7 @@ public class Document {
     /**
      * Constructs a new {@code Document}.
      * @param entries a {@link List} of {@link DocumentEntry} objects that represent the Document contents
-     *
+     * @throws DocumentCreationException if document creation fails
      */
     public Document(final List<DocumentEntry> entries) throws DocumentCreationException {
         try {

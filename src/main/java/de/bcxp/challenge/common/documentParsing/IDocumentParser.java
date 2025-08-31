@@ -13,10 +13,9 @@ public interface IDocumentParser {
     /**
      * Parses a document from the specified file path.
      *
-     * @param filepath the {@link String} representation of the documents filepath
      * @return a {@link Document} representing the parsed content
      * @throws DocumentCreationException if parsing the file fails
      */
-    Document parseDocument(final String filepath) throws DocumentCreationException;
+    Document parseDocument() throws DocumentCreationException;
 
 }

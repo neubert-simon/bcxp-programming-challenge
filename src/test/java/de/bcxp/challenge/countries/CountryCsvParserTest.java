@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CountryCsvParserTest {
 
-    private final CountryCsvParser parser = new CountryCsvParser(',', Locale.US);
 
     @Test
     void testParseDocument() throws DocumentCreationException {
-        Document document = parser.parseDocument("parsingDocuments/csv/CountryCsvParserTest.csv");
+        final CountryCsvParser parser = new CountryCsvParser(',', Locale.US, "parsingDocuments/csv/CountryCsvParserTest.csv");
+        Document document = parser.parseDocument();
         final List<DocumentEntry> entries = document.getEntries();
 
         assertNotNull(entries);
@@ -41,25 +41,22 @@ class CountryCsvParserTest {
 
     @Test
     void testParseDocumentFileNotFound() {
-        assertThrows(DocumentCreationException.class,
-                () -> parser.parseDocument("non_existent_file.csv"));
+        final CountryCsvParser parser = new CountryCsvParser(',', Locale.US, "non_existent_file.csv");
+        assertThrows(DocumentCreationException.class, parser::parseDocument);
     }
 
     @Test
     void testParseDocumentMalformedNumber() {
-        final CsvParser parserNan = new CountryCsvParser(',', Locale.US);
-        assertThrows(DocumentCreationException.class,
-                () -> parserNan.parseDocument("ignored.csv"));
+        final CsvParser parserNan = new CountryCsvParser(',', Locale.US, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parserNan::parseDocument);
 
-        final CsvParser parserNum = new CountryCsvParser(',', Locale.US);
-        assertThrows(DocumentCreationException.class,
-                () -> parserNum.parseDocument("ignored.csv"));
+        final CsvParser parserNum = new CountryCsvParser(',', Locale.US, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parserNum::parseDocument);
     }
 
     @Test
     void testParseDocumentMissingField() {
-        final CsvParser parser = new CountryCsvParser(',', Locale.US);
-        assertThrows(DocumentCreationException.class,
-                () -> parser.parseDocument("ignored.csv"));
+        final CsvParser parser = new CountryCsvParser(',', Locale.US, "ignored.csv");
+        assertThrows(DocumentCreationException.class, parser::parseDocument);
     }
 }
