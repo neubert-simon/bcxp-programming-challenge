@@ -43,8 +43,9 @@ public abstract class CsvParser implements IDocumentParser {
      *
      * @param delimiter the character used to separate values in the CSV file.
      * @param locale the locale used to determine the format of numbers that are parsed
+     * @param filepath Filepath of the csv file
      */
-    protected CsvParser(final char delimiter, final Locale locale, String filepath) {
+    protected CsvParser(final char delimiter, final Locale locale, final String filepath) {
         this.delimiter = delimiter;
         this.locale = locale;
         this.filepath = filepath;

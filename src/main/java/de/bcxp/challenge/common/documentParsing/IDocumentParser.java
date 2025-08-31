@@ -11,7 +11,7 @@ import de.bcxp.challenge.common.model.Document;
 public interface IDocumentParser {
 
     /**
-     * Parses a document from the specified file path.
+     * Parses a document in accordance with the specific parser implementation.
      *
      * @return a {@link Document} representing the parsed content
      * @throws DocumentCreationException if parsing the file fails
